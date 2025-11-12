@@ -7,6 +7,7 @@ import electronicsImg from "@/assets/category-electronics.jpg";
 import furnitureImg from "@/assets/category-furniture.jpg";
 import clothingImg from "@/assets/category-clothing.jpg";
 import homeGardenImg from "@/assets/category-home-garden.jpg";
+import Footer from "@/components/Footer";
 
 interface Category {
   id: string;
@@ -53,7 +54,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <div className="min-h-screen bg-gradient-hero flex flex-col">
       {/* Header */}
       <header className="bg-card shadow-sm sticky top-0 z-10 border-b">
         <div className="container mx-auto px-4 py-4">
@@ -114,6 +115,8 @@ const Index = () => {
           </div>
         )}
       </section>
+
+      <Footer />
     </div>
   );
 };

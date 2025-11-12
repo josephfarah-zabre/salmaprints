@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import logo from "@/assets/logo.jpeg";
+import Footer from "@/components/Footer";
 
 interface Product {
   id: string;
@@ -70,7 +71,7 @@ const CategoryProducts = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <div className="min-h-screen bg-gradient-hero flex flex-col">
       {/* Header */}
       <header className="bg-card shadow-sm sticky top-0 z-10 border-b">
         <div className="container mx-auto px-4 py-4">
@@ -123,6 +124,8 @@ const CategoryProducts = () => {
           </div>
         )}
       </section>
+
+      <Footer />
     </div>
   );
 };
