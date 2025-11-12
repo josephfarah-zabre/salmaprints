@@ -9,11 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Shield } from "lucide-react";
 
-const ADMIN_EMAIL_DOMAIN = "@admin.local";
-
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,11 +31,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Convert username to email format if it doesn't contain @
-      const loginEmail = username.includes("@") ? username : `${username}${ADMIN_EMAIL_DOMAIN}`;
-      
       const { error } = await supabase.auth.signInWithPassword({
-        email: loginEmail,
+        email,
         password,
       });
 
@@ -110,16 +104,15 @@ const Login = () => {
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="login-username">Username</Label>
+                  <Label htmlFor="login-email">Email</Label>
                   <Input
-                    id="login-username"
-                    type="text"
-                    placeholder="MohmadSalma123"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    id="login-email"
+                    type="email"
+                    placeholder="admin@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-                  <p className="text-xs text-muted-foreground">Enter your admin username</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="login-password">Password</Label>
