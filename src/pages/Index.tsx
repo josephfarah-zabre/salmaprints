@@ -3,6 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import logo from "@/assets/logo.jpeg";
+import electronicsImg from "@/assets/category-electronics.jpg";
+import furnitureImg from "@/assets/category-furniture.jpg";
+import clothingImg from "@/assets/category-clothing.jpg";
+import homeGardenImg from "@/assets/category-home-garden.jpg";
 
 interface Category {
   id: string;
@@ -10,6 +14,13 @@ interface Category {
   description: string | null;
   image_url: string | null;
 }
+
+const categoryImages: Record<string, string> = {
+  "acd79acf-30b3-4dcf-aeef-480a4282a7b1": electronicsImg,
+  "6699bccd-9085-4fbf-b09b-b16212eaeab2": furnitureImg,
+  "c916050c-c7e9-45a9-8048-223849e6b51c": clothingImg,
+  "4c7f2eff-be45-4187-ad81-dda485e7736f": homeGardenImg,
+};
 
 const Index = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -81,15 +92,13 @@ const Index = () => {
                 onClick={() => handleCategoryClick(category.id)}
                 className="group bg-card rounded-lg shadow-sm hover:shadow-hover transition-all duration-300 overflow-hidden border border-border hover:border-primary"
               >
-                {category.image_url && (
-                  <div className="aspect-video w-full overflow-hidden">
-                    <img
-                      src={category.image_url}
-                      alt={category.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                )}
+                <div className="aspect-video w-full overflow-hidden">
+                  <img
+                    src={categoryImages[category.id] || category.image_url || ""}
+                    alt={category.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                     {category.name}
