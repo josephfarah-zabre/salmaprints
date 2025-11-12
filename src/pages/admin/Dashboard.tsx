@@ -46,6 +46,8 @@ const Dashboard = () => {
 
   // Category form state
   const [categoryName, setCategoryName] = useState("");
+  const [categoryDescription, setCategoryDescription] = useState("");
+  const [categoryImageUrl, setCategoryImageUrl] = useState("");
 
   useEffect(() => {
     checkAuth();
@@ -170,12 +172,16 @@ const Dashboard = () => {
     try {
       const { error } = await supabase.from("categories").insert({
         name: categoryName,
+        description: categoryDescription || null,
+        image_url: categoryImageUrl || null,
       });
 
       if (error) throw error;
       toast.success("Category added!");
       setCategoryDialogOpen(false);
       setCategoryName("");
+      setCategoryDescription("");
+      setCategoryImageUrl("");
       fetchData();
     } catch (error: any) {
       toast.error(error.message || "Failed to add category");
@@ -306,7 +312,7 @@ const Dashboard = () => {
                 Add Category
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Add New Category</DialogTitle>
               </DialogHeader>
@@ -318,6 +324,26 @@ const Dashboard = () => {
                     value={categoryName}
                     onChange={(e) => setCategoryName(e.target.value)}
                     required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="categoryDescription">Description</Label>
+                  <Textarea
+                    id="categoryDescription"
+                    value={categoryDescription}
+                    onChange={(e) => setCategoryDescription(e.target.value)}
+                    rows={3}
+                    placeholder="Short description of the category"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="categoryImageUrl">Image URL</Label>
+                  <Input
+                    id="categoryImageUrl"
+                    type="url"
+                    value={categoryImageUrl}
+                    onChange={(e) => setCategoryImageUrl(e.target.value)}
+                    placeholder="https://example.com/image.jpg"
                   />
                 </div>
                 <Button type="submit" className="w-full bg-gradient-primary">
