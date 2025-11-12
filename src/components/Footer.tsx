@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.jpeg";
+import facebookIcon from "@/assets/facebook-icon.png";
+import instagramIcon from "@/assets/instagram-icon.png";
+import tiktokIcon from "@/assets/tiktok-icon.png";
 
 const Footer = () => {
   return (
@@ -28,18 +31,18 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-end">
             <h3 className="font-semibold mb-4 text-foreground">Follow Us</h3>
             <div className="flex space-x-4">
-              {/* Facebook - Placeholder */}
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 transition-colors cursor-pointer">
-                <span className="text-xs text-muted-foreground">FB</span>
-              </div>
-              {/* Instagram - Placeholder */}
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 transition-colors cursor-pointer">
-                <span className="text-xs text-muted-foreground">IG</span>
-              </div>
-              {/* TikTok - Placeholder */}
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 transition-colors cursor-pointer">
-                <span className="text-xs text-muted-foreground">TT</span>
-              </div>
+              {/* Facebook */}
+              <a href="#" className="w-10 h-10 rounded-lg overflow-hidden hover:scale-110 transition-transform cursor-pointer">
+                <img src={facebookIcon} alt="Facebook" className="w-full h-full object-cover" />
+              </a>
+              {/* Instagram */}
+              <a href="#" className="w-10 h-10 rounded-lg overflow-hidden hover:scale-110 transition-transform cursor-pointer">
+                <img src={instagramIcon} alt="Instagram" className="w-full h-full object-cover" />
+              </a>
+              {/* TikTok */}
+              <a href="#" className="w-10 h-10 rounded-lg overflow-hidden hover:scale-110 transition-transform cursor-pointer">
+                <img src={tiktokIcon} alt="TikTok" className="w-full h-full object-cover" />
+              </a>
             </div>
           </div>
         </div>
