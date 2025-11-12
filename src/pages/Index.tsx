@@ -3,7 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import logo from "@/assets/logo.jpeg";
-import { GenerateCategoryImages } from "@/components/GenerateCategoryImages";
 
 interface Category {
   id: string;
@@ -61,18 +60,6 @@ const Index = () => {
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Browse our categories and discover our products. Contact us on WhatsApp for any inquiries.
         </p>
-      </section>
-
-      {/* Generate Images Button */}
-      <section className="container mx-auto px-4">
-        <GenerateCategoryImages 
-          categories={categories.map(c => ({ 
-            id: c.id, 
-            name: c.name, 
-            description: c.description 
-          }))} 
-          onImagesGenerated={fetchCategories}
-        />
       </section>
 
       {/* Categories Grid */}

@@ -1,1 +1,4 @@
 project_id = "rgihxuurnpxqjmfjoczw"
+
+[functions.generate-category-images]
+verify_jwt = false
