@@ -42,12 +42,14 @@ const Dashboard = () => {
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productCategory, setProductCategory] = useState("");
-  const [productImageUrl, setProductImageUrl] = useState("");
+  const [productImageFile, setProductImageFile] = useState<File | null>(null);
+  const [uploadingProduct, setUploadingProduct] = useState(false);
 
   // Category form state
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
-  const [categoryImageUrl, setCategoryImageUrl] = useState("");
+  const [categoryImageFile, setCategoryImageFile] = useState<File | null>(null);
+  const [uploadingCategory, setUploadingCategory] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -104,22 +106,44 @@ const Dashboard = () => {
     setProductDescription("");
     setProductPrice("");
     setProductCategory("");
-    setProductImageUrl("");
+    setProductImageFile(null);
     setEditingProduct(null);
   };
 
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const productData = {
-      name: productName,
-      description: productDescription || null,
-      price: productPrice ? parseFloat(productPrice) : null,
-      category_id: productCategory || null,
-      image_url: productImageUrl || null,
-    };
+    setUploadingProduct(true);
 
     try {
+      let imageUrl = editingProduct?.image_url || null;
+
+      // Upload image if a new file is selected
+      if (productImageFile) {
+        const fileExt = productImageFile.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, productImageFile);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+
+        imageUrl = publicUrl;
+      }
+
+      const productData = {
+        name: productName,
+        description: productDescription || null,
+        price: productPrice ? parseFloat(productPrice) : null,
+        category_id: productCategory || null,
+        image_url: imageUrl,
+      };
+
       if (editingProduct) {
         const { error } = await supabase
           .from("products")
@@ -140,6 +164,8 @@ const Dashboard = () => {
       fetchData();
     } catch (error: any) {
       toast.error(error.message || "Failed to save product");
+    } finally {
+      setUploadingProduct(false);
     }
   };
 
@@ -162,18 +188,40 @@ const Dashboard = () => {
     setProductDescription(product.description || "");
     setProductPrice(product.price?.toString() || "");
     setProductCategory(product.category_id || "");
-    setProductImageUrl(product.image_url || "");
+    setProductImageFile(null);
     setDialogOpen(true);
   };
 
   const handleSaveCategory = async (e: React.FormEvent) => {
     e.preventDefault();
+    setUploadingCategory(true);
 
     try {
+      let imageUrl = null;
+
+      // Upload image if a file is selected
+      if (categoryImageFile) {
+        const fileExt = categoryImageFile.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('category-images')
+          .upload(filePath, categoryImageFile);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('category-images')
+          .getPublicUrl(filePath);
+
+        imageUrl = publicUrl;
+      }
+
       const { error } = await supabase.from("categories").insert({
         name: categoryName,
         description: categoryDescription || null,
-        image_url: categoryImageUrl || null,
+        image_url: imageUrl,
       });
 
       if (error) throw error;
@@ -181,10 +229,12 @@ const Dashboard = () => {
       setCategoryDialogOpen(false);
       setCategoryName("");
       setCategoryDescription("");
-      setCategoryImageUrl("");
+      setCategoryImageFile(null);
       fetchData();
     } catch (error: any) {
       toast.error(error.message || "Failed to add category");
+    } finally {
+      setUploadingCategory(false);
     }
   };
 
@@ -289,17 +339,22 @@ const Dashboard = () => {
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="imageUrl">Image URL</Label>
+                  <Label htmlFor="imageFile">Product Image</Label>
                   <Input
-                    id="imageUrl"
-                    type="url"
-                    value={productImageUrl}
-                    onChange={(e) => setProductImageUrl(e.target.value)}
-                    placeholder="https://example.com/image.jpg"
+                    id="imageFile"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setProductImageFile(e.target.files?.[0] || null)}
+                    className="cursor-pointer"
                   />
+                  {editingProduct?.image_url && !productImageFile && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Current image will be kept if no new file is selected
+                    </p>
+                  )}
                 </div>
-                <Button type="submit" className="w-full bg-gradient-primary">
-                  {editingProduct ? "Update Product" : "Add Product"}
+                <Button type="submit" className="w-full bg-gradient-primary" disabled={uploadingProduct}>
+                  {uploadingProduct ? "Uploading..." : (editingProduct ? "Update Product" : "Add Product")}
                 </Button>
               </form>
             </DialogContent>
@@ -337,17 +392,20 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="categoryImageUrl">Image URL</Label>
+                  <Label htmlFor="categoryImageFile">Category Image</Label>
                   <Input
-                    id="categoryImageUrl"
-                    type="url"
-                    value={categoryImageUrl}
-                    onChange={(e) => setCategoryImageUrl(e.target.value)}
-                    placeholder="https://example.com/image.jpg"
+                    id="categoryImageFile"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setCategoryImageFile(e.target.files?.[0] || null)}
+                    className="cursor-pointer"
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Upload an image for this category (JPG, PNG, WEBP)
+                  </p>
                 </div>
-                <Button type="submit" className="w-full bg-gradient-primary">
-                  Add Category
+                <Button type="submit" className="w-full bg-gradient-primary" disabled={uploadingCategory}>
+                  {uploadingCategory ? "Uploading..." : "Add Category"}
                 </Button>
               </form>
             </DialogContent>
