@@ -1,12 +1,110 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import logo from "@/assets/logo.jpeg";
+
+interface Category {
+  id: string;
+  name: string;
+  description: string | null;
+  image_url: string | null;
+}
 
 const Index = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("categories")
+        .select("*")
+        .order("display_order");
+
+      if (error) throw error;
+      setCategories(data || []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      toast.error("Failed to load categories");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCategoryClick = (categoryId: string) => {
+    navigate(`/category/${categoryId}`);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-hero">
+      {/* Header */}
+      <header className="bg-card shadow-sm sticky top-0 z-10 border-b">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-center">
+            <img src={logo} alt="Masco Salma Print" className="h-16 md:h-20 object-contain" />
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-12 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          Welcome to Masco Salma Print
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Browse our categories and discover our products. Contact us on WhatsApp for any inquiries.
+        </p>
+      </section>
+
+      {/* Categories Grid */}
+      <section className="container mx-auto px-4 pb-16">
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+            <p className="mt-4 text-muted-foreground">Loading categories...</p>
+          </div>
+        ) : categories.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No categories found.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => handleCategoryClick(category.id)}
+                className="group bg-card rounded-lg shadow-sm hover:shadow-hover transition-all duration-300 overflow-hidden border border-border hover:border-primary"
+              >
+                {category.image_url && (
+                  <div className="aspect-video w-full overflow-hidden">
+                    <img
+                      src={category.image_url}
+                      alt={category.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                    {category.name}
+                  </h3>
+                  {category.description && (
+                    <p className="text-muted-foreground text-sm">
+                      {category.description}
+                    </p>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };

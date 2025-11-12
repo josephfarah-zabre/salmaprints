@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 195 85% 45%;
+    --primary: 330 81% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 195 20% 95%;
@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --muted: 195 15% 96%;
     --muted-foreground: 215 15% 50%;
 
-    --accent: 180 75% 50%;
+    --accent: 330 81% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -34,15 +34,15 @@ All colors MUST be HSL.
 
     --border: 195 20% 88%;
     --input: 195 20% 88%;
-    --ring: 195 85% 45%;
+    --ring: 330 81% 60%;
 
     --radius: 0.75rem;
     
     /* Custom design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(195, 85%, 45%) 0%, hsl(180, 75%, 50%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(330, 81%, 60%) 0%, hsl(330, 81%, 70%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(195, 85%, 98%) 0%, hsl(195, 50%, 95%) 100%);
-    --shadow-card: 0 4px 16px -4px hsl(195 85% 45% / 0.1);
-    --shadow-hover: 0 8px 24px -8px hsl(195 85% 45% / 0.2);
+    --shadow-card: 0 4px 16px -4px hsl(330 81% 60% / 0.1);
+    --shadow-hover: 0 8px 24px -8px hsl(330 81% 60% / 0.2);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
@@ -72,7 +72,7 @@ All colors MUST be HSL.
     --popover: 215 25% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 195 85% 50%;
+    --primary: 330 81% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 25% 18%;
@@ -81,7 +81,7 @@ All colors MUST be HSL.
     --muted: 215 25% 18%;
     --muted-foreground: 215 10% 65%;
 
-    --accent: 180 75% 45%;
+    --accent: 330 81% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 75% 50%;
@@ -89,7 +89,7 @@ All colors MUST be HSL.
 
     --border: 215 25% 20%;
     --input: 215 25% 20%;
-    --ring: 195 85% 50%;
+    --ring: 330 81% 60%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
