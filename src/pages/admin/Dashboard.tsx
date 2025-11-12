@@ -7,8 +7,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
-import { LogOut, Plus, Trash2, Edit } from "lucide-react";
+import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 interface Product {
@@ -34,6 +35,7 @@ const Dashboard = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   // Product form state
   const [productName, setProductName] = useState("");
@@ -180,6 +182,22 @@ const Dashboard = () => {
     }
   };
 
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(categoryId)) {
+        newSet.delete(categoryId);
+      } else {
+        newSet.add(categoryId);
+      }
+      return newSet;
+    });
+  };
+
+  const getProductsByCategory = (categoryId: string) => {
+    return products.filter(p => p.category_id === categoryId);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
@@ -310,67 +328,103 @@ const Dashboard = () => {
           </Dialog>
         </div>
 
-        {/* Products List */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Products</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="text-center py-8">Loading...</div>
-            ) : products.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                No products yet. Add your first product!
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {products.map((product) => (
-                  <div
-                    key={product.id}
-                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+        {/* Categories with Products */}
+        {loading ? (
+          <div className="text-center py-8">Loading...</div>
+        ) : categories.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            No categories yet. Add your first category!
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {categories.map((category) => {
+              const categoryProducts = getProductsByCategory(category.id);
+              const isExpanded = expandedCategories.has(category.id);
+
+              return (
+                <Card key={category.id} className="overflow-hidden">
+                  <Collapsible
+                    open={isExpanded}
+                    onOpenChange={() => toggleCategory(category.id)}
                   >
-                    <div className="flex items-center gap-4 flex-1">
-                      {product.image_url && (
-                        <img
-                          src={product.image_url}
-                          alt={product.name}
-                          className="w-16 h-16 object-cover rounded"
-                        />
-                      )}
-                      <div className="flex-1">
-                        <h3 className="font-semibold">{product.name}</h3>
-                        <p className="text-sm text-muted-foreground line-clamp-1">
-                          {product.description}
-                        </p>
-                        {product.price && (
-                          <p className="text-primary font-semibold mt-1">
-                            ${product.price.toFixed(2)}
-                          </p>
+                    <CollapsibleTrigger asChild>
+                      <CardHeader className="cursor-pointer hover:bg-secondary/50 transition-colors">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            {isExpanded ? (
+                              <ChevronDown className="w-5 h-5 text-primary" />
+                            ) : (
+                              <ChevronRight className="w-5 h-5 text-primary" />
+                            )}
+                            <CardTitle className="text-xl">{category.name}</CardTitle>
+                            <span className="text-sm text-muted-foreground">
+                              ({categoryProducts.length} products)
+                            </span>
+                          </div>
+                        </div>
+                      </CardHeader>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <CardContent className="pt-0">
+                        {categoryProducts.length === 0 ? (
+                          <div className="text-center py-8 text-muted-foreground">
+                            No products in this category yet.
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            {categoryProducts.map((product) => (
+                              <div
+                                key={product.id}
+                                className="flex items-center justify-between p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                              >
+                                <div className="flex items-center gap-4 flex-1">
+                                  {product.image_url && (
+                                    <img
+                                      src={product.image_url}
+                                      alt={product.name}
+                                      className="w-16 h-16 object-cover rounded"
+                                    />
+                                  )}
+                                  <div className="flex-1">
+                                    <h3 className="font-semibold">{product.name}</h3>
+                                    <p className="text-sm text-muted-foreground line-clamp-1">
+                                      {product.description}
+                                    </p>
+                                    {product.price && (
+                                      <p className="text-primary font-semibold mt-1">
+                                        ${product.price.toFixed(2)}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="flex gap-2">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleEditProduct(product)}
+                                  >
+                                    <Edit className="w-4 h-4" />
+                                  </Button>
+                                  <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    onClick={() => handleDeleteProduct(product.id)}
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         )}
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEditProduct(product)}
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDeleteProduct(product.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                      </CardContent>
+                    </CollapsibleContent>
+                  </Collapsible>
+                </Card>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
