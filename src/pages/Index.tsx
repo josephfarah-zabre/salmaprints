@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { TopSellingProducts } from "@/components/TopSellingProducts";
 import { CategoryCard } from "@/components/CategoryCard";
+import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import { HERO_BACKGROUND_URL } from "@/constants/heroBackground";
 import electronicsImg from "@/assets/category-electronics.jpg";
@@ -30,6 +31,7 @@ const categoryImages: Record<string, string> = {
 const Index = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAllCategories, setShowAllCategories] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +62,13 @@ const Index = () => {
   const scrollToCatalogue = () => {
     navigate("/catalogue");
   };
+
+  // Show 12 categories initially (3 rows × 4 columns on desktop)
+  const INITIAL_CATEGORIES_COUNT = 12;
+  const displayedCategories = showAllCategories 
+    ? categories 
+    : categories.slice(0, INITIAL_CATEGORIES_COUNT);
+  const hasMoreCategories = categories.length > INITIAL_CATEGORIES_COUNT;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -103,22 +112,36 @@ const Index = () => {
               <p className="text-text-secondary">No categories found.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {categories.map((category, index) => (
-                <div
-                  key={category.id}
-                  className="animate-slide-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <CategoryCard
-                    name={category.name}
-                    description={category.description || undefined}
-                    imageUrl={categoryImages[category.id] || category.image_url || undefined}
-                    onClick={() => handleCategoryClick(category.id)}
-                  />
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {displayedCategories.map((category, index) => (
+                  <div
+                    key={category.id}
+                    className="animate-slide-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <CategoryCard
+                      name={category.name}
+                      description={category.description || undefined}
+                      imageUrl={categoryImages[category.id] || category.image_url || undefined}
+                      onClick={() => handleCategoryClick(category.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Load More Button */}
+              {hasMoreCategories && !showAllCategories && (
+                <div className="text-center mt-10">
+                  <Button
+                    onClick={() => setShowAllCategories(true)}
+                    className="bg-gradient-primary hover:opacity-90 px-8 py-3 shadow-elegant hover:shadow-glow transition-all duration-300"
+                  >
+                    Load More Categories
+                  </Button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </section>
