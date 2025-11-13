@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { TopSellingProducts } from "@/components/TopSellingProducts";
 import { CategoryCard } from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
 import { HERO_BACKGROUND_URL } from "@/constants/heroBackground";
@@ -72,6 +73,9 @@ const Index = () => {
         onCtaClick={scrollToCatalogue}
         backgroundImage={HERO_BACKGROUND_URL}
       />
+
+      {/* Top Selling Products Section */}
+      <TopSellingProducts />
 
       {/* Categories Section */}
       <section className="py-16 px-4 bg-background">
