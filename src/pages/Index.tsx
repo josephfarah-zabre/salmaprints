@@ -7,6 +7,7 @@ import { Hero } from "@/components/Hero";
 import { CategoryCard } from "@/components/CategoryCard";
 import { HeroImageGenerator } from "@/components/HeroImageGenerator";
 import Footer from "@/components/Footer";
+import { HERO_BACKGROUND_URL } from "@/constants/heroBackground";
 import electronicsImg from "@/assets/category-electronics.jpg";
 import furnitureImg from "@/assets/category-furniture.jpg";
 import clothingImg from "@/assets/category-clothing.jpg";
@@ -73,6 +74,7 @@ const Index = () => {
         subtitle="Browse our categories and discover our products. Contact us on WhatsApp for any inquiries."
         ctaText="Browse Catalogue"
         onCtaClick={scrollToCatalogue}
+        backgroundImage={HERO_BACKGROUND_URL}
       />
 
       {/* Categories Section */}

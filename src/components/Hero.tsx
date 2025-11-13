@@ -7,6 +7,7 @@ interface HeroProps {
   ctaText?: string;
   onCtaClick?: () => void;
   showScrollIndicator?: boolean;
+  backgroundImage?: string;
 }
 
 export const Hero = ({ 
@@ -14,15 +15,28 @@ export const Hero = ({
   subtitle, 
   ctaText = "Browse Catalogue", 
   onCtaClick,
-  showScrollIndicator = true 
+  showScrollIndicator = true,
+  backgroundImage
 }: HeroProps) => {
   const scrollToContent = () => {
     window.scrollTo({ top: window.innerHeight * 0.8, behavior: "smooth" });
   };
 
   return (
-    <section className="relative min-h-[80vh] md:min-h-[80vh] flex items-center justify-center bg-gradient-hero px-4 py-16">
-      <div className="container mx-auto text-center animate-fade-in">
+    <section className="relative min-h-[80vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
+      {backgroundImage && (
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        />
+      )}
+      
+      {/* Pink Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary-subtle/80 via-background/60 to-background" />
+      
+      {/* Content */}
+      <div className="relative container mx-auto px-4 py-16 text-center animate-fade-in z-10">
         {/* Main Headline */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
           <span className="relative inline-block">
@@ -52,7 +66,7 @@ export const Hero = ({
       {showScrollIndicator && (
         <button
           onClick={scrollToContent}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-primary animate-bounce hover:text-primary-secondary transition-colors"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-primary animate-bounce hover:text-primary-secondary transition-colors z-10"
           aria-label="Scroll down"
         >
           <ChevronDown className="w-8 h-8" />
