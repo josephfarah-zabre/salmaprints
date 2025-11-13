@@ -14,38 +14,32 @@ import electronicsImg from "@/assets/category-electronics.jpg";
 import furnitureImg from "@/assets/category-furniture.jpg";
 import clothingImg from "@/assets/category-clothing.jpg";
 import homeGardenImg from "@/assets/category-home-garden.jpg";
-
 interface Category {
   id: string;
   name: string;
   description: string | null;
   image_url: string | null;
 }
-
 const categoryImages: Record<string, string> = {
   "acd79acf-30b3-4dcf-aeef-480a4282a7b1": electronicsImg,
   "6699bccd-9085-4fbf-b09b-b16212eaeab2": furnitureImg,
   "c916050c-c7e9-45a9-8048-223849e6b51c": clothingImg,
-  "4c7f2eff-be45-4187-ad81-dda485e7736f": homeGardenImg,
+  "4c7f2eff-be45-4187-ad81-dda485e7736f": homeGardenImg
 };
-
 const Index = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     fetchCategories();
   }, []);
-
   const fetchCategories = async () => {
     try {
-      const { data, error } = await supabase
-        .from("categories")
-        .select("*")
-        .order("display_order");
-
+      const {
+        data,
+        error
+      } = await supabase.from("categories").select("*").order("display_order");
       if (error) throw error;
       setCategories(data || []);
     } catch (error) {
@@ -55,37 +49,25 @@ const Index = () => {
       setLoading(false);
     }
   };
-
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/category/${categoryId}`);
   };
-
   const scrollToCatalogue = () => {
     navigate("/catalogue");
   };
 
   // Show 12 categories initially (3 rows × 4 columns on desktop)
   const INITIAL_CATEGORIES_COUNT = 12;
-  const displayedCategories = showAllCategories 
-    ? categories 
-    : categories.slice(0, INITIAL_CATEGORIES_COUNT);
+  const displayedCategories = showAllCategories ? categories : categories.slice(0, INITIAL_CATEGORIES_COUNT);
   const hasMoreCategories = categories.length > INITIAL_CATEGORIES_COUNT;
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       {/* Hero Section */}
-      <Hero
-        title="Welcome to Masco Salma Print"
-        subtitle="Browse our categories and discover our products. Contact us on WhatsApp for any inquiries."
-        ctaText="Browse Catalogue"
-        onCtaClick={scrollToCatalogue}
-        backgroundImage={HERO_BACKGROUND_URL}
-      />
+      <Hero title="Welcome to Masco Salma Print" subtitle="Browse our categories and discover our products. Contact us on WhatsApp for any inquiries." ctaText="Browse Catalogue" onCtaClick={scrollToCatalogue} backgroundImage={HERO_BACKGROUND_URL} />
 
       {/* Top Selling Products Section */}
-      <TopSellingProducts />
+      <TopSellingProducts className="bg-white/[0.31]" />
 
       {/* Categories Section */}
       <section className="py-16 px-4 bg-background">
@@ -103,47 +85,27 @@ const Index = () => {
             </p>
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
+          {loading ? <div className="text-center py-12">
               <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
               <p className="mt-4 text-text-secondary">Loading categories...</p>
-            </div>
-          ) : categories.length === 0 ? (
-            <div className="text-center py-12">
+            </div> : categories.length === 0 ? <div className="text-center py-12">
               <p className="text-text-secondary">No categories found.</p>
-            </div>
-          ) : (
-            <>
+            </div> : <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {displayedCategories.map((category, index) => (
-                  <div
-                    key={category.id}
-                    className="animate-slide-up"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <CategoryCard
-                      name={category.name}
-                      description={category.description || undefined}
-                      imageUrl={categoryImages[category.id] || category.image_url || undefined}
-                      onClick={() => handleCategoryClick(category.id)}
-                    />
-                  </div>
-                ))}
+                {displayedCategories.map((category, index) => <div key={category.id} className="animate-slide-up" style={{
+              animationDelay: `${index * 100}ms`
+            }}>
+                    <CategoryCard name={category.name} description={category.description || undefined} imageUrl={categoryImages[category.id] || category.image_url || undefined} onClick={() => handleCategoryClick(category.id)} />
+                  </div>)}
               </div>
 
               {/* Load More Button */}
-              {hasMoreCategories && !showAllCategories && (
-                <div className="text-center mt-10">
-                  <Button
-                    onClick={() => setShowAllCategories(true)}
-                    className="bg-gradient-primary hover:opacity-90 px-8 py-3 shadow-elegant hover:shadow-glow transition-all duration-300"
-                  >
+              {hasMoreCategories && !showAllCategories && <div className="text-center mt-10">
+                  <Button onClick={() => setShowAllCategories(true)} className="bg-gradient-primary hover:opacity-90 px-8 py-3 shadow-elegant hover:shadow-glow transition-all duration-300">
                     Load More Categories
                   </Button>
-                </div>
-              )}
-            </>
-          )}
+                </div>}
+            </>}
         </div>
       </section>
 
@@ -151,9 +113,6 @@ const Index = () => {
       <AboutSection />
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
-
