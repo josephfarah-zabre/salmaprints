@@ -1,4 +1,5 @@
 import { Building2 } from "lucide-react";
+import showroomImg from "@/assets/about-showroom.jpg";
 
 export const AboutSection = () => {
   return (
@@ -8,7 +9,7 @@ export const AboutSection = () => {
           {/* Image on the left */}
           <div className="relative h-[400px] lg:h-[500px] rounded-lg overflow-hidden shadow-elegant animate-fade-in">
             <img
-              src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+              src={showroomImg}
               alt="About Masco Salma Print"
               className="w-full h-full object-cover"
             />
