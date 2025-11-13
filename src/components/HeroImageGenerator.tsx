@@ -76,9 +76,18 @@ export const HeroImageGenerator = () => {
             <Download className="w-4 h-4 mr-2" />
             Download Image
           </Button>
-          <p className="text-xs text-text-tertiary">
+          <p className="text-xs text-text-tertiary mb-2">
             Right-click the image to save it, then add it to your assets folder.
           </p>
+          <div className="bg-primary-subtle/30 p-3 rounded text-xs space-y-1">
+            <p className="font-semibold text-primary">Next steps:</p>
+            <ol className="list-decimal list-inside space-y-1 text-text-secondary">
+              <li>Save image as: <code className="bg-background px-1 rounded">src/assets/hero-background.png</code></li>
+              <li>Open: <code className="bg-background px-1 rounded">src/constants/heroBackground.ts</code></li>
+              <li>Uncomment the import and export lines</li>
+              <li>Refresh to see your new hero background!</li>
+            </ol>
+          </div>
         </div>
       )}
     </div>
