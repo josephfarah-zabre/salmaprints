@@ -1,25 +1,18 @@
-import { Building2 } from "lucide-react";
 import showroomImg from "@/assets/about-showroom.jpg";
-
 export const AboutSection = () => {
-  return (
-    <section className="py-16 px-4 bg-muted/30">
+  return <section className="py-16 px-4 bg-muted/30">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Image on the left */}
           <div className="relative h-[400px] lg:h-[500px] rounded-lg overflow-hidden shadow-elegant animate-fade-in">
-            <img
-              src={showroomImg}
-              alt="About Masco Salma Print"
-              className="w-full h-full object-cover"
-            />
+            <img src={showroomImg} alt="About Masco Salma Print" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"></div>
           </div>
 
           {/* Text on the right */}
           <div className="space-y-6 animate-fade-in">
             <div className="flex items-center gap-3">
-              <Building2 className="w-8 h-8 text-primary" />
+              
               <h2 className="text-3xl md:text-4xl font-bold">
                 About{" "}
                 <span className="relative inline-block">
@@ -53,6 +46,5 @@ export const AboutSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
