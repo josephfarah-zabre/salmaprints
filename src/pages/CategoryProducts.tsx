@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import logo from "@/assets/logo.jpeg";
+import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 interface Product {
@@ -71,58 +71,65 @@ const CategoryProducts = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero flex flex-col">
-      {/* Header */}
-      <header className="bg-card shadow-sm sticky top-0 z-10 border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-center">
-            <img src={logo} alt="Masco Salma Print" className="h-16 md:h-20 object-contain" />
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
 
-      {/* Back Button & Category Title */}
-      <section className="container mx-auto px-4 py-8">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/")}
-          className="mb-4 hover:bg-primary/10"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Categories
-        </Button>
-        {category && (
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">
-            {category.name}
-          </h2>
-        )}
+      {/* Back Button & Category Hero */}
+      <section className="bg-gradient-hero py-12 px-4">
+        <div className="container mx-auto">
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/")}
+            className="mb-6 hover:bg-primary/10 hover:text-primary"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Categories
+          </Button>
+          {category && (
+            <div className="text-center animate-fade-in">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                <span className="relative inline-block">
+                  {category.name}
+                  <span className="absolute bottom-1 left-0 w-full h-1 bg-primary rounded-full transform -rotate-1"></span>
+                </span>
+              </h1>
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Products Grid */}
-      <section className="container mx-auto px-4 pb-16">
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
-            <p className="mt-4 text-muted-foreground">Loading products...</p>
-          </div>
-        ) : products.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No products found in this category.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                name={product.name}
-                description={product.description || undefined}
-                price={product.price || undefined}
-                imageUrl={product.image_url || undefined}
-                onWhatsAppClick={() => handleWhatsAppInquiry(product)}
-              />
-            ))}
-          </div>
-        )}
+      <section className="flex-1 bg-background py-12 px-4">
+        <div className="container mx-auto">
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+              <p className="mt-4 text-text-secondary">Loading products...</p>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-text-secondary">No products found in this category.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map((product, index) => (
+                <div
+                  key={product.id}
+                  className="animate-slide-up"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <ProductCard
+                    name={product.name}
+                    description={product.description || undefined}
+                    price={product.price || undefined}
+                    imageUrl={product.image_url || undefined}
+                    onWhatsAppClick={() => handleWhatsAppInquiry(product)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       <Footer />
@@ -131,3 +138,4 @@ const CategoryProducts = () => {
 };
 
 export default CategoryProducts;
+
