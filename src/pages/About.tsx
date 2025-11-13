@@ -2,6 +2,7 @@ import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Users, Target, Award, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import storyShowroomImg from "@/assets/about-story-showroom.jpg";
 
 const About = () => {
   const coreValues = [
@@ -75,9 +76,7 @@ const About = () => {
               </div>
               <div className="animate-slide-up">
                 <div className="aspect-square rounded-lg overflow-hidden shadow-elegant">
-                  <div className="w-full h-full bg-gradient-primary flex items-center justify-center">
-                    <Users className="w-32 h-32 text-primary-foreground opacity-40" />
-                  </div>
+                  <img src={storyShowroomImg} alt="Masco Salma Print Showroom" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
