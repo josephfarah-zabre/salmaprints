@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import logo from "@/assets/logo.jpeg";
+import { Navbar } from "@/components/Navbar";
+import { Hero } from "@/components/Hero";
+import { CategoryCard } from "@/components/CategoryCard";
+import Footer from "@/components/Footer";
 import electronicsImg from "@/assets/category-electronics.jpg";
 import furnitureImg from "@/assets/category-furniture.jpg";
 import clothingImg from "@/assets/category-clothing.jpg";
 import homeGardenImg from "@/assets/category-home-garden.jpg";
-import Footer from "@/components/Footer";
 
 interface Category {
   id: string;
@@ -53,67 +55,66 @@ const Index = () => {
     navigate(`/category/${categoryId}`);
   };
 
+  const scrollToCatalogue = () => {
+    navigate("/catalogue");
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-hero flex flex-col">
-      {/* Header */}
-      <header className="bg-card shadow-sm sticky top-0 z-10 border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-center">
-            <img src={logo} alt="Masco Salma Print" className="h-16 md:h-20 object-contain" />
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Welcome to Masco Salma Print
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Browse our categories and discover our products. Contact us on WhatsApp for any inquiries.
-        </p>
-      </section>
+      <Hero
+        title="Welcome to Masco Salma Print"
+        subtitle="Browse our categories and discover our products. Contact us on WhatsApp for any inquiries."
+        ctaText="Browse Catalogue"
+        onCtaClick={scrollToCatalogue}
+      />
 
-      {/* Categories Grid */}
-      <section className="container mx-auto px-4 pb-16">
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
-            <p className="mt-4 text-muted-foreground">Loading categories...</p>
+      {/* Categories Section */}
+      <section className="py-16 px-4 bg-background">
+        <div className="container mx-auto">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Explore Our{" "}
+              <span className="relative inline-block">
+                Categories
+                <span className="absolute bottom-1 left-0 w-full h-1 bg-primary rounded-full transform -rotate-1"></span>
+              </span>
+            </h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+              Discover our wide range of products organized by category
+            </p>
           </div>
-        ) : categories.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No categories found.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => handleCategoryClick(category.id)}
-                className="group bg-card rounded-lg shadow-sm hover:shadow-hover transition-all duration-300 overflow-hidden border border-border hover:border-primary"
-              >
-                <div className="aspect-video w-full overflow-hidden">
-                  <img
-                    src={categoryImages[category.id] || category.image_url || ""}
-                    alt={category.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+              <p className="mt-4 text-text-secondary">Loading categories...</p>
+            </div>
+          ) : categories.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-text-secondary">No categories found.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {categories.map((category, index) => (
+                <div
+                  key={category.id}
+                  className="animate-slide-up"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CategoryCard
+                    name={category.name}
+                    description={category.description || undefined}
+                    imageUrl={categoryImages[category.id] || category.image_url || undefined}
+                    onClick={() => handleCategoryClick(category.id)}
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                    {category.name}
-                  </h3>
-                  {category.description && (
-                    <p className="text-muted-foreground text-sm">
-                      {category.description}
-                    </p>
-                  )}
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       <Footer />
@@ -122,3 +123,4 @@ const Index = () => {
 };
 
 export default Index;
+
