@@ -7,6 +7,7 @@ import { Hero } from "@/components/Hero";
 import { TopSellingProducts } from "@/components/TopSellingProducts";
 import { CategoryCard } from "@/components/CategoryCard";
 import { Button } from "@/components/ui/button";
+import { AboutSection } from "@/components/AboutSection";
 import Footer from "@/components/Footer";
 import { HERO_BACKGROUND_URL } from "@/constants/heroBackground";
 import electronicsImg from "@/assets/category-electronics.jpg";
@@ -145,6 +146,9 @@ const Index = () => {
           )}
         </div>
       </section>
+
+      {/* About Us Section */}
+      <AboutSection />
 
       <Footer />
     </div>
