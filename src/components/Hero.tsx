@@ -32,9 +32,9 @@ export const Hero = ({
         />
       )}
       
-      {/* Pink Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-subtle/80 via-background/60 to-background" />
-      
+      {/* Pink Gradient Overlay - lighter for better image visibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary-subtle/30 via-background/20 to-background/40" />
+
       {/* Content */}
       <div className="relative container mx-auto px-4 py-16 text-center animate-fade-in z-10">
         {/* Main Headline */}
