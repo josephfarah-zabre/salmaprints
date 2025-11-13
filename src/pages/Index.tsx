@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { CategoryCard } from "@/components/CategoryCard";
-import { HeroImageGenerator } from "@/components/HeroImageGenerator";
 import Footer from "@/components/Footer";
 import { HERO_BACKGROUND_URL } from "@/constants/heroBackground";
 import electronicsImg from "@/assets/category-electronics.jpg";
@@ -64,9 +63,6 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      {/* Image Generator Tool (dev only - remove in production) */}
-      <HeroImageGenerator />
       
       {/* Hero Section */}
       <Hero
