@@ -95,7 +95,7 @@ const Index = () => {
             </div> : categories.length === 0 ? <div className="text-center py-12">
               <p className="text-text-secondary">No categories found.</p>
             </div> : <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
                 {displayedCategories.map((category, index) => <div key={category.id} className="animate-slide-up" style={{
               animationDelay: `${index * 100}ms`
             }}>
