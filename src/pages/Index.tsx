@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { SlidingBanner } from "@/components/SlidingBanner";
 import { TopSellingProducts } from "@/components/TopSellingProducts";
 import { CategoryCard } from "@/components/CategoryCard";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,9 @@ const Index = () => {
       
       {/* Hero Section */}
       <Hero title="Welcome to Masco Salma Print" subtitle="Browse our categories and discover our products. Contact us on WhatsApp for any inquiries." ctaText="Browse Catalogue" onCtaClick={scrollToCatalogue} backgroundImage={HERO_BACKGROUND_URL} />
+
+      {/* Sliding Banner */}
+      <SlidingBanner />
 
       {/* Top Selling Products Section */}
       <TopSellingProducts className="bg-white/[0.31]" />
