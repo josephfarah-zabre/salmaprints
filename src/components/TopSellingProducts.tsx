@@ -4,6 +4,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface Product {
   id: string;
@@ -14,7 +15,7 @@ interface Product {
   category_id: string | null;
 }
 
-export const TopSellingProducts = () => {
+export const TopSellingProducts = ({ className }: { className?: string }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -94,7 +95,7 @@ export const TopSellingProducts = () => {
   }
 
   return (
-    <section className="py-16 px-4 bg-background-secondary">
+    <section className={cn("py-16 px-4 bg-background-secondary", className)}>
       <div className="container mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12 animate-fade-in">
