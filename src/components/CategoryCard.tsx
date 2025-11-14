@@ -48,7 +48,7 @@ export const CategoryCard = ({
       
       {/* Category Info */}
       <div className="p-5 text-left">
-        <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+        <h3 className="text-base font-semibold mb-2 group-hover:text-primary transition-colors truncate">
           {name}
         </h3>
         {description && (
