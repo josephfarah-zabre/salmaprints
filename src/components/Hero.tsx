@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 import heroImage from "@/assets/hero-image.png";
 
 export const Hero = () => {
@@ -20,13 +21,17 @@ export const Hero = () => {
             Turn your room with Panto into a lot more minimalist and modern with ease and speed
           </p>
           
-          {/* CTA Button */}
-          <Button 
-            size="lg"
-            className="bg-accent-orange hover:bg-accent-orange/90 text-white text-lg px-10 py-6 h-auto shadow-elegant transition-all duration-300 hover:-translate-y-1"
-          >
-            Search Furniture
-          </Button>
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/50" />
+              <input
+                type="text"
+                placeholder="Search furniture..."
+                className="w-full pl-12 pr-4 py-3 rounded-full bg-white text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent-orange shadow-elegant"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
