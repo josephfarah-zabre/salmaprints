@@ -10,19 +10,19 @@ export const Hero = () => {
         <div className="max-w-4xl mx-auto">
           {/* Main Headline */}
           <h1 className="text-4xl md:text-5xl mb-6 leading-tight text-white lg:text-5xl font-medium">
-            Make Your Interior More Minimalistic & Modern
+            Custom Printing & Promotional Products for Your Business
           </h1>
           
           {/* Subtitle */}
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10">
-            Turn your room with Panto into a lot more minimalist and modern with ease and speed
+            High-quality custom printing services for t-shirts, mugs, bags, and promotional materials. Fast turnaround and professional results.
           </p>
           
           {/* Search Bar */}
           <div className="max-w-md mx-auto">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/50" />
-              <input type="text" placeholder="Search furniture..." className="w-full pl-12 pr-4 py-3 rounded-full bg-white text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent-orange shadow-elegant" />
+              <input type="text" placeholder="Search products..." className="w-full pl-12 pr-4 py-3 rounded-full bg-white text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent-orange shadow-elegant" />
             </div>
           </div>
         </div>

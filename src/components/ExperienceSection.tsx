@@ -11,15 +11,15 @@ export const ExperienceSection = () => {
             />
           </div>
           <div className="lg:col-span-2">
-            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">EXPERIENCE</p>
+            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">OUR PROCESS</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground leading-tight">
-              We Provide You The Best Experience
+              Professional Printing Services You Can Trust
             </h2>
             <p className="text-text-secondary mb-6 leading-relaxed">
-              You don't have to worry about the result because all of these interiors are made by people who are professionals in their fields with an elegant and lucrative style and with premium quality materials.
+              With state-of-the-art printing equipment and experienced professionals, we deliver exceptional quality on every order. From concept to completion, we ensure your custom products exceed expectations.
             </p>
-            <a href="#" className="text-accent-orange hover:underline font-medium">
-              More Info →
+            <a href="#contact" className="text-accent-orange hover:underline font-medium">
+              Get a Quote →
             </a>
           </div>
         </div>

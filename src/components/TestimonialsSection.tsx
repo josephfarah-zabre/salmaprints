@@ -2,20 +2,20 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Bang Jakub",
-    text: "I really like it when I sit on this chair, it is very comfortable and the design is very modern."
+    name: "Sarah M.",
+    text: "Amazing quality on our custom t-shirts! The prints are vibrant and haven't faded after multiple washes. Fast delivery too!"
   },
   {
-    name: "Jakub Josh",
-    text: "The quality is superb and the price is very affordable. Highly recommend for anyone looking for furniture."
+    name: "Ahmed K.",
+    text: "Ordered business cards and promotional mugs for our company event. The team helped with the design and the results were perfect!"
   },
   {
-    name: "Jakub John",
-    text: "Beautiful design and great materials. The delivery was fast and the customer service was excellent."
+    name: "Fatima R.",
+    text: "Best printing service in town! Quick turnaround time and the custom design support really helped bring my vision to life."
   },
   {
-    name: "Jakub Jane",
-    text: "Best furniture shopping experience I've had. The products exceeded my expectations in every way."
+    name: "Omar S.",
+    text: "Excellent quality prints and very professional service. We've been ordering all our promotional items from them. Highly recommended!"
   }
 ];
 

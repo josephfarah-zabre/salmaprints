@@ -11,15 +11,15 @@ export const MaterialsSection = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           <div className="lg:col-span-2">
-            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">MATERIALS</p>
+            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">WHAT WE PRINT</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground leading-tight">
-              Very Serious Materials For Making Furniture
+              Wide Range of Custom Printing Services
             </h2>
             <p className="text-text-secondary mb-6 leading-relaxed">
-              Because Panto was very serious about designing furniture for our environment, using a very expensive and famous capital but at a relatively low price.
+              From custom t-shirts and mugs to business cards, banners, and promotional items - we print it all. Premium quality materials and vibrant, long-lasting prints for all your branding needs.
             </p>
-            <a href="#" className="text-accent-orange hover:underline font-medium">
-              More Info →
+            <a href="/catalogue" className="text-accent-orange hover:underline font-medium">
+              View Products →
             </a>
           </div>
           <div className="lg:col-span-3">
