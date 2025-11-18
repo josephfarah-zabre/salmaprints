@@ -1,85 +1,66 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo.jpeg";
-import { cn } from "@/lib/utils";
+import { ShoppingCart, Menu, X } from "lucide-react";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Catalogue", path: "/catalogue" },
+    { name: "Furniture", path: "/catalogue" },
+    { name: "Shop", path: "/catalogue" },
     { name: "About Us", path: "/about" },
+    { name: "Contact", path: "#contact" },
   ];
 
-  const isActivePath = (path: string) => location.pathname === path;
-
   return (
-    <header className="bg-card shadow-sm sticky top-0 z-50 border-b">
+    <nav className="absolute top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-4">
-        <nav className="flex justify-between items-center py-4">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img 
-              src={logo} 
-              alt="Masco Salma Print" 
-              className="h-12 md:h-16 object-contain hover:opacity-80 transition-opacity" 
-            />
+          <Link to="/" className="text-2xl font-bold text-white">
+            Panto
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
-                key={item.path}
+                key={item.name}
                 to={item.path}
-                className={cn(
-                  "relative text-base font-medium transition-colors",
-                  isActivePath(item.path)
-                    ? "text-primary"
-                    : "text-foreground hover:text-primary",
-                  "after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-primary after:left-0 after:-bottom-1",
-                  "after:scale-x-0 after:origin-right after:transition-transform after:duration-300",
-                  isActivePath(item.path)
-                    ? "after:scale-x-100"
-                    : "hover:after:scale-x-100 hover:after:origin-left"
-                )}
+                className="text-white hover:text-white/80 transition-colors"
               >
                 {item.name}
               </Link>
             ))}
+            <button className="relative p-2 text-white hover:text-white/80 transition-colors">
+              <ShoppingCart className="w-6 h-6" />
+              <span className="absolute -top-1 -right-1 bg-accent-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                0
+              </span>
+            </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-primary"
+          {/* Mobile menu button */}
+          <button
             onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 text-white"
             aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </Button>
-        </nav>
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden border-t py-4 animate-fade-in">
-            <div className="flex flex-col gap-4">
+          <div className="md:hidden py-4 bg-primary rounded-lg mt-2">
+            <div className="flex flex-col space-y-4">
               {navItems.map((item) => (
                 <Link
-                  key={item.path}
+                  key={item.name}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "px-4 py-2 text-base font-medium rounded-md transition-colors",
-                    isActivePath(item.path)
-                      ? "bg-primary-subtle text-primary"
-                      : "text-foreground hover:bg-primary-subtle hover:text-primary"
-                  )}
+                  className="px-4 text-white hover:text-white/80"
                 >
                   {item.name}
                 </Link>
@@ -88,6 +69,6 @@ export const Navbar = () => {
           </div>
         )}
       </div>
-    </header>
+    </nav>
   );
 };
