@@ -7,8 +7,8 @@ export const Navbar = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: "Furniture", path: "/catalogue" },
-    { name: "Shop", path: "/catalogue" },
+    { name: "Products", path: "/catalogue" },
+    { name: "Custom Printing", path: "/catalogue" },
     { name: "About Us", path: "/about" },
     { name: "Contact", path: "#contact" },
   ];
@@ -19,7 +19,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold text-white">
-            Panto
+            Masco Salma Print
           </Link>
 
           {/* Desktop Navigation */}

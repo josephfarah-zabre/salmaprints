@@ -1,20 +1,20 @@
-import { Package, DollarSign, Grid3x3 } from "lucide-react";
+import { Clock, Palette, Shield } from "lucide-react";
 
 const features = [
   {
-    icon: Package,
-    title: "Luxury facilities",
-    description: "The advantage of hiring a workspace with us is that gives you comfortable service and all-around facilities."
+    icon: Clock,
+    title: "Fast Turnaround",
+    description: "Quick production and delivery times to meet your deadlines. Most orders completed within 3-5 business days with rush options available."
   },
   {
-    icon: DollarSign,
-    title: "Affordable Price",
-    description: "You can get a workspace of the highest quality at an affordable price and still enjoy the facilities that are only here."
+    icon: Palette,
+    title: "Custom Design Support",
+    description: "Our design team provides free assistance to bring your vision to life. From simple logos to complex artwork, we've got you covered."
   },
   {
-    icon: Grid3x3,
-    title: "Many Choices",
-    description: "We provide many unique work space choices so that you can choose the workspace to your liking."
+    icon: Shield,
+    title: "Quality Guarantee",
+    description: "We use premium materials and state-of-the-art printing technology. 100% satisfaction guaranteed or we'll make it right."
   }
 ];
 
