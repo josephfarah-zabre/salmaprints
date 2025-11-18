@@ -20,15 +20,21 @@ export default {
         background: {
           DEFAULT: "hsl(var(--background))",
           secondary: "hsl(var(--background-secondary))",
-          tertiary: "hsl(var(--background-tertiary))",
+          cream: "hsl(var(--background-cream))",
         },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          secondary: "hsl(var(--primary-secondary))",
+          dark: "hsl(var(--primary-dark))",
           light: "hsl(var(--primary-light))",
-          subtle: "hsl(var(--primary-subtle))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+          yellow: "hsl(var(--accent-yellow))",
+          orange: "hsl(var(--accent-orange))",
+          green: "hsl(var(--accent-green))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

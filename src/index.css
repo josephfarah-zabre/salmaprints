@@ -8,68 +8,70 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Base colors - Clean whites and grays (70% usage) */
+    /* Base colors - Clean whites and grays */
     --background: 0 0% 100%; /* #FFFFFF */
-    --background-secondary: 0 0% 98%; /* #FAFAFA */
-    --background-tertiary: 348 100% 98%; /* #FFF5F7 - Very light pink tint */
-    --foreground: 0 0% 18%; /* #2D2D2D - Almost black */
+    --background-secondary: 0 0% 97%; /* #F7F7F7 */
+    --background-cream: 45 40% 95%; /* Light cream */
+    --foreground: 0 0% 15%; /* Almost black */
     
-    /* Pink Accent System (30% usage) */
-    --primary: 328 100% 54%; /* #FF1493 - Deep/Hot Pink */
+    /* Deep Blue System */
+    --primary: 211 51% 24%; /* #1E3A5F - Deep Blue */
     --primary-foreground: 0 0% 100%;
-    --primary-secondary: 330 100% 71%; /* #FF69B4 - Medium Pink */
-    --primary-light: 339 100% 85%; /* #FFB6D9 - Soft Pink */
-    --primary-subtle: 345 100% 95%; /* #FFE5F0 - Very light pink */
+    --primary-dark: 211 60% 15%; /* Navy Blue */
+    --primary-light: 211 51% 35%;
+    
+    /* Accent Colors */
+    --accent-yellow: 48 100% 50%;
+    --accent-orange: 25 100% 50%;
+    --accent-green: 142 71% 45%;
     
     /* Card colors */
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 18%;
+    --card-foreground: 0 0% 15%;
     
     /* Popover colors */
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 18%;
+    --popover-foreground: 0 0% 15%;
     
     /* Secondary colors */
     --secondary: 0 0% 96%; /* Light gray background */
-    --secondary-foreground: 0 0% 18%;
+    --secondary-foreground: 0 0% 15%;
     
     /* Muted colors */
     --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 42%; /* #6B6B6B - Medium gray */
+    --muted-foreground: 0 0% 45%; /* Medium gray */
     
-    /* Accent (using pink) */
-    --accent: 328 100% 54%;
+    /* Accent */
+    --accent: 211 51% 24%;
     --accent-foreground: 0 0% 100%;
     
     /* Status colors */
-    --success: 142 71% 45%; /* #10B981 - Green */
-    --warning: 38 92% 50%; /* #F59E0B - Amber */
-    --destructive: 0 84% 60%; /* #EF4444 - Red */
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --info: 221 83% 53%; /* #3B82F6 - Blue */
+    --info: 221 83% 53%;
     
     /* Text colors */
-    --text-primary: 0 0% 18%; /* #2D2D2D */
-    --text-secondary: 0 0% 42%; /* #6B6B6B */
-    --text-tertiary: 0 0% 62%; /* #9E9E9E */
+    --text-primary: 0 0% 15%;
+    --text-secondary: 0 0% 45%;
+    --text-tertiary: 0 0% 62%;
     
     /* Border colors */
-    --border: 0 0% 91%; /* #E8E8E8 */
+    --border: 0 0% 91%;
     --input: 0 0% 91%;
-    --ring: 328 100% 54%;
+    --ring: 211 51% 24%;
     
     --radius: 0.5rem;
     
     /* Custom design tokens - Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(328, 100%, 54%) 0%, hsl(330, 100%, 71%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(348, 100%, 98%) 0%, hsl(0, 0%, 100%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(0, 0%, 98%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(211, 51%, 24%) 0%, hsl(211, 51%, 35%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(211, 51%, 24%) 0%, hsl(211, 60%, 15%) 100%);
     
     /* Custom design tokens - Shadows */
-    --shadow-card: 0 4px 16px -4px hsl(328 100% 54% / 0.08);
-    --shadow-hover: 0 8px 16px hsl(328 100% 54% / 0.15);
-    --shadow-elegant: 0 10px 30px -10px hsl(328 100% 54% / 0.3);
-    --shadow-glow: 0 0 40px hsl(339 100% 85% / 0.4);
+    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.08);
+    --shadow-hover: 0 4px 12px hsl(0 0% 0% / 0.12);
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.15);
     
     /* Custom design tokens - Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
