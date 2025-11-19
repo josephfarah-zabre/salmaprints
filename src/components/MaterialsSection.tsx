@@ -7,7 +7,7 @@ export const MaterialsSection = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-background">
+    <section className="py-20 px-4" style={{ backgroundColor: '#D47B9B' }}>
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           <div className="lg:col-span-2">
