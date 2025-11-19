@@ -19,7 +19,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img src={facebookIcon} alt="Facebook" className="w-10 h-10" />
+                <img src={facebookIcon} alt="Facebook" className="w-16 h-16" />
               </a>
               <a 
                 href="https://www.instagram.com" 
@@ -27,7 +27,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img src={instagramIcon} alt="Instagram" className="w-10 h-10" />
+                <img src={instagramIcon} alt="Instagram" className="w-16 h-16" />
               </a>
               <a 
                 href="https://www.tiktok.com" 
@@ -35,7 +35,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img src={tiktokIcon} alt="TikTok" className="w-10 h-10" />
+                <img src={tiktokIcon} alt="TikTok" className="w-16 h-16" />
               </a>
             </div>
           </div>
