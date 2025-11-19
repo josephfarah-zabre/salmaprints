@@ -27,7 +27,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img src={instagramIcon} alt="Instagram" className="w-20 h-20" />
+                <img src={instagramIcon} alt="Instagram" className="w-16 h-16" />
               </a>
               <a 
                 href="https://www.tiktok.com" 
