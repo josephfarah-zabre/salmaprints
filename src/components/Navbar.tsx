@@ -2,15 +2,17 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navItems = [
-    { name: "Products", path: "/catalogue" },
-    { name: "About Us", path: "/about" },
-    { name: "Contact", path: "#contact" },
+    { name: t("nav.products"), path: "/catalogue" },
+    { name: t("nav.about"), path: "/about" },
+    { name: t("nav.contact"), path: "#contact" },
   ];
 
   return (
