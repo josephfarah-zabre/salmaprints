@@ -1,8 +1,9 @@
 import heroImage from "@/assets/hero-image.png";
 import { SearchBar } from "./SearchBar";
 export const Hero = () => {
-  return <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-primary bg-cover bg-center" style={{
-    backgroundImage: `url(${heroImage})`
+  return <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-primary bg-cover" style={{
+    backgroundImage: `url(${heroImage})`,
+    backgroundPosition: 'center center'
   }}>
       {/* Content */}
       <div className="relative container mx-auto px-4 py-32 text-center z-10">
