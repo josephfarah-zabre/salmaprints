@@ -1,17 +1,12 @@
 export const ExperienceSection = () => {
-  return (
-    <section className="py-20 px-4 bg-primary">
+  return <section className="py-20 px-4 bg-primary">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           <div className="lg:col-span-3">
-            <img 
-              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop" 
-              alt="Colorful watches"
-              className="w-full h-[500px] object-cover rounded-lg shadow-card"
-            />
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop" alt="Colorful watches" className="w-full h-[500px] object-cover rounded-lg shadow-card" />
           </div>
           <div className="lg:col-span-2">
-            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">OUR PROCESS</p>
+            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider text-slate-50">OUR PROCESS</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary-foreground leading-tight">
               Professional Printing Services You Can Trust
             </h2>
@@ -24,6 +19,5 @@ export const ExperienceSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
