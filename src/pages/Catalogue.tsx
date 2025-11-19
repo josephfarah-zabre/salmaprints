@@ -50,8 +50,8 @@ const Catalogue = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="bg-gradient-hero py-16 px-4">
-        <div className="container mx-auto text-center animate-fade-in">
+      <section className="bg-gradient-hero px-4 py-0">
+        <div className="container mx-auto text-center animate-fade-in py-[150px]">
           <h1 className="text-4xl font-bold mb-4 text-slate-50 md:text-7xl">
             Discover Our{" "}
             <span className="relative inline-block">
