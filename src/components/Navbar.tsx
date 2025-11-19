@@ -7,7 +7,7 @@ export const Navbar = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: "Custom Printing", path: "/catalogue" },
+    { name: "Products", path: "/catalogue" },
     { name: "About Us", path: "/about" },
     { name: "Contact", path: "#contact" },
   ];
