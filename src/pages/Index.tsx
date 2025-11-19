@@ -70,25 +70,27 @@ const Index = () => {
               <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              {categories.map((category) => (
-                <CategoryCard
-                  key={category.id}
-                  name={category.name}
-                  imageUrl={category.image_url || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop"}
-                  onClick={() => handleCategoryClick(category.id)}
-                />
-              ))}
-            </div>
-            
-            <div className="text-center mt-12">
-              <button
-                onClick={() => navigate('/catalogue')}
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-              >
-                Explore All Categories
-              </button>
-            </div>
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                {categories.map((category) => (
+                  <CategoryCard
+                    key={category.id}
+                    name={category.name}
+                    imageUrl={category.image_url || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop"}
+                    onClick={() => handleCategoryClick(category.id)}
+                  />
+                ))}
+              </div>
+              
+              <div className="text-center mt-12">
+                <button
+                  onClick={() => navigate('/catalogue')}
+                  className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                >
+                  Explore All Categories
+                </button>
+              </div>
+            </>
           )}
         </div>
       </section>
