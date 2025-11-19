@@ -33,7 +33,7 @@ const Index = () => {
         .from("categories")
         .select("*")
         .order("display_order")
-        .limit(8);
+        .limit(12);
       
       if (error) throw error;
       setCategories(data || []);
@@ -79,6 +79,15 @@ const Index = () => {
                   onClick={() => handleCategoryClick(category.id)}
                 />
               ))}
+            </div>
+            
+            <div className="text-center mt-12">
+              <button
+                onClick={() => navigate('/catalogue')}
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+              >
+                Explore All Categories
+              </button>
             </div>
           )}
         </div>
