@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
+import { LanguageToggle } from "./LanguageToggle";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +33,7 @@ export const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            <LanguageToggle />
             <button className="relative p-2 text-white hover:text-white/80 transition-colors">
               <ShoppingCart className="w-6 h-6" />
               <span className="absolute -top-1 -right-1 bg-accent-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -64,6 +66,9 @@ export const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+              <div className="px-4">
+                <LanguageToggle />
+              </div>
             </div>
           </div>
         )}
