@@ -1,4 +1,4 @@
-import heroImage from "@/assets/hero-image.png";
+import heroImage from "@/assets/hero-woman-mug.jpg";
 import { SearchBar } from "./SearchBar";
 export const Hero = () => {
   return <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-primary bg-cover" style={{

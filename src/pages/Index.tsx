@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { SlidingBanner } from "@/components/SlidingBanner";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { ExperienceSection } from "@/components/ExperienceSection";
 import { MaterialsSection } from "@/components/MaterialsSection";
@@ -53,6 +54,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <Hero />
+      <SlidingBanner />
       <WhyChooseUs />
 
       {/* Categories Section */}

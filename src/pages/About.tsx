@@ -1,27 +1,11 @@
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Users, Target, Award, Heart } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import storyShowroomImg from "@/assets/about-story-showroom.jpg";
+import showroomImg from "@/assets/about-showroom.jpg";
+
 const About = () => {
-  const coreValues = [{
-    icon: Heart,
-    title: "Customer First",
-    description: "We prioritize our customers' needs and satisfaction above all else, building lasting relationships through exceptional service."
-  }, {
-    icon: Target,
-    title: "Quality Excellence",
-    description: "Every product in our catalog meets rigorous quality standards, ensuring you receive only the best."
-  }, {
-    icon: Award,
-    title: "Innovation",
-    description: "We continuously seek new ways to improve our offerings and stay ahead of market trends."
-  }, {
-    icon: Users,
-    title: "Community",
-    description: "Building a strong community around our brand, fostering connections between customers and our team."
-  }];
-  return <div className="min-h-screen flex flex-col">
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1">
@@ -41,7 +25,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* Company Story */}
+        {/* Company Story - Section 1 */}
         <section className="py-16 px-4">
           <div className="container mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -75,69 +59,95 @@ const About = () => {
           </div>
         </section>
 
-        {/* Core Values */}
-        <section className="py-16 px-4 bg-background-tertiary">
+        {/* Additional Image Section 2 */}
+        <section className="py-16 px-4 bg-background-secondary">
           <div className="container mx-auto">
-            <div className="text-center mb-12 animate-fade-in">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Our Core Values
-              </h2>
-              <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                The principles that guide our business and shape our relationships
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {coreValues.map((value, index) => <Card key={index} className="border-2 border-border hover:border-primary hover:shadow-hover transition-all duration-300 hover:-translate-y-1 animate-slide-up" style={{
-              animationDelay: `${index * 100}ms`
-            }}>
-                  <CardContent className="p-6 text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-subtle flex items-center justify-center">
-                      <value.icon className="w-8 h-8 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
-                    <p className="text-text-secondary">{value.description}</p>
-                  </CardContent>
-                </Card>)}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="animate-slide-up order-2 md:order-1">
+                <div className="aspect-square rounded-lg overflow-hidden shadow-elegant">
+                  <img src={showroomImg} alt="Our Products" className="w-full h-full object-cover" />
+                </div>
+              </div>
+              <div className="animate-slide-up order-1 md:order-2">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  Our Commitment
+                </h2>
+                <div className="space-y-4 text-text-secondary leading-relaxed">
+                  <p>
+                    At Masco Salma Print, we believe in delivering more than just products. 
+                    We deliver experiences that matter. Our team is dedicated to understanding 
+                    your needs and providing solutions that exceed expectations.
+                  </p>
+                  <p>
+                    With state-of-the-art facilities and a passionate team, we ensure every 
+                    project receives the attention it deserves. From concept to completion, 
+                    we're with you every step of the way.
+                  </p>
+                  <p className="text-primary font-semibold text-lg">
+                    Your success is our success.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Mission Statement */}
+        {/* Additional Image Section 3 */}
         <section className="py-16 px-4">
           <div className="container mx-auto">
-            <Card className="border-2 border-primary bg-primary-subtle/30 shadow-elegant">
-              <CardContent className="p-8 md:p-12 text-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-                  Our Mission
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="animate-slide-up">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  Looking Forward
                 </h2>
-                <p className="text-lg md:text-xl text-text-primary max-w-3xl mx-auto leading-relaxed">
-                  To provide our customers with the highest quality products and exceptional 
-                  service, while building lasting relationships based on trust, integrity, and 
-                  mutual respect. We strive to exceed expectations in everything we do.
-                </p>
-              </CardContent>
-            </Card>
+                <div className="space-y-4 text-text-secondary leading-relaxed">
+                  <p>
+                    As we continue to grow, our focus remains on innovation and customer 
+                    satisfaction. We're constantly exploring new technologies and methods 
+                    to enhance our services and bring you the best possible results.
+                  </p>
+                  <p>
+                    Join us on this journey as we shape the future of custom printing 
+                    and promotional products. Together, we can create something extraordinary.
+                  </p>
+                  <p className="text-primary font-semibold text-lg">
+                    The best is yet to come.
+                  </p>
+                </div>
+              </div>
+              <div className="animate-slide-up">
+                <div className="aspect-square rounded-lg overflow-hidden shadow-elegant">
+                  <img src={storyShowroomImg} alt="Our Future" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Contact CTA */}
-        <section className="py-16 px-4 bg-gradient-hero">
+        {/* Call to Action */}
+        <section className="py-20 px-4 bg-primary text-foreground">
           <div className="container mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Get in Touch
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Ready to Get Started?
             </h2>
-            <p className="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
-              Have questions or want to learn more about our products? We'd love to hear from you!
+            <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
+              Contact us today and let's discuss how we can help bring your vision to life.
             </p>
-            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-gradient-primary text-primary-foreground px-8 py-4 rounded-md font-semibold hover:opacity-90 transition-all duration-300 hover:-translate-y-1 shadow-elegant hover:shadow-glow">
-              Contact Us on WhatsApp
+            <a 
+              href="https://wa.me/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block bg-background text-primary px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+            >
+              Get in Touch on WhatsApp
             </a>
           </div>
         </section>
       </main>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default About;
