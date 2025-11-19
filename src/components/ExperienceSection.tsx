@@ -13,7 +13,7 @@ export const ExperienceSection = () => {
             <p className="text-primary-foreground/90 mb-6 leading-relaxed">
               With state-of-the-art printing equipment and experienced professionals, we deliver exceptional quality on every order. From concept to completion, we ensure your custom products exceed expectations.
             </p>
-            <a href="#contact" className="text-accent-orange hover:underline font-medium">
+            <a href="#contact" className="text-primary-foreground hover:underline font-medium">
               Get a Quote →
             </a>
           </div>
