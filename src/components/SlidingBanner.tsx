@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SlidingBannerProps {
   className?: string;
 }
 
 export const SlidingBanner = ({ className }: SlidingBannerProps) => {
-  const bannerText = "Everything You Need for Your Business • Quality Products at Great Prices • Fast & Reliable Service • Wide Range of Categories • Contact Us on WhatsApp";
+  const { t } = useLanguage();
+  const bannerText = t("banner.text");
   
   return (
     <div className={cn("bg-primary text-foreground py-4 overflow-hidden", className)}>

@@ -11,6 +11,7 @@ import { MaterialsSection } from "@/components/MaterialsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CategoryCard } from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Category {
   id: string;
@@ -23,6 +24,7 @@ const Index = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchCategories();
@@ -61,9 +63,9 @@ const Index = () => {
       <section className="py-20 px-4 bg-background">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">CATEGORIES</p>
+            <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">{t("categories.label")}</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-              EXPLORE OUR CATEGORIES
+              {t("categories.title")}
             </h2>
           </div>
 
@@ -87,9 +89,9 @@ const Index = () => {
               <div className="text-center mt-12">
                 <button
                   onClick={() => navigate('/catalogue')}
-                  className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                  className="px-8 py-3 bg-primary text-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
                 >
-                  Explore All Categories
+                  {t("categories.explore")}
                 </button>
               </div>
             </>

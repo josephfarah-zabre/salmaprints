@@ -2,8 +2,10 @@ import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import storyShowroomImg from "@/assets/about-story-showroom.jpg";
 import showroomImg from "@/assets/about-showroom.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const About = () => {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -13,14 +15,14 @@ const About = () => {
         <section className="bg-gradient-hero py-[150px] px-4">
           <div className="container mx-auto text-center animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 py-[10px] text-slate-50 lg:text-7xl">
-              About{" "}
+              {t("about.title")}{" "}
               <span className="relative inline-block">
-                Masco Salma Print
+                {t("about.company")}
                 <span className="absolute bottom-2 left-0 w-full h-1 bg-primary rounded-full transform -rotate-1"></span>
               </span>
             </h1>
             <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto">
-              Your trusted partner for quality products and exceptional service
+              {t("about.tagline")}
             </p>
           </div>
         </section>
@@ -31,22 +33,13 @@ const About = () => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="animate-slide-up">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Our Story
+                  {t("about.story.title")}
                 </h2>
                 <div className="space-y-4 text-text-secondary leading-relaxed">
-                  <p>
-                    Founded with a vision to provide exceptional products and services, 
-                    Masco Salma Print has grown into a trusted name in the industry. Our 
-                    journey began with a simple mission: to make quality products accessible 
-                    to everyone.
-                  </p>
-                  <p>
-                    Over the years, we've built strong relationships with our customers and 
-                    suppliers, always maintaining our commitment to excellence. Every product 
-                    in our catalog is carefully selected to meet our high standards.
-                  </p>
+                  <p>{t("about.story.p1")}</p>
+                  <p>{t("about.story.p2")}</p>
                   <p className="text-primary font-semibold text-lg">
-                    "Quality is not an act, it is a habit." - This philosophy guides everything we do.
+                    {t("about.story.quote")}
                   </p>
                 </div>
               </div>
@@ -70,21 +63,13 @@ const About = () => {
               </div>
               <div className="animate-slide-up order-1 md:order-2">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Our Commitment
+                  {t("about.commitment.title")}
                 </h2>
                 <div className="space-y-4 text-text-secondary leading-relaxed">
-                  <p>
-                    At Masco Salma Print, we believe in delivering more than just products. 
-                    We deliver experiences that matter. Our team is dedicated to understanding 
-                    your needs and providing solutions that exceed expectations.
-                  </p>
-                  <p>
-                    With state-of-the-art facilities and a passionate team, we ensure every 
-                    project receives the attention it deserves. From concept to completion, 
-                    we're with you every step of the way.
-                  </p>
+                  <p>{t("about.commitment.p1")}</p>
+                  <p>{t("about.commitment.p2")}</p>
                   <p className="text-primary font-semibold text-lg">
-                    Your success is our success.
+                    {t("about.commitment.quote")}
                   </p>
                 </div>
               </div>
@@ -98,20 +83,13 @@ const About = () => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="animate-slide-up">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Looking Forward
+                  {t("about.forward.title")}
                 </h2>
                 <div className="space-y-4 text-text-secondary leading-relaxed">
-                  <p>
-                    As we continue to grow, our focus remains on innovation and customer 
-                    satisfaction. We're constantly exploring new technologies and methods 
-                    to enhance our services and bring you the best possible results.
-                  </p>
-                  <p>
-                    Join us on this journey as we shape the future of custom printing 
-                    and promotional products. Together, we can create something extraordinary.
-                  </p>
+                  <p>{t("about.forward.p1")}</p>
+                  <p>{t("about.forward.p2")}</p>
                   <p className="text-primary font-semibold text-lg">
-                    The best is yet to come.
+                    {t("about.forward.quote")}
                   </p>
                 </div>
               </div>
@@ -128,10 +106,10 @@ const About = () => {
         <section className="py-20 px-4 bg-primary text-foreground">
           <div className="container mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Get Started?
+              {t("about.cta.title")}
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
-              Contact us today and let's discuss how we can help bring your vision to life.
+              {t("about.cta.description")}
             </p>
             <a 
               href="https://wa.me/" 
@@ -139,7 +117,7 @@ const About = () => {
               rel="noopener noreferrer"
               className="inline-block bg-background text-primary px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity"
             >
-              Get in Touch on WhatsApp
+              {t("about.cta.button")}
             </a>
           </div>
         </section>

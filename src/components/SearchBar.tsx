@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Product = Tables<"products">;
 type Category = Tables<"categories">;
@@ -19,6 +20,7 @@ export const SearchBar = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const searchProductsAndCategories = async () => {
@@ -90,7 +92,7 @@ export const SearchBar = () => {
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/50 pointer-events-none z-10" />
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder={t("hero.search")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => searchQuery.length >= 2 && results.length > 0 && setIsOpen(true)}

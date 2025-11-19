@@ -1,15 +1,17 @@
 import facebookIcon from "@/assets/facebook-icon.png";
 import instagramIcon from "@/assets/instagram-icon.png";
 import tiktokIcon from "@/assets/tiktok-icon.png";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
+  const { t } = useLanguage();
   return (
     <footer className="bg-primary-dark text-white py-16">
       <div className="container mx-auto px-4">
         <div className="flex justify-center">
           {/* Follow Us */}
           <div className="text-center">
-            <h4 className="font-semibold mb-6 text-xl">Follow Us</h4>
+            <h4 className="font-semibold mb-6 text-xl">{t("footer.follow")}</h4>
             <div className="flex items-center justify-center gap-6">
               <a 
                 href="https://www.facebook.com" 
@@ -41,7 +43,7 @@ const Footer = () => {
 
         <div className="border-t border-white/20 mt-12 pt-8 text-center">
           <p className="text-white/50">
-            © {new Date().getFullYear()} Masco Salma Print. All rights reserved.
+            © {new Date().getFullYear()} Masco Salma Print. {t("footer.rights")}
           </p>
         </div>
       </div>
