@@ -12,32 +12,28 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CategoryCard } from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-
 interface Category {
   id: string;
   name: string;
   description: string | null;
   image_url: string | null;
 }
-
 const Index = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { t } = useLanguage();
-
+  const {
+    t
+  } = useLanguage();
   useEffect(() => {
     fetchCategories();
   }, []);
-
   const fetchCategories = async () => {
     try {
-      const { data, error } = await supabase
-        .from("categories")
-        .select("*")
-        .order("display_order")
-        .limit(12);
-      
+      const {
+        data,
+        error
+      } = await supabase.from("categories").select("*").order("display_order").limit(12);
       if (error) throw error;
       setCategories(data || []);
     } catch (error) {
@@ -47,13 +43,10 @@ const Index = () => {
       setLoading(false);
     }
   };
-
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/category/${categoryId}`);
   };
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       <Hero />
       <SlidingBanner />
@@ -69,33 +62,19 @@ const Index = () => {
             </h2>
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
+          {loading ? <div className="text-center py-12">
               <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
-            </div>
-          ) : (
-            <>
+            </div> : <>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                {categories.map((category) => (
-                  <CategoryCard
-                    key={category.id}
-                    name={category.name}
-                    imageUrl={category.image_url || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop"}
-                    onClick={() => handleCategoryClick(category.id)}
-                  />
-                ))}
+                {categories.map(category => <CategoryCard key={category.id} name={category.name} imageUrl={category.image_url || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop"} onClick={() => handleCategoryClick(category.id)} />)}
               </div>
               
               <div className="text-center mt-12">
-                <button
-                  onClick={() => navigate('/catalogue')}
-                  className="px-8 py-3 bg-primary text-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-                >
+                <button onClick={() => navigate('/catalogue')} className="px-8 py-3 bg-primary rounded-lg font-semibold hover:bg-primary/90 transition-colors text-slate-50">
                   {t("categories.explore")}
                 </button>
               </div>
-            </>
-          )}
+            </>}
         </div>
       </section>
 
@@ -103,8 +82,6 @@ const Index = () => {
       <MaterialsSection />
       <TestimonialsSection />
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
