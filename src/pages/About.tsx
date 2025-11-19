@@ -3,40 +3,32 @@ import Footer from "@/components/Footer";
 import { Users, Target, Award, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import storyShowroomImg from "@/assets/about-story-showroom.jpg";
-
 const About = () => {
-  const coreValues = [
-    {
-      icon: Heart,
-      title: "Customer First",
-      description: "We prioritize our customers' needs and satisfaction above all else, building lasting relationships through exceptional service.",
-    },
-    {
-      icon: Target,
-      title: "Quality Excellence",
-      description: "Every product in our catalog meets rigorous quality standards, ensuring you receive only the best.",
-    },
-    {
-      icon: Award,
-      title: "Innovation",
-      description: "We continuously seek new ways to improve our offerings and stay ahead of market trends.",
-    },
-    {
-      icon: Users,
-      title: "Community",
-      description: "Building a strong community around our brand, fostering connections between customers and our team.",
-    },
-  ];
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  const coreValues = [{
+    icon: Heart,
+    title: "Customer First",
+    description: "We prioritize our customers' needs and satisfaction above all else, building lasting relationships through exceptional service."
+  }, {
+    icon: Target,
+    title: "Quality Excellence",
+    description: "Every product in our catalog meets rigorous quality standards, ensuring you receive only the best."
+  }, {
+    icon: Award,
+    title: "Innovation",
+    description: "We continuously seek new ways to improve our offerings and stay ahead of market trends."
+  }, {
+    icon: Users,
+    title: "Community",
+    description: "Building a strong community around our brand, fostering connections between customers and our team."
+  }];
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1">
         {/* Hero Section */}
         <section className="bg-gradient-hero py-20 px-4">
           <div className="container mx-auto text-center animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 py-[10px] text-slate-50 lg:text-7xl">
               About{" "}
               <span className="relative inline-block">
                 Masco Salma Print
@@ -96,12 +88,9 @@ const About = () => {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {coreValues.map((value, index) => (
-                <Card
-                  key={index}
-                  className="border-2 border-border hover:border-primary hover:shadow-hover transition-all duration-300 hover:-translate-y-1 animate-slide-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
+              {coreValues.map((value, index) => <Card key={index} className="border-2 border-border hover:border-primary hover:shadow-hover transition-all duration-300 hover:-translate-y-1 animate-slide-up" style={{
+              animationDelay: `${index * 100}ms`
+            }}>
                   <CardContent className="p-6 text-center">
                     <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-subtle flex items-center justify-center">
                       <value.icon className="w-8 h-8 text-primary" />
@@ -109,8 +98,7 @@ const About = () => {
                     <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
                     <p className="text-text-secondary">{value.description}</p>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
         </section>
@@ -142,12 +130,7 @@ const About = () => {
             <p className="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
               Have questions or want to learn more about our products? We'd love to hear from you!
             </p>
-            <a
-              href="https://wa.me/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-gradient-primary text-primary-foreground px-8 py-4 rounded-md font-semibold hover:opacity-90 transition-all duration-300 hover:-translate-y-1 shadow-elegant hover:shadow-glow"
-            >
+            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-gradient-primary text-primary-foreground px-8 py-4 rounded-md font-semibold hover:opacity-90 transition-all duration-300 hover:-translate-y-1 shadow-elegant hover:shadow-glow">
               Contact Us on WhatsApp
             </a>
           </div>
@@ -155,8 +138,6 @@ const About = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default About;
