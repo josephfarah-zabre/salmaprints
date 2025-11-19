@@ -20,17 +20,17 @@ const features = [
 
 export const WhyChooseUs = () => {
   return (
-    <section className="py-20 px-4 bg-background">
+    <section className="py-20 px-4" style={{ backgroundColor: '#D47B9B' }}>
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {features.map((feature, index) => (
             <div key={index} className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-primary/10">
-                <feature.icon className="w-8 h-8 text-primary" />
+              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-white/20">
+                <feature.icon className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-foreground">{feature.title}</h3>
-              <p className="text-text-secondary mb-4 leading-relaxed">{feature.description}</p>
-              <a href="#" className="text-accent-orange hover:underline font-medium">
+              <h3 className="text-xl font-semibold mb-3 text-white">{feature.title}</h3>
+              <p className="text-white mb-4 leading-relaxed">{feature.description}</p>
+              <a href="#" className="text-white hover:underline font-medium">
                 More Info →
               </a>
             </div>
