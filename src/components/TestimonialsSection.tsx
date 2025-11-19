@@ -21,11 +21,11 @@ const testimonials = [
 
 export const TestimonialsSection = () => {
   return (
-    <section className="py-20 px-4 bg-background-cream">
+    <section className="py-20 px-4 bg-primary">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">REVIEWS</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+          <p className="text-sm font-semibold text-primary-foreground mb-4 tracking-wider">REVIEWS</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
             WHAT OUR CUSTOMERS SAY ABOUT US
           </h2>
         </div>
