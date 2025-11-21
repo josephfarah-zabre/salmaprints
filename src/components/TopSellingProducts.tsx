@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Product {
   id: string;
@@ -16,6 +17,7 @@ interface Product {
 }
 
 export const TopSellingProducts = ({ className }: { className?: string }) => {
+  const { t } = useLanguage();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -100,14 +102,13 @@ export const TopSellingProducts = ({ className }: { className?: string }) => {
         {/* Section Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Top Selling{" "}
             <span className="relative inline-block">
-              Products
+              {t("topProducts.title")}
               <span className="absolute bottom-1 left-0 w-full h-1 bg-primary rounded-full transform -rotate-1"></span>
             </span>
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Check out our most popular electronics and trending items
+            {t("topProducts.description")}
           </p>
         </div>
 
@@ -164,7 +165,7 @@ export const TopSellingProducts = ({ className }: { className?: string }) => {
             onClick={() => window.location.href = "/catalogue"}
             className="bg-gradient-primary hover:opacity-90 px-8 py-3 shadow-elegant hover:shadow-glow transition-all duration-300"
           >
-            View All Products
+            {t("topProducts.viewAll")}
           </Button>
         </div>
       </div>
