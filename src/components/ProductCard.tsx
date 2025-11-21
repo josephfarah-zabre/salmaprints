@@ -2,6 +2,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProductCardProps {
   name: string;
@@ -22,6 +23,7 @@ export const ProductCard = ({
   isNew = false,
   isFeatured = false,
 }: ProductCardProps) => {
+  const { t } = useLanguage();
   return (
     <Card className="group overflow-hidden border-2 border-border shadow-card hover:shadow-hover hover:border-primary transition-all duration-300 hover:-translate-y-1">
       {/* Product Image */}
@@ -46,12 +48,12 @@ export const ProductCard = ({
           <div className="absolute top-2 right-2 flex flex-col gap-1">
             {isNew && (
               <Badge className="bg-primary-light text-primary border-primary">
-                New
+                {t("product.new")}
               </Badge>
             )}
             {isFeatured && (
               <Badge className="bg-primary-light text-primary border-primary">
-                Featured
+                {t("product.featured")}
               </Badge>
             )}
           </div>
@@ -83,7 +85,7 @@ export const ProductCard = ({
           size="sm"
         >
           <MessageCircle className="w-4 h-4 mr-2" />
-          Inquire on WhatsApp
+          {t("product.inquire")}
         </Button>
       </CardFooter>
     </Card>

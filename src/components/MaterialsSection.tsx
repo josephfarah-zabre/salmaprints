@@ -1,4 +1,7 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
 export const MaterialsSection = () => {
+  const { t } = useLanguage();
   const images = [
     "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop",
     "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&h=300&fit=crop",
@@ -11,15 +14,15 @@ export const MaterialsSection = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           <div className="lg:col-span-2">
-            <p className="text-sm font-semibold text-white mb-4 tracking-wider">WHAT WE PRINT</p>
+            <p className="text-sm font-semibold text-white mb-4 tracking-wider">{t("materials.label")}</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
-              Wide Range of Custom Printing Services
+              {t("materials.title")}
             </h2>
             <p className="text-white mb-6 leading-relaxed">
-              From custom t-shirts and mugs to business cards, banners, and promotional items - we print it all. Premium quality materials and vibrant, long-lasting prints for all your branding needs.
+              {t("materials.description")}
             </p>
             <a href="/catalogue" className="text-white hover:underline font-medium">
-              View Products →
+              {t("materials.cta")}
             </a>
           </div>
           <div className="lg:col-span-3">

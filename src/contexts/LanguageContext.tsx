@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 type Language = "en" | "ar";
 
@@ -98,6 +98,56 @@ const translations: Translations = {
   "search.products": { en: "Products", ar: "المنتجات" },
   "search.categories": { en: "Categories", ar: "الفئات" },
   "search.noResults": { en: "No results found", ar: "لم يتم العثور على نتائج" },
+  
+  // Why Choose Us
+  "features.fastTurnaround.title": { en: "Fast Turnaround", ar: "تسليم سريع" },
+  "features.fastTurnaround.description": { 
+    en: "Quick production and delivery times to meet your deadlines. Most orders completed within 3-5 business days with rush options available.", 
+    ar: "أوقات إنتاج وتسليم سريعة لتلبية مواعيدك النهائية. معظم الطلبات تكتمل خلال 3-5 أيام عمل مع توفر خيارات التسليم السريع." 
+  },
+  "features.customDesign.title": { en: "Custom Design Support", ar: "دعم التصميم المخصص" },
+  "features.customDesign.description": { 
+    en: "Our design team provides free assistance to bring your vision to life. From simple logos to complex artwork, we've got you covered.", 
+    ar: "يقدم فريق التصميم لدينا مساعدة مجانية لتحقيق رؤيتك. من الشعارات البسيطة إلى الأعمال الفنية المعقدة، نحن نغطي احتياجاتك." 
+  },
+  "features.qualityGuarantee.title": { en: "Quality Guarantee", ar: "ضمان الجودة" },
+  "features.qualityGuarantee.description": { 
+    en: "We use premium materials and state-of-the-art printing technology. 100% satisfaction guaranteed or we'll make it right.", 
+    ar: "نستخدم مواد عالية الجودة وتقنية طباعة حديثة. ضمان رضا 100٪ أو سنصحح الأمر." 
+  },
+  "features.moreInfo": { en: "More Info →", ar: "معلومات أكثر ←" },
+  
+  // Top Selling Products
+  "topProducts.title": { en: "Top Selling Products", ar: "المنتجات الأكثر مبيعاً" },
+  "topProducts.description": { en: "Check out our most popular electronics and trending items", ar: "تحقق من أكثر إلكترونياتنا شعبية والعناصر الرائجة" },
+  "topProducts.viewAll": { en: "View All Products", ar: "عرض جميع المنتجات" },
+  
+  // Experience Section
+  "experience.label": { en: "OUR PROCESS", ar: "عمليتنا" },
+  "experience.title": { en: "Professional Printing Services You Can Trust", ar: "خدمات طباعة احترافية يمكنك الوثوق بها" },
+  "experience.description": { 
+    en: "With state-of-the-art printing equipment and experienced professionals, we deliver exceptional quality on every order. From concept to completion, we ensure your custom products exceed expectations.", 
+    ar: "مع معدات طباعة حديثة ومحترفين ذوي خبرة، نقدم جودة استثنائية في كل طلب. من الفكرة إلى الإنجاز، نضمن أن منتجاتك المخصصة تفوق التوقعات." 
+  },
+  "experience.cta": { en: "Get a Quote →", ar: "احصل على عرض أسعار ←" },
+  
+  // Materials Section
+  "materials.label": { en: "WHAT WE PRINT", ar: "ما نطبعه" },
+  "materials.title": { en: "Wide Range of Custom Printing Services", ar: "مجموعة واسعة من خدمات الطباعة المخصصة" },
+  "materials.description": { 
+    en: "From custom t-shirts and mugs to business cards, banners, and promotional items - we print it all. Premium quality materials and vibrant, long-lasting prints for all your branding needs.", 
+    ar: "من القمصان والأكواب المخصصة إلى بطاقات الأعمال واللافتات والمواد الترويجية - نطبع كل شيء. مواد عالية الجودة ومطبوعات نابضة بالحياة وطويلة الأمد لجميع احتياجات علامتك التجارية." 
+  },
+  "materials.cta": { en: "View Products →", ar: "عرض المنتجات ←" },
+  
+  // Testimonials
+  "testimonials.label": { en: "REVIEWS", ar: "التقييمات" },
+  "testimonials.title": { en: "WHAT OUR CUSTOMERS SAY ABOUT US", ar: "ماذا يقول عملاؤنا عنا" },
+  
+  // Product Card
+  "product.inquire": { en: "Inquire on WhatsApp", ar: "استفسر عبر واتساب" },
+  "product.new": { en: "New", ar: "جديد" },
+  "product.featured": { en: "Featured", ar: "مميز" },
 };
 
 interface LanguageContextType {
@@ -109,7 +159,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>("ar");
 
   const t = (key: string): string => {
     return translations[key]?.[language] || key;
@@ -120,6 +170,12 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = lang;
   };
+
+  // Set initial direction and language on mount
+  useEffect(() => {
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = language;
+  }, []);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
