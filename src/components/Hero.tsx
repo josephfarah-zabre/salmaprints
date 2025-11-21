@@ -1,4 +1,4 @@
-import heroImage from "@/assets/hero-woman-mug.jpg";
+import heroImage from "@/assets/hero-cover.jpg";
 import { SearchBar } from "./SearchBar";
 import { useLanguage } from "@/contexts/LanguageContext";
 
