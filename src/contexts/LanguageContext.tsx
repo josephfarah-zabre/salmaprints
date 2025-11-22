@@ -48,51 +48,51 @@ const translations: Translations = {
     en: "Your trusted partner for quality products and exceptional service", 
     ar: "شريكك الموثوق للمنتجات عالية الجودة والخدمة الاستثنائية" 
   },
-  "about.story.title": { en: "Our Story", ar: "قصتنا" },
+  "about.story.title": { en: "Our Services", ar: "خدماتنا" },
   "about.story.p1": { 
-    en: "Founded with a vision to provide exceptional products and services, Masco Salma Print has grown into a trusted name in the industry. Our journey began with a simple mission: to make quality products accessible to everyone.", 
-    ar: "تأسست ماسكو سلمى للطباعة برؤية لتقديم منتجات وخدمات استثنائية، وقد نمت لتصبح اسماً موثوقاً في الصناعة. بدأت رحلتنا بمهمة بسيطة: جعل المنتجات عالية الجودة في متناول الجميع." 
+    en: "At Masco Salma Print, we offer comprehensive printing solutions including business cards, posters, brochures, invoices, invitation cards, labels, restaurant menus, and booklets.", 
+    ar: "في ماسكو سلمى برينت، نقدم حلول طباعة شاملة تشمل بطاقات العمل، البوسترات، البروشورات، الفواتير، كروت الدعوة، الليبلز (الستيكرات)، منيو المطاعم والكافيهات، والكتيبات الصغيرة." 
   },
   "about.story.p2": { 
-    en: "Over the years, we've built strong relationships with our customers and suppliers, always maintaining our commitment to excellence. Every product in our catalog is carefully selected to meet our high standards.", 
-    ar: "على مر السنين، بنينا علاقات قوية مع عملائنا ومورّدينا، مع الحفاظ دائماً على التزامنا بالتميز. يتم اختيار كل منتج في كتالوجنا بعناية لتلبية معاييرنا العالية." 
+    en: "Our printing services extend to custom apparel with DTF and sublimation printing on t-shirts, caps, blouses, and event/school uniforms. We also specialize in personalized gift printing including mugs, boxes, pillows, paintings, and corporate gifts.", 
+    ar: "تمتد خدمات الطباعة لدينا إلى الملابس المخصصة بطباعة DTF والسابلوميشن على التيشيرتات، القبعات، البلوزات، وأزياء الفعاليات والمدارس. كما نتخصص في طباعة الهدايا الشخصية بما في ذلك المجات، البوكسات، الوسادات، اللوحات، وهدايا المناسبات والشركات." 
   },
   "about.story.quote": { 
-    en: "\"Quality is not an act, it is a habit.\" - This philosophy guides everything we do.", 
-    ar: "\"الجودة ليست فعلاً، بل عادة.\" - هذه الفلسفة توجه كل ما نقوم به." 
+    en: "Quality printing and creative design for every occasion.", 
+    ar: "طباعة عالية الجودة وتصميم إبداعي لكل مناسبة." 
   },
-  "about.commitment.title": { en: "Our Commitment", ar: "التزامنا" },
+  "about.commitment.title": { en: "Our Commitment to Excellence", ar: "التزامنا بالتميز" },
   "about.commitment.p1": { 
-    en: "At Masco Salma Print, we believe in delivering more than just products. We deliver experiences that matter. Our team is dedicated to understanding your needs and providing solutions that exceed expectations.", 
-    ar: "في ماسكو سلمى للطباعة، نؤمن بتقديم أكثر من مجرد منتجات. نحن نقدم تجارب مهمة. فريقنا مكرس لفهم احتياجاتك وتقديم حلول تفوق التوقعات." 
+    en: "We combine traditional craftsmanship with modern technology, offering laser cutting and engraving services on acrylic, wood, medals, name plates, stands, gift wrapping, and party decorations.", 
+    ar: "نجمع بين الحرفية التقليدية والتكنولوجيا الحديثة، ونقدم خدمات الحفر والقص بالليزر على الأكريليك، الخشب، الميداليات، لوحات الأسماء، الستاندات، تغليف الهدايا، وديكورات الحفلات." 
   },
   "about.commitment.p2": { 
-    en: "With state-of-the-art facilities and a passionate team, we ensure every project receives the attention it deserves. From concept to completion, we're with you every step of the way.", 
-    ar: "من خلال مرافق حديثة وفريق متحمس، نضمن أن كل مشروع يحصل على الاهتمام الذي يستحقه. من الفكرة إلى الإنجاز، نحن معك في كل خطوة." 
+    en: "Our professional graphic design team creates logos, brand identities, social media posts, brochures, stickers, and prepares files for perfect printing results.", 
+    ar: "فريق التصميم الجرافيكي المحترف لدينا يبتكر اللوجو والهوية البصرية، بوستات السوشال ميديا، البروشورات، الملصقات، ويجهز الملفات للطباعة المثالية." 
   },
   "about.commitment.quote": { 
-    en: "Your success is our success.", 
-    ar: "نجاحك هو نجاحنا." 
+    en: "Precision, creativity, and excellence in every project.", 
+    ar: "الدقة والإبداع والتميز في كل مشروع." 
   },
-  "about.forward.title": { en: "Looking Forward", ar: "نتطلع للمستقبل" },
+  "about.forward.title": { en: "Complete Solutions", ar: "خدمات متكاملة" },
   "about.forward.p1": { 
-    en: "As we continue to grow, our focus remains on innovation and customer satisfaction. We're constantly exploring new technologies and methods to enhance our services and bring you the best possible results.", 
-    ar: "بينما نستمر في النمو، يبقى تركيزنا على الابتكار ورضا العملاء. نحن نستكشف باستمرار تقنيات وأساليب جديدة لتعزيز خدماتنا وتقديم أفضل النتائج الممكنة لك." 
+    en: "We provide additional services including thermal wrapping, plastification, cutting and numbering, gift preparation, and complete campaign setups for schools and companies.", 
+    ar: "نوفر خدمات إضافية تشمل التغليف الحراري، البلاستيفيك، القص والترقيم، تجهيز الهدايا، وإعداد حملات كاملة للمدارس والشركات." 
   },
   "about.forward.p2": { 
-    en: "Join us on this journey as we shape the future of custom printing and promotional products. Together, we can create something extraordinary.", 
-    ar: "انضم إلينا في هذه الرحلة بينما نشكل مستقبل الطباعة المخصصة والمنتجات الترويجية. معاً، يمكننا إنشاء شيء استثنائي." 
+    en: "From concept to completion, we handle every detail of your printing and design needs with professional care and attention.", 
+    ar: "من الفكرة إلى التنفيذ، نتعامل مع كل تفاصيل احتياجاتك في الطباعة والتصميم بعناية واحترافية." 
   },
   "about.forward.quote": { 
-    en: "The best is yet to come.", 
-    ar: "الأفضل لم يأتِ بعد." 
+    en: "Your vision, our expertise – creating memorable impressions together.", 
+    ar: "رؤيتك، خبرتنا – نصنع انطباعات لا تُنسى معًا." 
   },
-  "about.cta.title": { en: "Ready to Get Started?", ar: "هل أنت مستعد للبدء؟" },
+  "about.cta.title": { en: "Ready to Work with Us?", ar: "هل أنت مستعد للعمل معنا؟" },
   "about.cta.description": { 
-    en: "Contact us today and let's discuss how we can help bring your vision to life.", 
-    ar: "اتصل بنا اليوم ودعنا نناقش كيف يمكننا مساعدتك في تحقيق رؤيتك." 
+    en: "Get in touch today to discuss your project and discover how we can help bring your ideas to life.", 
+    ar: "تواصل معنا اليوم لمناقشة مشروعك واكتشف كيف يمكننا مساعدتك في تحقيق أفكارك." 
   },
-  "about.cta.button": { en: "Get in Touch on WhatsApp", ar: "تواصل معنا على واتساب" },
+  "about.cta.button": { en: "Contact Us on WhatsApp", ar: "تواصل معنا على واتساب" },
   
   // Search
   "search.products": { en: "Products", ar: "المنتجات" },
