@@ -32,7 +32,7 @@ export const MaterialsSection = () => {
                   key={index}
                   src={img} 
                   alt={`Interior ${index + 1}`}
-                  className="w-full h-[240px] object-cover rounded-lg shadow-card hover:shadow-hover transition-shadow"
+                  className="w-full h-[120px] object-cover rounded-lg shadow-card hover:shadow-hover transition-shadow"
                 />
               ))}
             </div>
