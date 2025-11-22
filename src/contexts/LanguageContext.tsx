@@ -17,8 +17,8 @@ const translations: Translations = {
   
   // Hero
   "hero.title": { 
-    en: "Custom Printing & Promotional Products for Your Business", 
-    ar: "طباعة مخصصة ومنتجات ترويجية لعملك" 
+    en: "Turning Your Dreams into Reality", 
+    ar: "نحول أحلامك إلى واقع" 
   },
   "hero.subtitle": { 
     en: "High-quality custom printing services for t-shirts, mugs, bags, and promotional materials. Fast turnaround and professional results.", 
