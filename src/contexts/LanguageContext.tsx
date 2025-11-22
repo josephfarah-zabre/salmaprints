@@ -21,8 +21,8 @@ const translations: Translations = {
     ar: "نحول أحلامك إلى واقع" 
   },
   "hero.subtitle": { 
-    en: "High-quality custom printing services for t-shirts, mugs, bags, and promotional materials. Fast turnaround and professional results.", 
-    ar: "خدمات طباعة مخصصة عالية الجودة للقمصان والأكواب والحقائب والمواد الترويجية. نتائج سريعة واحترافية." 
+    en: "We Deliver your Orders all over Lebanon within 2 days only", 
+    ar: "نوصل طلباتك إلى جميع أنحاء لبنان خلال يومين فقط" 
   },
   "hero.search": { en: "Search for products or categories...", ar: "ابحث عن المنتجات أو الفئات..." },
   
