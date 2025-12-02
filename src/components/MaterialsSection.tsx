@@ -1,12 +1,16 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import printingMachine from "@/assets/printing-machine.jpg";
+import printedHoodie from "@/assets/printed-hoodie.jpg";
+import printingProcess from "@/assets/printing-process.jpg";
+import printedProducts from "@/assets/printed-products.jpg";
 
 export const MaterialsSection = () => {
   const { t } = useLanguage();
   const images = [
-    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=400&h=300&fit=crop"
+    printingMachine,
+    printedHoodie,
+    printingProcess,
+    printedProducts
   ];
 
   return (
@@ -31,7 +35,7 @@ export const MaterialsSection = () => {
                 <img 
                   key={index}
                   src={img} 
-                  alt={`Interior ${index + 1}`}
+                  alt={`Printing ${index + 1}`}
                   className="w-full h-[120px] lg:h-[240px] object-cover rounded-lg shadow-card hover:shadow-hover transition-shadow"
                 />
               ))}
