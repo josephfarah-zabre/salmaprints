@@ -376,6 +376,15 @@ const Dashboard = () => {
   };
 
   const togglePopupStatus = async (popup: PromoPopup) => {
+    // Optimistic update - immediately update UI
+    setPromoPopups(prev => 
+      prev.map(p => 
+        p.id === popup.id 
+          ? { ...p, is_active: !p.is_active }
+          : p
+      )
+    );
+
     try {
       const { error } = await supabase
         .from("promotional_popups")
@@ -384,8 +393,15 @@ const Dashboard = () => {
 
       if (error) throw error;
       toast.success(`Popup ${!popup.is_active ? "activated" : "deactivated"}!`);
-      fetchData();
     } catch (error: any) {
+      // Revert on error
+      setPromoPopups(prev => 
+        prev.map(p => 
+          p.id === popup.id 
+            ? { ...p, is_active: popup.is_active }
+            : p
+        )
+      );
       toast.error(error.message || "Failed to toggle popup status");
     }
   };
