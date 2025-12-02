@@ -12,21 +12,36 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CategoryCard } from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { PromoPopup } from "@/components/PromoPopup";
 interface Category {
   id: string;
   name: string;
   description: string | null;
   image_url: string | null;
 }
+
+interface PromoPopupData {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  description: string | null;
+  image_url: string | null;
+  is_active: boolean;
+}
+
 const Index = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [promoPopup, setPromoPopup] = useState<PromoPopupData | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
   const {
     t
   } = useLanguage();
+  
   useEffect(() => {
     fetchCategories();
+    fetchPromoPopup();
   }, []);
   const fetchCategories = async () => {
     try {
@@ -43,12 +58,45 @@ const Index = () => {
       setLoading(false);
     }
   };
+
+  const fetchPromoPopup = async () => {
+    try {
+      // Check if user already dismissed popup in this session
+      const dismissed = sessionStorage.getItem("promo-popup-dismissed");
+      if (dismissed) return;
+
+      const { data, error } = await supabase
+        .from("promotional_popups")
+        .select("*")
+        .eq("is_active", true)
+        .single();
+
+      if (error && error.code !== "PGRST116") throw error;
+      
+      if (data) {
+        setPromoPopup(data);
+        setShowPopup(true);
+      }
+    } catch (error) {
+      console.error("Error fetching promo popup:", error);
+    }
+  };
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/category/${categoryId}`);
   };
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       <Hero />
+      
+      {showPopup && promoPopup && (
+        <PromoPopup
+          title={promoPopup.title}
+          subtitle={promoPopup.subtitle || undefined}
+          description={promoPopup.description || undefined}
+          imageUrl={promoPopup.image_url || undefined}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
       <SlidingBanner />
       <WhyChooseUs />
 
