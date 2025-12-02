@@ -2,6 +2,7 @@ import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import storyShowroomImg from "@/assets/about-story-showroom.jpg";
 import showroomImg from "@/assets/about-showroom.jpg";
+import futurePrintingImg from "@/assets/about-future-printing.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const About = () => {
@@ -95,7 +96,7 @@ const About = () => {
               </div>
               <div className="animate-slide-up">
                 <div className="aspect-square rounded-lg overflow-hidden shadow-elegant">
-                  <img src={storyShowroomImg} alt="Our Future" className="w-full h-full object-cover" />
+                  <img src={futurePrintingImg} alt="Our Future" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
