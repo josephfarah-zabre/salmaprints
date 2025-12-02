@@ -50,7 +50,8 @@ const Dashboard = () => {
   const [popupPreviewOpen, setPopupPreviewOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
-  const [promoPopup, setPromoPopup] = useState<PromoPopup | null>(null);
+  const [promoPopups, setPromoPopups] = useState<PromoPopup[]>([]);
+  const [editingPopup, setEditingPopup] = useState<PromoPopup | null>(null);
 
   // Product form state
   const [productName, setProductName] = useState("");
@@ -101,25 +102,19 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [productsData, categoriesData, popupData] = await Promise.all([
+      const [productsData, categoriesData, popupsData] = await Promise.all([
         supabase.from("products").select("*").order("created_at", { ascending: false }),
         supabase.from("categories").select("*").order("display_order"),
-        supabase.from("promotional_popups").select("*").limit(1).single(),
+        supabase.from("promotional_popups").select("*").order("created_at", { ascending: false }),
       ]);
 
       if (productsData.error) throw productsData.error;
       if (categoriesData.error) throw categoriesData.error;
+      if (popupsData.error) throw popupsData.error;
 
       setProducts(productsData.data || []);
       setCategories(categoriesData.data || []);
-      
-      if (popupData.data) {
-        setPromoPopup(popupData.data);
-        setPopupTitle(popupData.data.title);
-        setPopupSubtitle(popupData.data.subtitle || "");
-        setPopupDescription(popupData.data.description || "");
-        setPopupIsActive(popupData.data.is_active);
-      }
+      setPromoPopups(popupsData.data || []);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Failed to load data");
@@ -301,12 +296,31 @@ const Dashboard = () => {
     }
   };
 
+  const handleEditPopup = (popup: PromoPopup) => {
+    setEditingPopup(popup);
+    setPopupTitle(popup.title);
+    setPopupSubtitle(popup.subtitle || "");
+    setPopupDescription(popup.description || "");
+    setPopupIsActive(popup.is_active);
+    setPopupImageFile(null);
+    setPopupDialogOpen(true);
+  };
+
+  const resetPopupForm = () => {
+    setEditingPopup(null);
+    setPopupTitle("");
+    setPopupSubtitle("");
+    setPopupDescription("");
+    setPopupIsActive(false);
+    setPopupImageFile(null);
+  };
+
   const handleSavePopup = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploadingPopup(true);
 
     try {
-      let imageUrl = promoPopup?.image_url;
+      let imageUrl = editingPopup?.image_url;
 
       if (popupImageFile) {
         const fileExt = popupImageFile.name.split(".").pop();
@@ -334,11 +348,11 @@ const Dashboard = () => {
         is_active: popupIsActive,
       };
 
-      if (promoPopup) {
+      if (editingPopup) {
         const { error } = await supabase
           .from("promotional_popups")
           .update(popupData)
-          .eq("id", promoPopup.id);
+          .eq("id", editingPopup.id);
 
         if (error) throw error;
         toast.success("Popup updated!");
@@ -352,7 +366,7 @@ const Dashboard = () => {
       }
 
       setPopupDialogOpen(false);
-      setPopupImageFile(null);
+      resetPopupForm();
       fetchData();
     } catch (error: any) {
       toast.error(error.message || "Failed to save popup");
@@ -361,20 +375,33 @@ const Dashboard = () => {
     }
   };
 
-  const togglePopupStatus = async () => {
-    if (!promoPopup) return;
-    
+  const togglePopupStatus = async (popup: PromoPopup) => {
     try {
       const { error } = await supabase
         .from("promotional_popups")
-        .update({ is_active: !promoPopup.is_active })
-        .eq("id", promoPopup.id);
+        .update({ is_active: !popup.is_active })
+        .eq("id", popup.id);
 
       if (error) throw error;
-      toast.success(`Popup ${!promoPopup.is_active ? "activated" : "deactivated"}!`);
+      toast.success(`Popup ${!popup.is_active ? "activated" : "deactivated"}!`);
       fetchData();
     } catch (error: any) {
       toast.error(error.message || "Failed to toggle popup status");
+    }
+  };
+
+  const handleDeletePopup = async (popupId: string) => {
+    try {
+      const { error } = await supabase
+        .from("promotional_popups")
+        .delete()
+        .eq("id", popupId);
+
+      if (error) throw error;
+      toast.success("Popup deleted!");
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to delete popup");
     }
   };
 
@@ -399,149 +426,199 @@ const Dashboard = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Promotional Popup Management */}
+        {/* Promotional Popups Management */}
         <Card className="mb-8">
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle>Promotional Popup</CardTitle>
+                <CardTitle>Promotional Popups</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Manage the promotional popup shown to visitors
+                  Manage promotional popups shown to visitors
                 </p>
               </div>
-              <div className="flex items-center gap-4">
-                {promoPopup && (
-                  <div className="flex items-center gap-2">
-                    <Label htmlFor="popup-active">Active</Label>
-                    <Switch
-                      id="popup-active"
-                      checked={promoPopup.is_active}
-                      onCheckedChange={togglePopupStatus}
-                    />
-                  </div>
-                )}
-                <Button
-                  variant="outline"
-                  onClick={() => setPopupPreviewOpen(true)}
-                  disabled={!promoPopup}
-                >
-                  Preview
-                </Button>
-                <Dialog open={popupDialogOpen} onOpenChange={setPopupDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button>
-                      {promoPopup ? <Edit className="w-4 h-4 mr-2" /> : <Plus className="w-4 h-4 mr-2" />}
-                      {promoPopup ? "Edit Popup" : "Create Popup"}
+              <Dialog open={popupDialogOpen} onOpenChange={(open) => {
+                setPopupDialogOpen(open);
+                if (!open) resetPopupForm();
+              }}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create Popup
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>
+                      {editingPopup ? "Edit Promotional Popup" : "Create Promotional Popup"}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleSavePopup} className="space-y-4">
+                    <div>
+                      <Label htmlFor="popup-title">Title *</Label>
+                      <Input
+                        id="popup-title"
+                        value={popupTitle}
+                        onChange={(e) => setPopupTitle(e.target.value)}
+                        required
+                        placeholder="Special Offer!"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="popup-subtitle">Subtitle</Label>
+                      <Input
+                        id="popup-subtitle"
+                        value={popupSubtitle}
+                        onChange={(e) => setPopupSubtitle(e.target.value)}
+                        placeholder="Limited Time Only"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="popup-description">Description</Label>
+                      <Textarea
+                        id="popup-description"
+                        value={popupDescription}
+                        onChange={(e) => setPopupDescription(e.target.value)}
+                        rows={4}
+                        placeholder="Get 20% off all products this week..."
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="popup-image">Image</Label>
+                      <Input
+                        id="popup-image"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setPopupImageFile(e.target.files?.[0] || null)}
+                      />
+                      {editingPopup?.image_url && !popupImageFile && (
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Current image will be kept if no new image is uploaded
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        id="popup-is-active"
+                        checked={popupIsActive}
+                        onCheckedChange={setPopupIsActive}
+                      />
+                      <Label htmlFor="popup-is-active">Active</Label>
+                    </div>
+                    <Button type="submit" className="w-full" disabled={uploadingPopup}>
+                      {uploadingPopup ? "Saving..." : editingPopup ? "Update Popup" : "Create Popup"}
                     </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {promoPopup ? "Edit Promotional Popup" : "Create Promotional Popup"}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <form onSubmit={handleSavePopup} className="space-y-4">
-                      <div>
-                        <Label htmlFor="popup-title">Title *</Label>
-                        <Input
-                          id="popup-title"
-                          value={popupTitle}
-                          onChange={(e) => setPopupTitle(e.target.value)}
-                          required
-                          placeholder="Special Offer!"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="popup-subtitle">Subtitle</Label>
-                        <Input
-                          id="popup-subtitle"
-                          value={popupSubtitle}
-                          onChange={(e) => setPopupSubtitle(e.target.value)}
-                          placeholder="Limited Time Only"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="popup-description">Description</Label>
-                        <Textarea
-                          id="popup-description"
-                          value={popupDescription}
-                          onChange={(e) => setPopupDescription(e.target.value)}
-                          rows={4}
-                          placeholder="Get 20% off all products this week..."
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="popup-image">Image</Label>
-                        <Input
-                          id="popup-image"
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => setPopupImageFile(e.target.files?.[0] || null)}
-                        />
-                        {promoPopup?.image_url && !popupImageFile && (
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Current image will be kept if no new image is uploaded
-                          </p>
-                        )}
-                      </div>
-                      <Button type="submit" className="w-full" disabled={uploadingPopup}>
-                        {uploadingPopup ? "Saving..." : promoPopup ? "Update Popup" : "Create Popup"}
-                      </Button>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-              </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
           </CardHeader>
-          {promoPopup && (
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {promoPopup.image_url && (
-                  <div>
-                    <img
-                      src={promoPopup.image_url}
-                      alt="Popup preview"
-                      className="w-full h-40 object-cover rounded-lg"
-                    />
-                  </div>
-                )}
-                <div className="space-y-2">
-                  <div>
-                    <p className="text-sm font-semibold text-muted-foreground">Title</p>
-                    <p className="font-semibold">{promoPopup.title}</p>
-                  </div>
-                  {promoPopup.subtitle && (
-                    <div>
-                      <p className="text-sm font-semibold text-muted-foreground">Subtitle</p>
-                      <p>{promoPopup.subtitle}</p>
-                    </div>
-                  )}
-                  {promoPopup.description && (
-                    <div>
-                      <p className="text-sm font-semibold text-muted-foreground">Description</p>
-                      <p className="text-sm">{promoPopup.description}</p>
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-sm font-semibold text-muted-foreground">Status</p>
-                    <p className={promoPopup.is_active ? "text-green-600 font-semibold" : "text-muted-foreground"}>
-                      {promoPopup.is_active ? "✓ Active" : "✗ Inactive"}
-                    </p>
-                  </div>
-                </div>
+          <CardContent>
+            {promoPopups.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                No promotional popups yet. Create your first one!
               </div>
-            </CardContent>
-          )}
+            ) : (
+              <div className="space-y-4">
+                {promoPopups.map((popup) => (
+                  <div
+                    key={popup.id}
+                    className="flex items-start gap-4 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                  >
+                    {popup.image_url && (
+                      <img
+                        src={popup.image_url}
+                        alt={popup.title}
+                        className="w-24 h-24 object-cover rounded"
+                      />
+                    )}
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <h3 className="font-semibold">{popup.title}</h3>
+                          {popup.subtitle && (
+                            <p className="text-sm text-muted-foreground">{popup.subtitle}</p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Switch
+                            checked={popup.is_active}
+                            onCheckedChange={() => togglePopupStatus(popup)}
+                          />
+                          <span className={`text-sm font-semibold ${popup.is_active ? "text-green-600" : "text-muted-foreground"}`}>
+                            {popup.is_active ? "Active" : "Inactive"}
+                          </span>
+                        </div>
+                      </div>
+                      {popup.description && (
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {popup.description}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setPopupPreviewOpen(true);
+                          setEditingPopup(popup);
+                        }}
+                      >
+                        Preview
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditPopup(popup)}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Popup</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete this promotional popup? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDeletePopup(popup.id)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
         </Card>
 
         {/* Popup Preview Dialog */}
-        {popupPreviewOpen && promoPopup && (
+        {popupPreviewOpen && editingPopup && (
           <PromoPopup
-            title={promoPopup.title}
-            subtitle={promoPopup.subtitle || undefined}
-            description={promoPopup.description || undefined}
-            imageUrl={promoPopup.image_url || undefined}
-            onClose={() => setPopupPreviewOpen(false)}
+            title={editingPopup.title}
+            subtitle={editingPopup.subtitle || undefined}
+            description={editingPopup.description || undefined}
+            imageUrl={editingPopup.image_url || undefined}
+            onClose={() => {
+              setPopupPreviewOpen(false);
+              setEditingPopup(null);
+            }}
           />
         )}
 
