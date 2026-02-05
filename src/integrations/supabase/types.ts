@@ -190,6 +190,106 @@ export type Database = {
         }
         Relationships: []
       }
+      votes: {
+        Row: {
+          candidate_id: string
+          created_at: string
+          id: string
+          voter_identifier: string
+        }
+        Insert: {
+          candidate_id: string
+          created_at?: string
+          id?: string
+          voter_identifier: string
+        }
+        Update: {
+          candidate_id?: string
+          created_at?: string
+          id?: string
+          voter_identifier?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_candidate_id_fkey"
+            columns: ["candidate_id"]
+            isOneToOne: false
+            referencedRelation: "voting_candidates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      voting_campaigns: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_date: string
+          id: string
+          is_active: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_date: string
+          id?: string
+          is_active?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          id?: string
+          is_active?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      voting_candidates: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          display_order: number | null
+          id: string
+          image_url: string | null
+          name: string
+          updated_at: string
+          vote_count: number
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          name: string
+          updated_at?: string
+          vote_count?: number
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          updated_at?: string
+          vote_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voting_candidates_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "voting_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -201,6 +301,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_vote_count: {
+        Args: { candidate_uuid: string }
+        Returns: undefined
       }
     }
     Enums: {

@@ -430,6 +430,9 @@ const Dashboard = () => {
             Admin Dashboard
           </h1>
           <div className="flex gap-2">
+            <Button variant="outline" onClick={() => navigate("/admin/voting")}>
+              Voting Management
+            </Button>
             <Button variant="outline" onClick={() => navigate("/")}>
               View Catalogue
             </Button>
