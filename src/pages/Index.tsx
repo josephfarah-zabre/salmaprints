@@ -91,9 +91,9 @@ const Index = () => {
         .from("voting_campaigns")
         .select("*")
         .eq("is_active", true)
-        .single();
+        .maybeSingle();
 
-      if (campaignError && campaignError.code !== "PGRST116") throw campaignError;
+      if (campaignError) throw campaignError;
 
       if (campaignData) {
         // Check if campaign hasn't ended
