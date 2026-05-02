@@ -15,12 +15,12 @@ const Footer = () => {
             <h4 className="font-semibold mb-6 text-xl">{t("footer.follow")}</h4>
             <div className="flex items-center justify-center gap-6">
               <a 
-                href="https://www.instagram.com" 
+                href="https://www.tiktok.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img src={instagramIcon} alt="Instagram" className="w-16 h-16" />
+                <img src={instagramIcon} alt="TikTok" className="w-16 h-16" />
               </a>
               <a 
                 href="https://www.facebook.com" 
@@ -39,12 +39,12 @@ const Footer = () => {
                 <img src={whatsappIcon} alt="WhatsApp" className="w-16 h-16" />
               </a>
               <a 
-                href="https://www.tiktok.com" 
+                href="https://www.instagram.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img src={tiktokIcon} alt="TikTok" className="w-16 h-16" />
+                <img src={tiktokIcon} alt="Instagram" className="w-16 h-16" />
               </a>
             </div>
           </div>
