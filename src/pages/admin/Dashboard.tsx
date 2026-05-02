@@ -1006,6 +1006,7 @@ const Dashboard = () => {
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
+                          </div>
                         </div>
                       </CardHeader>
                     </CollapsibleTrigger>
