@@ -576,8 +576,11 @@ const Dashboard = () => {
           <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Admin Dashboard
           </h1>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => navigate("/admin/voting")}>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => setExportDialogOpen(true)}>
+              <FileDown className="w-4 h-4 mr-2" />
+              Export PDF
+            </Button>
               Voting Management
             </Button>
             <Button variant="outline" onClick={() => navigate("/")}>
