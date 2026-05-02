@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
-import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight } from "lucide-react";
+import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight, FileDown } from "lucide-react";
+import { exportProductsToPdf } from "@/lib/exportProductsPdf";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { PromoPopup } from "@/components/PromoPopup";
@@ -86,6 +87,49 @@ const Dashboard = () => {
   const [renamingCategory, setRenamingCategory] = useState<Category | null>(null);
   const [renameCategoryName, setRenameCategoryName] = useState("");
   const [savingCategoryRename, setSavingCategoryRename] = useState(false);
+
+  // Export PDF
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportScopeType, setExportScopeType] = useState<"all" | "category" | "subcategory">("all");
+  const [exportCategoryId, setExportCategoryId] = useState<string>("");
+  const [exportSubcategoryId, setExportSubcategoryId] = useState<string>("");
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportPdf = async () => {
+    try {
+      setExporting(true);
+      let scope: Parameters<typeof exportProductsToPdf>[0]["scope"];
+      if (exportScopeType === "category") {
+        if (!exportCategoryId) {
+          toast.error("Please select a category");
+          setExporting(false);
+          return;
+        }
+        scope = { type: "category", categoryId: exportCategoryId };
+      } else if (exportScopeType === "subcategory") {
+        if (!exportSubcategoryId) {
+          toast.error("Please select a subcategory");
+          setExporting(false);
+          return;
+        }
+        scope = { type: "subcategory", subcategoryId: exportSubcategoryId };
+      } else {
+        scope = { type: "all" };
+      }
+      await exportProductsToPdf({
+        scope,
+        products,
+        categories,
+        subcategories,
+      });
+      toast.success("PDF exported");
+      setExportDialogOpen(false);
+    } catch (e: any) {
+      toast.error(e.message || "Failed to export PDF");
+    } finally {
+      setExporting(false);
+    }
+  };
 
   // Popup form state
   const [popupTitle, setPopupTitle] = useState("");
@@ -532,7 +576,11 @@ const Dashboard = () => {
           <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Admin Dashboard
           </h1>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => setExportDialogOpen(true)}>
+              <FileDown className="w-4 h-4 mr-2" />
+              Export PDF
+            </Button>
             <Button variant="outline" onClick={() => navigate("/admin/voting")}>
               Voting Management
             </Button>
@@ -1174,6 +1222,111 @@ const Dashboard = () => {
               </Button>
               <Button onClick={handleRenameCategory} disabled={savingCategoryRename}>
                 {savingCategoryRename ? "Saving..." : "Save"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={exportDialogOpen} onOpenChange={setExportDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Export Products as PDF</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Scope</Label>
+              <Select
+                value={exportScopeType}
+                onValueChange={(v: "all" | "category" | "subcategory") => {
+                  setExportScopeType(v);
+                  setExportCategoryId("");
+                  setExportSubcategoryId("");
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All products</SelectItem>
+                  <SelectItem value="category">By category</SelectItem>
+                  <SelectItem value="subcategory">By subcategory</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {exportScopeType === "category" && (
+              <div>
+                <Label>Category</Label>
+                <Select value={exportCategoryId} onValueChange={setExportCategoryId}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((c) => (
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.name} ({getProductsByCategory(c.id).length})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {exportScopeType === "subcategory" && (
+              <>
+                <div>
+                  <Label>Category</Label>
+                  <Select
+                    value={exportCategoryId}
+                    onValueChange={(v) => {
+                      setExportCategoryId(v);
+                      setExportSubcategoryId("");
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((c) => (
+                        <SelectItem key={c.id} value={c.id}>
+                          {c.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {exportCategoryId && (
+                  <div>
+                    <Label>Subcategory</Label>
+                    <Select value={exportSubcategoryId} onValueChange={setExportSubcategoryId}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a subcategory" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {getSubcategoriesByCategory(exportCategoryId).map((s) => (
+                          <SelectItem key={s.id} value={s.id}>
+                            {s.name}
+                          </SelectItem>
+                        ))}
+                        {getSubcategoriesByCategory(exportCategoryId).length === 0 && (
+                          <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                            No subcategories
+                          </div>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </>
+            )}
+
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setExportDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleExportPdf} disabled={exporting}>
+                {exporting ? "Generating..." : "Download PDF"}
               </Button>
             </div>
           </div>
