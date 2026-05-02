@@ -183,7 +183,7 @@ const Index = () => {
       <SlidingBanner />
 
       {/* Categories Section */}
-      <section className="py-20 px-4 bg-background">
+      <section className="px-4 bg-background py-[20px]">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold text-accent-orange mb-4 tracking-wider">{t("categories.label")}</p>
