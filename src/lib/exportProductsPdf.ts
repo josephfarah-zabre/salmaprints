@@ -87,22 +87,24 @@ function filenameFor(opts: ExportOptions): string {
   const safe = (s: string) =>
     s.replace(/[^a-z0-9-_]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase();
   const date = new Date().toISOString().slice(0, 10);
-  if (opts.scope.type === "all") return `products-all-${date}.pdf`;
-  if (opts.scope.type === "category") {
-    const cat = opts.categories.find((c) => c.id === opts.scope.categoryId);
+  const scope = opts.scope;
+  if (scope.type === "all") return `products-all-${date}.pdf`;
+  if (scope.type === "category") {
+    const cat = opts.categories.find((c) => c.id === scope.categoryId);
     return `products-${safe(cat?.name || "category")}-${date}.pdf`;
   }
-  const sub = opts.subcategories.find((s) => s.id === opts.scope.subcategoryId);
+  const sub = opts.subcategories.find((s) => s.id === scope.subcategoryId);
   return `products-${safe(sub?.name || "subcategory")}-${date}.pdf`;
 }
 
 function scopeTitle(opts: ExportOptions): string {
-  if (opts.scope.type === "all") return "All Products";
-  if (opts.scope.type === "category") {
-    const cat = opts.categories.find((c) => c.id === opts.scope.categoryId);
+  const scope = opts.scope;
+  if (scope.type === "all") return "All Products";
+  if (scope.type === "category") {
+    const cat = opts.categories.find((c) => c.id === scope.categoryId);
     return cat ? `Category: ${cat.name}` : "Category";
   }
-  const sub = opts.subcategories.find((s) => s.id === opts.scope.subcategoryId);
+  const sub = opts.subcategories.find((s) => s.id === scope.subcategoryId);
   const parent = sub ? opts.categories.find((c) => c.id === sub.category_id) : null;
   return sub
     ? `${parent ? parent.name + " · " : ""}${sub.name}`
@@ -110,11 +112,12 @@ function scopeTitle(opts: ExportOptions): string {
 }
 
 function filterProducts(opts: ExportOptions): ExportProduct[] {
-  if (opts.scope.type === "all") return opts.products;
-  if (opts.scope.type === "category")
-    return opts.products.filter((p) => p.category_id === opts.scope.categoryId);
+  const scope = opts.scope;
+  if (scope.type === "all") return opts.products;
+  if (scope.type === "category")
+    return opts.products.filter((p) => p.category_id === scope.categoryId);
   return opts.products.filter(
-    (p) => p.subcategory_id === opts.scope.subcategoryId
+    (p) => p.subcategory_id === scope.subcategoryId
   );
 }
 
