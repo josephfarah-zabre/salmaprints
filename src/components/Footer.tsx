@@ -8,7 +8,7 @@ const socials = [
   { name: "TikTok", icon: tiktokIcon, url: "https://www.tiktok.com/" },
   { name: "Facebook", icon: facebookIcon, url: "https://www.facebook.com/" },
   { name: "WhatsApp", icon: whatsappIcon, url: "https://wa.me/message/5JHP3PKIIBIRK1" },
-  { name: "Instagram", icon: instagramIcon, url: "https://www.instagram.com/" },
+  { name: "Instagram", icon: instagramIcon, url: "https://www.instagram.com/masco.salma.print?igsh=MXJpZnA1cHZxdGlv" },
 ];
 
 const Footer = () => {
