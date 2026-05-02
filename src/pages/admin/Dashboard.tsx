@@ -30,6 +30,12 @@ interface Category {
   name: string;
 }
 
+interface Subcategory {
+  id: string;
+  name: string;
+  category_id: string;
+}
+
 interface PromoPopup {
   id: string;
   title: string;
@@ -43,6 +49,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
@@ -58,6 +65,7 @@ const Dashboard = () => {
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productCategory, setProductCategory] = useState("");
+  const [productSubcategory, setProductSubcategory] = useState<string>("none");
   const [productImageFile, setProductImageFile] = useState<File | null>(null);
   const [uploadingProduct, setUploadingProduct] = useState(false);
 
@@ -66,6 +74,12 @@ const Dashboard = () => {
   const [categoryDescription, setCategoryDescription] = useState("");
   const [categoryImageFile, setCategoryImageFile] = useState<File | null>(null);
   const [uploadingCategory, setUploadingCategory] = useState(false);
+
+  // Subcategory form state
+  const [subcategoryDialogOpen, setSubcategoryDialogOpen] = useState(false);
+  const [subcategoryParent, setSubcategoryParent] = useState<Category | null>(null);
+  const [subcategoryName, setSubcategoryName] = useState("");
+  const [savingSubcategory, setSavingSubcategory] = useState(false);
 
   // Popup form state
   const [popupTitle, setPopupTitle] = useState("");
@@ -87,7 +101,6 @@ const Dashboard = () => {
       return;
     }
 
-    // Check if user has admin role
     const { data: roleData } = await supabase
       .from("user_roles")
       .select("role")
@@ -102,18 +115,21 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [productsData, categoriesData, popupsData] = await Promise.all([
+      const [productsData, categoriesData, subcategoriesData, popupsData] = await Promise.all([
         supabase.from("products").select("*").order("created_at", { ascending: false }),
         supabase.from("categories").select("*").order("display_order"),
+        supabase.from("subcategories").select("*").order("display_order"),
         supabase.from("promotional_popups").select("*").order("created_at", { ascending: false }),
       ]);
 
       if (productsData.error) throw productsData.error;
       if (categoriesData.error) throw categoriesData.error;
+      if (subcategoriesData.error) throw subcategoriesData.error;
       if (popupsData.error) throw popupsData.error;
 
       setProducts(productsData.data || []);
       setCategories(categoriesData.data || []);
+      setSubcategories(subcategoriesData.data || []);
       setPromoPopups(popupsData.data || []);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -133,6 +149,7 @@ const Dashboard = () => {
     setProductDescription("");
     setProductPrice("");
     setProductCategory("");
+    setProductSubcategory("none");
     setProductImageFile(null);
     setEditingProduct(null);
   };
@@ -144,7 +161,6 @@ const Dashboard = () => {
     try {
       let imageUrl = editingProduct?.image_url || null;
 
-      // Upload image if a new file is selected
       if (productImageFile) {
         const fileExt = productImageFile.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
@@ -168,6 +184,7 @@ const Dashboard = () => {
         description: productDescription || null,
         price: productPrice ? parseFloat(productPrice) : null,
         category_id: productCategory || null,
+        subcategory_id: productSubcategory && productSubcategory !== "none" ? productSubcategory : null,
         image_url: imageUrl,
       };
 
@@ -215,6 +232,7 @@ const Dashboard = () => {
     setProductDescription(product.description || "");
     setProductPrice(product.price?.toString() || "");
     setProductCategory(product.category_id || "");
+    setProductSubcategory(product.subcategory_id || "none");
     setProductImageFile(null);
     setDialogOpen(true);
   };
@@ -226,7 +244,6 @@ const Dashboard = () => {
     try {
       let imageUrl = null;
 
-      // Upload image if a file is selected
       if (categoryImageFile) {
         const fileExt = categoryImageFile.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
@@ -265,6 +282,48 @@ const Dashboard = () => {
     }
   };
 
+  const openSubcategoryDialog = (category: Category) => {
+    setSubcategoryParent(category);
+    setSubcategoryName("");
+    setSubcategoryDialogOpen(true);
+  };
+
+  const handleSaveSubcategory = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subcategoryParent) return;
+    setSavingSubcategory(true);
+    try {
+      const { error } = await supabase.from("subcategories").insert({
+        name: subcategoryName,
+        category_id: subcategoryParent.id,
+      });
+      if (error) throw error;
+      toast.success("Subcategory added!");
+      setSubcategoryDialogOpen(false);
+      setSubcategoryName("");
+      setSubcategoryParent(null);
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to add subcategory");
+    } finally {
+      setSavingSubcategory(false);
+    }
+  };
+
+  const handleDeleteSubcategory = async (subcategoryId: string) => {
+    try {
+      const { error } = await supabase
+        .from("subcategories")
+        .delete()
+        .eq("id", subcategoryId);
+      if (error) throw error;
+      toast.success("Subcategory deleted!");
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to delete subcategory");
+    }
+  };
+
   const toggleCategory = (categoryId: string) => {
     setExpandedCategories(prev => {
       const newSet = new Set(prev);
@@ -279,6 +338,10 @@ const Dashboard = () => {
 
   const getProductsByCategory = (categoryId: string) => {
     return products.filter(p => p.category_id === categoryId);
+  };
+
+  const getSubcategoriesByCategory = (categoryId: string) => {
+    return subcategories.filter(s => s.category_id === categoryId);
   };
 
   const handleDeleteCategory = async (categoryId: string) => {
@@ -376,10 +439,9 @@ const Dashboard = () => {
   };
 
   const togglePopupStatus = async (popup: PromoPopup) => {
-    // Optimistic update - immediately update UI
-    setPromoPopups(prev => 
-      prev.map(p => 
-        p.id === popup.id 
+    setPromoPopups(prev =>
+      prev.map(p =>
+        p.id === popup.id
           ? { ...p, is_active: !p.is_active }
           : p
       )
@@ -394,10 +456,9 @@ const Dashboard = () => {
       if (error) throw error;
       toast.success(`Popup ${!popup.is_active ? "activated" : "deactivated"}!`);
     } catch (error: any) {
-      // Revert on error
-      setPromoPopups(prev => 
-        prev.map(p => 
-          p.id === popup.id 
+      setPromoPopups(prev =>
+        prev.map(p =>
+          p.id === popup.id
             ? { ...p, is_active: popup.is_active }
             : p
         )
@@ -420,6 +481,11 @@ const Dashboard = () => {
       toast.error(error.message || "Failed to delete popup");
     }
   };
+
+  // Subcategories filtered by currently selected product category
+  const productSubcategoryOptions = subcategories.filter(
+    s => s.category_id === productCategory
+  );
 
   return (
     <div className="min-h-screen bg-gradient-hero">
@@ -691,7 +757,13 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <Label htmlFor="category">Category</Label>
-                  <Select value={productCategory} onValueChange={setProductCategory}>
+                  <Select
+                    value={productCategory}
+                    onValueChange={(v) => {
+                      setProductCategory(v);
+                      setProductSubcategory("none");
+                    }}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
@@ -704,6 +776,24 @@ const Dashboard = () => {
                     </SelectContent>
                   </Select>
                 </div>
+                {productCategory && productSubcategoryOptions.length > 0 && (
+                  <div>
+                    <Label htmlFor="subcategory">Subcategory</Label>
+                    <Select value={productSubcategory} onValueChange={setProductSubcategory}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select subcategory (optional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">— None —</SelectItem>
+                        {productSubcategoryOptions.map((sub) => (
+                          <SelectItem key={sub.id} value={sub.id}>
+                            {sub.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
                 <div>
                   <Label htmlFor="imageFile">Product Image</Label>
                   <Input
@@ -778,6 +868,32 @@ const Dashboard = () => {
           </Dialog>
         </div>
 
+        {/* Subcategory Dialog */}
+        <Dialog open={subcategoryDialogOpen} onOpenChange={setSubcategoryDialogOpen}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>
+                Add Subcategory{subcategoryParent ? ` to "${subcategoryParent.name}"` : ""}
+              </DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleSaveSubcategory} className="space-y-4">
+              <div>
+                <Label htmlFor="subcategoryName">Subcategory Name</Label>
+                <Input
+                  id="subcategoryName"
+                  value={subcategoryName}
+                  onChange={(e) => setSubcategoryName(e.target.value)}
+                  required
+                  placeholder="e.g. Business Cards"
+                />
+              </div>
+              <Button type="submit" className="w-full bg-gradient-primary" disabled={savingSubcategory}>
+                {savingSubcategory ? "Saving..." : "Add Subcategory"}
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+
         {/* Categories with Products */}
         {loading ? (
           <div className="text-center py-8">Loading...</div>
@@ -789,6 +905,7 @@ const Dashboard = () => {
           <div className="space-y-4">
             {categories.map((category) => {
               const categoryProducts = getProductsByCategory(category.id);
+              const categorySubcategories = getSubcategoriesByCategory(category.id);
               const isExpanded = expandedCategories.has(category.id);
 
               return (
@@ -808,7 +925,7 @@ const Dashboard = () => {
                             )}
                             <CardTitle className="text-xl">{category.name}</CardTitle>
                             <span className="text-sm text-muted-foreground">
-                              ({categoryProducts.length} products)
+                              ({categoryProducts.length} products · {categorySubcategories.length} subcategories)
                             </span>
                           </div>
                           <AlertDialog>
@@ -844,56 +961,136 @@ const Dashboard = () => {
                       </CardHeader>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                      <CardContent className="pt-0">
+                      <CardContent className="pt-0 space-y-6">
+                        {/* Subcategories section */}
+                        <div className="border rounded-lg p-4 bg-secondary/30">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
+                              Subcategories
+                            </h4>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => openSubcategoryDialog(category)}
+                            >
+                              <Plus className="w-3 h-3 mr-1" />
+                              Add Subcategory
+                            </Button>
+                          </div>
+                          {categorySubcategories.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">
+                              No subcategories yet.
+                            </p>
+                          ) : (
+                            <div className="flex flex-wrap gap-2">
+                              {categorySubcategories.map((sub) => {
+                                const subProductCount = products.filter(
+                                  p => p.subcategory_id === sub.id
+                                ).length;
+                                return (
+                                  <div
+                                    key={sub.id}
+                                    className="flex items-center gap-2 bg-background border rounded-full pl-3 pr-1 py-1"
+                                  >
+                                    <span className="text-sm font-medium">{sub.name}</span>
+                                    <span className="text-xs text-muted-foreground">
+                                      ({subProductCount})
+                                    </span>
+                                    <AlertDialog>
+                                      <AlertDialogTrigger asChild>
+                                        <Button
+                                          variant="ghost"
+                                          size="icon"
+                                          className="h-6 w-6 text-destructive hover:text-destructive hover:bg-destructive/10"
+                                        >
+                                          <Trash2 className="w-3 h-3" />
+                                        </Button>
+                                      </AlertDialogTrigger>
+                                      <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                          <AlertDialogTitle>Delete Subcategory</AlertDialogTitle>
+                                          <AlertDialogDescription>
+                                            Delete "{sub.name}"? Products in this subcategory will remain but lose their subcategory link.
+                                          </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                          <AlertDialogAction
+                                            onClick={() => handleDeleteSubcategory(sub.id)}
+                                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                          >
+                                            Delete
+                                          </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                      </AlertDialogContent>
+                                    </AlertDialog>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Products list */}
                         {categoryProducts.length === 0 ? (
                           <div className="text-center py-8 text-muted-foreground">
                             No products in this category yet.
                           </div>
                         ) : (
                           <div className="space-y-3">
-                            {categoryProducts.map((product) => (
-                              <div
-                                key={product.id}
-                                className="flex items-center justify-between p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
-                              >
-                                <div className="flex items-center gap-4 flex-1">
-                                  {product.image_url && (
-                                    <img
-                                      src={product.image_url}
-                                      alt={product.name}
-                                      className="w-16 h-16 object-cover rounded"
-                                    />
-                                  )}
-                                  <div className="flex-1">
-                                    <h3 className="font-semibold">{product.name}</h3>
-                                    <p className="text-sm text-muted-foreground line-clamp-1">
-                                      {product.description}
-                                    </p>
-                                    {product.price && (
-                                      <p className="text-primary font-semibold mt-1">
-                                        ${product.price.toFixed(2)}
-                                      </p>
+                            {categoryProducts.map((product) => {
+                              const subName = product.subcategory_id
+                                ? subcategories.find(s => s.id === product.subcategory_id)?.name
+                                : null;
+                              return (
+                                <div
+                                  key={product.id}
+                                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                                >
+                                  <div className="flex items-center gap-4 flex-1">
+                                    {product.image_url && (
+                                      <img
+                                        src={product.image_url}
+                                        alt={product.name}
+                                        className="w-16 h-16 object-cover rounded"
+                                      />
                                     )}
+                                    <div className="flex-1">
+                                      <h3 className="font-semibold">{product.name}</h3>
+                                      {subName && (
+                                        <span className="inline-block text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full mt-1">
+                                          {subName}
+                                        </span>
+                                      )}
+                                      <p className="text-sm text-muted-foreground line-clamp-1">
+                                        {product.description}
+                                      </p>
+                                      {product.price && (
+                                        <p className="text-primary font-semibold mt-1">
+                                          ${product.price.toFixed(2)}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="flex gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => handleEditProduct(product)}
+                                    >
+                                      <Edit className="w-4 h-4" />
+                                    </Button>
+                                    <Button
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => handleDeleteProduct(product.id)}
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </Button>
                                   </div>
                                 </div>
-                                <div className="flex gap-2">
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => handleEditProduct(product)}
-                                  >
-                                    <Edit className="w-4 h-4" />
-                                  </Button>
-                                  <Button
-                                    variant="destructive"
-                                    size="sm"
-                                    onClick={() => handleDeleteProduct(product.id)}
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </Button>
-                                </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         )}
                       </CardContent>
