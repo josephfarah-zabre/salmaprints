@@ -581,6 +581,7 @@ const Dashboard = () => {
               <FileDown className="w-4 h-4 mr-2" />
               Export PDF
             </Button>
+            <Button variant="outline" onClick={() => navigate("/admin/voting")}>
               Voting Management
             </Button>
             <Button variant="outline" onClick={() => navigate("/")}>
