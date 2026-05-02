@@ -181,7 +181,6 @@ const Index = () => {
       )}
 
       <SlidingBanner />
-      <WhyChooseUs />
 
       {/* Categories Section */}
       <section className="py-20 px-4 bg-background">
@@ -225,7 +224,8 @@ const Index = () => {
 
       <ExperienceSection />
       <MaterialsSection />
-      
+      <WhyChooseUs />
+
       <Footer />
     </div>
   );
