@@ -7,7 +7,7 @@ import instagramIcon from "@/assets/instagram-icon.png";
 const socials = [
   { name: "TikTok", icon: tiktokIcon, url: "https://www.tiktok.com/" },
   { name: "Facebook", icon: facebookIcon, url: "https://www.facebook.com/" },
-  { name: "WhatsApp", icon: whatsappIcon, url: "https://wa.me/" },
+  { name: "WhatsApp", icon: whatsappIcon, url: "https://wa.me/message/5JHP3PKIIBIRK1" },
   { name: "Instagram", icon: instagramIcon, url: "https://www.instagram.com/" },
 ];
 
