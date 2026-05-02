@@ -27,7 +27,7 @@ export const Navbar = () => {
             <Link to="/" className="text-2xl font-bold text-white">
               Salma Print
             </Link>
-            <a href="tel:+96103304566" className="hidden sm:inline text-white/90 hover:text-white text-sm font-medium">
+            <a href="tel:+96103304566" dir="ltr" className="hidden sm:inline text-white/90 hover:text-white text-sm font-medium">
               +961 03 30 45 66
             </a>
           </div>
