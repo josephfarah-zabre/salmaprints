@@ -46,8 +46,8 @@ export const CategoryCard = ({
         )}
       </div>
       
-      {/* Category Info */}
-      <div className="p-5 text-left">
+      {/* Category Info - hidden on mobile */}
+      <div className="hidden md:block p-5 text-left">
         <h3 className="text-base font-semibold mb-2 group-hover:text-primary transition-colors truncate">
           {name}
         </h3>
