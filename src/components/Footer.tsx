@@ -26,7 +26,7 @@ const Footer = () => {
               aria-label={s.name}
               className="transition-transform hover:scale-110"
             >
-              <img src={s.icon} alt={`${s.name} icon`} className="w-10 h-10 object-contain" />
+              <img src={s.icon} alt={`${s.name} icon`} className="w-30 h-30 object-contain" style={{ width: "120px", height: "120px" }} />
             </a>
           ))}
         </div>
