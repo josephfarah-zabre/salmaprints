@@ -365,6 +365,37 @@ const Dashboard = () => {
     }
   };
 
+  const openRenameCategory = (category: Category) => {
+    setRenamingCategory(category);
+    setRenameCategoryName(category.name);
+    setRenameCategoryDialogOpen(true);
+  };
+
+  const handleRenameCategory = async () => {
+    if (!renamingCategory) return;
+    const trimmed = renameCategoryName.trim();
+    if (!trimmed) {
+      toast.error("Category name cannot be empty");
+      return;
+    }
+    setSavingCategoryRename(true);
+    try {
+      const { error } = await supabase
+        .from("categories")
+        .update({ name: trimmed })
+        .eq("id", renamingCategory.id);
+      if (error) throw error;
+      toast.success("Category updated!");
+      setRenameCategoryDialogOpen(false);
+      setRenamingCategory(null);
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update category");
+    } finally {
+      setSavingCategoryRename(false);
+    }
+  };
+
   const handleEditPopup = (popup: PromoPopup) => {
     setEditingPopup(popup);
     setPopupTitle(popup.title);
