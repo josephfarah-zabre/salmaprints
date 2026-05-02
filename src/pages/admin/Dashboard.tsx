@@ -81,6 +81,12 @@ const Dashboard = () => {
   const [subcategoryName, setSubcategoryName] = useState("");
   const [savingSubcategory, setSavingSubcategory] = useState(false);
 
+  // Rename category
+  const [renameCategoryDialogOpen, setRenameCategoryDialogOpen] = useState(false);
+  const [renamingCategory, setRenamingCategory] = useState<Category | null>(null);
+  const [renameCategoryName, setRenameCategoryName] = useState("");
+  const [savingCategoryRename, setSavingCategoryRename] = useState(false);
+
   // Popup form state
   const [popupTitle, setPopupTitle] = useState("");
   const [popupSubtitle, setPopupSubtitle] = useState("");
