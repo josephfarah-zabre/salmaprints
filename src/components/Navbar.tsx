@@ -23,9 +23,14 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-white">
-            Masco Salma Print
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-2xl font-bold text-white">
+              Salma Print
+            </Link>
+            <a href="tel:+96103304566" className="hidden sm:inline text-white/90 hover:text-white text-sm font-medium">
+              +961 03 30 45 66
+            </a>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
