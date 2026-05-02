@@ -25,7 +25,7 @@ export const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center gap-4">
             <Link to="/" className="flex flex-col leading-tight text-white font-bold">
-              <span dir="rtl" lang="ar" className="text-sm">مطبعة سلمى</span>
+              <span dir="rtl" lang="ar" className="text-2xl">مطبعة سلمى</span>
               <span className="text-2xl">Salma Print</span>
             </Link>
             <a href="tel:+96103304566" dir="ltr" className="hidden sm:inline text-white/90 hover:text-white text-sm font-medium">
