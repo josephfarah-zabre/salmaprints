@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Hero = () => {
   const { t } = useLanguage();
-  return <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-primary bg-cover" style={{
+  return <section className="relative min-h-[90vh] flex items-center justify-center bg-primary bg-cover z-20" style={{
     backgroundImage: `url(${heroImage})`,
     backgroundPosition: 'center center'
   }}>
