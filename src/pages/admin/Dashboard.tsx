@@ -1152,6 +1152,33 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+
+      <Dialog open={renameCategoryDialogOpen} onOpenChange={setRenameCategoryDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Category Name</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="rename-category">Category Name</Label>
+              <Input
+                id="rename-category"
+                value={renameCategoryName}
+                onChange={(e) => setRenameCategoryName(e.target.value)}
+                placeholder="Enter new category name"
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setRenameCategoryDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleRenameCategory} disabled={savingCategoryRename}>
+                {savingCategoryRename ? "Saving..." : "Save"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
