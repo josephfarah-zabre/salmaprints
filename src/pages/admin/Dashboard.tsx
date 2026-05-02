@@ -965,6 +965,18 @@ const Dashboard = () => {
                               ({categoryProducts.length} products · {categorySubcategories.length} subcategories)
                             </span>
                           </div>
+                          <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openRenameCategory(category);
+                            }}
+                            aria-label="Edit category name"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <Button
