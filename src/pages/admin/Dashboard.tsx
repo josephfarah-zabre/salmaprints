@@ -88,6 +88,49 @@ const Dashboard = () => {
   const [renameCategoryName, setRenameCategoryName] = useState("");
   const [savingCategoryRename, setSavingCategoryRename] = useState(false);
 
+  // Export PDF
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportScopeType, setExportScopeType] = useState<"all" | "category" | "subcategory">("all");
+  const [exportCategoryId, setExportCategoryId] = useState<string>("");
+  const [exportSubcategoryId, setExportSubcategoryId] = useState<string>("");
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportPdf = async () => {
+    try {
+      setExporting(true);
+      let scope: Parameters<typeof exportProductsToPdf>[0]["scope"];
+      if (exportScopeType === "category") {
+        if (!exportCategoryId) {
+          toast.error("Please select a category");
+          setExporting(false);
+          return;
+        }
+        scope = { type: "category", categoryId: exportCategoryId };
+      } else if (exportScopeType === "subcategory") {
+        if (!exportSubcategoryId) {
+          toast.error("Please select a subcategory");
+          setExporting(false);
+          return;
+        }
+        scope = { type: "subcategory", subcategoryId: exportSubcategoryId };
+      } else {
+        scope = { type: "all" };
+      }
+      await exportProductsToPdf({
+        scope,
+        products,
+        categories,
+        subcategories,
+      });
+      toast.success("PDF exported");
+      setExportDialogOpen(false);
+    } catch (e: any) {
+      toast.error(e.message || "Failed to export PDF");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   // Popup form state
   const [popupTitle, setPopupTitle] = useState("");
   const [popupSubtitle, setPopupSubtitle] = useState("");
