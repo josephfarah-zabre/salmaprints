@@ -224,7 +224,8 @@ const Index = () => {
 
       <ExperienceSection />
       <MaterialsSection />
-      
+      <WhyChooseUs />
+
       <Footer />
     </div>
   );
