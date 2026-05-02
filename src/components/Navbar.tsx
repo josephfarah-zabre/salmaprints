@@ -19,7 +19,7 @@ export const Navbar = () => {
     name: t("nav.contact"),
     path: "#contact"
   }];
-  return <nav className="absolute top-0 left-0 right-0 z-50">
+  return <nav className="sticky top-0 left-0 right-0 z-50 bg-primary">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
