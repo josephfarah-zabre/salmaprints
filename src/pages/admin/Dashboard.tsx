@@ -81,6 +81,12 @@ const Dashboard = () => {
   const [subcategoryName, setSubcategoryName] = useState("");
   const [savingSubcategory, setSavingSubcategory] = useState(false);
 
+  // Rename category
+  const [renameCategoryDialogOpen, setRenameCategoryDialogOpen] = useState(false);
+  const [renamingCategory, setRenamingCategory] = useState<Category | null>(null);
+  const [renameCategoryName, setRenameCategoryName] = useState("");
+  const [savingCategoryRename, setSavingCategoryRename] = useState(false);
+
   // Popup form state
   const [popupTitle, setPopupTitle] = useState("");
   const [popupSubtitle, setPopupSubtitle] = useState("");
@@ -356,6 +362,37 @@ const Dashboard = () => {
       fetchData();
     } catch (error: any) {
       toast.error(error.message || "Failed to delete category");
+    }
+  };
+
+  const openRenameCategory = (category: Category) => {
+    setRenamingCategory(category);
+    setRenameCategoryName(category.name);
+    setRenameCategoryDialogOpen(true);
+  };
+
+  const handleRenameCategory = async () => {
+    if (!renamingCategory) return;
+    const trimmed = renameCategoryName.trim();
+    if (!trimmed) {
+      toast.error("Category name cannot be empty");
+      return;
+    }
+    setSavingCategoryRename(true);
+    try {
+      const { error } = await supabase
+        .from("categories")
+        .update({ name: trimmed })
+        .eq("id", renamingCategory.id);
+      if (error) throw error;
+      toast.success("Category updated!");
+      setRenameCategoryDialogOpen(false);
+      setRenamingCategory(null);
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update category");
+    } finally {
+      setSavingCategoryRename(false);
     }
   };
 
@@ -928,6 +965,18 @@ const Dashboard = () => {
                               ({categoryProducts.length} products · {categorySubcategories.length} subcategories)
                             </span>
                           </div>
+                          <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openRenameCategory(category);
+                            }}
+                            aria-label="Edit category name"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <Button
@@ -957,6 +1006,7 @@ const Dashboard = () => {
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
+                          </div>
                         </div>
                       </CardHeader>
                     </CollapsibleTrigger>
@@ -1102,6 +1152,33 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+
+      <Dialog open={renameCategoryDialogOpen} onOpenChange={setRenameCategoryDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Category Name</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="rename-category">Category Name</Label>
+              <Input
+                id="rename-category"
+                value={renameCategoryName}
+                onChange={(e) => setRenameCategoryName(e.target.value)}
+                placeholder="Enter new category name"
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setRenameCategoryDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleRenameCategory} disabled={savingCategoryRename}>
+                {savingCategoryRename ? "Saving..." : "Save"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
