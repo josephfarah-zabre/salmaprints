@@ -25,6 +25,14 @@ const translations: Translations = {
     ar: "نوصل طلباتك إلى جميع أنحاء لبنان خلال يومين فقط" 
   },
   "hero.search": { en: "Search for products or categories...", ar: "ابحث عن المنتجات أو الفئات..." },
+
+  // Catalogue
+  "catalogue.title.prefix": { en: "Discover Our", ar: "اكتشف" },
+  "catalogue.title.highlight": { en: "Products", ar: "منتجاتنا" },
+  "catalogue.subtitle": {
+    en: "Browse our carefully curated collection. Contact us on WhatsApp for any inquiries.",
+    ar: "تصفح مجموعتنا المختارة بعناية. تواصل معنا على واتساب لأي استفسار."
+  },
   
   // Banner
   "banner.text": { 

@@ -5,6 +5,7 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 interface Product {
   id: string;
   name: string;
@@ -18,6 +19,7 @@ interface Category {
   name: string;
 }
 const Catalogue = () => {
+  const { t } = useLanguage();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -53,14 +55,14 @@ const Catalogue = () => {
       <section className="bg-gradient-hero px-4 py-0">
         <div className="container mx-auto text-center animate-fade-in py-[150px]">
           <h1 className="text-4xl font-bold mb-4 text-slate-50 md:text-7xl">
-            Discover Our{" "}
+            {t("catalogue.title.prefix")}{" "}
             <span className="relative inline-block">
-              Products
+              {t("catalogue.title.highlight")}
               <span className="absolute bottom-1 left-0 w-full h-1 bg-primary rounded-full transform -rotate-1"></span>
             </span>
           </h1>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Browse our carefully curated collection. Contact us on WhatsApp for any inquiries.
+            {t("catalogue.subtitle")}
           </p>
         </div>
       </section>
