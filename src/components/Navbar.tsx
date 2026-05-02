@@ -23,8 +23,9 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-white">
-            Masco Salma Print
+          <Link to="/" className="flex flex-col leading-tight text-white">
+            <span className="text-2xl font-bold">Salma Print</span>
+            <span className="text-xs font-medium text-white/80" dir="ltr">+961 03 30 45 66</span>
           </Link>
 
           {/* Desktop Navigation */}
