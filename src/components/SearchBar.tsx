@@ -101,7 +101,7 @@ export const SearchBar = () => {
       </div>
 
       {isOpen && results.length > 0 && (
-        <div className="absolute top-full mt-2 w-full bg-white rounded-lg shadow-elegant border border-border z-10 max-h-96 overflow-y-auto">
+        <div className="absolute top-full mt-2 w-full bg-white rounded-lg shadow-elegant border border-border z-50 max-h-96 overflow-y-auto">
           {results.map((result) => (
             <button
               key={`${result.type}-${result.id}`}
