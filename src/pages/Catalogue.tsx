@@ -51,22 +51,6 @@ const Catalogue = () => {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-hero px-4 py-0">
-        <div className="container mx-auto text-center animate-fade-in py-[150px]">
-          <h1 className="text-4xl font-bold mb-4 text-slate-50 md:text-7xl">
-            {t("catalogue.title.prefix")}{" "}
-            <span className="relative inline-block">
-              {t("catalogue.title.highlight")}
-              <span className="absolute bottom-1 left-0 w-full h-1 bg-primary rounded-full transform -rotate-1"></span>
-            </span>
-          </h1>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            {t("catalogue.subtitle")}
-          </p>
-        </div>
-      </section>
-
       {/* Category Filter */}
       <section className="bg-background py-8 px-4">
         <div className="container mx-auto">
