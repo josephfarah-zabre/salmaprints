@@ -19,6 +19,7 @@ interface Category {
   name: string;
 }
 const Catalogue = () => {
+  const { t } = useLanguage();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
