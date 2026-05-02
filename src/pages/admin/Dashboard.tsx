@@ -1227,6 +1227,111 @@ const Dashboard = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={exportDialogOpen} onOpenChange={setExportDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Export Products as PDF</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Scope</Label>
+              <Select
+                value={exportScopeType}
+                onValueChange={(v: "all" | "category" | "subcategory") => {
+                  setExportScopeType(v);
+                  setExportCategoryId("");
+                  setExportSubcategoryId("");
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All products</SelectItem>
+                  <SelectItem value="category">By category</SelectItem>
+                  <SelectItem value="subcategory">By subcategory</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {exportScopeType === "category" && (
+              <div>
+                <Label>Category</Label>
+                <Select value={exportCategoryId} onValueChange={setExportCategoryId}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((c) => (
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.name} ({getProductsByCategory(c.id).length})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {exportScopeType === "subcategory" && (
+              <>
+                <div>
+                  <Label>Category</Label>
+                  <Select
+                    value={exportCategoryId}
+                    onValueChange={(v) => {
+                      setExportCategoryId(v);
+                      setExportSubcategoryId("");
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((c) => (
+                        <SelectItem key={c.id} value={c.id}>
+                          {c.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {exportCategoryId && (
+                  <div>
+                    <Label>Subcategory</Label>
+                    <Select value={exportSubcategoryId} onValueChange={setExportSubcategoryId}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a subcategory" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {getSubcategoriesByCategory(exportCategoryId).map((s) => (
+                          <SelectItem key={s.id} value={s.id}>
+                            {s.name}
+                          </SelectItem>
+                        ))}
+                        {getSubcategoriesByCategory(exportCategoryId).length === 0 && (
+                          <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                            No subcategories
+                          </div>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </>
+            )}
+
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setExportDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleExportPdf} disabled={exporting}>
+                {exporting ? "Generating..." : "Download PDF"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
