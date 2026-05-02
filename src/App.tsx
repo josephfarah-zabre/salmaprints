@@ -12,7 +12,6 @@ import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import VotingManagement from "./pages/admin/VotingManagement";
 import NotFound from "./pages/NotFound";
-import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +33,6 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <FloatingWhatsApp />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
