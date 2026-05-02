@@ -5,6 +5,7 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 interface Product {
   id: string;
   name: string;
