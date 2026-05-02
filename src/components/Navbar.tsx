@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
+import { SearchBar } from "./SearchBar";
 import { useLanguage } from "@/contexts/LanguageContext";
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +34,11 @@ export const Navbar = () => {
             </a>
           </div>
 
+          {/* Desktop Search */}
+          <div className="hidden md:flex flex-1 max-w-md mx-6">
+            <SearchBar />
+          </div>
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map(item => <Link key={item.name} to={item.path} className="text-white hover:text-white/80 transition-colors px-[10px]">
@@ -56,6 +62,9 @@ export const Navbar = () => {
         {/* Mobile Navigation */}
         {isOpen && <div className="md:hidden py-4 bg-primary rounded-lg mt-2">
             <div className="flex flex-col space-y-4">
+              <div className="px-4">
+                <SearchBar />
+              </div>
               {navItems.map(item => <Link key={item.name} to={item.path} onClick={() => setIsOpen(false)} className="px-4 text-white hover:text-white/80">
                   {item.name}
                 </Link>)}

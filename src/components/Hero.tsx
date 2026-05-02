@@ -1,5 +1,4 @@
 import heroImage from "@/assets/hero-cover.jpg";
-import { SearchBar } from "./SearchBar";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Hero = () => {
@@ -20,9 +19,6 @@ export const Hero = () => {
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10">
             {t("hero.subtitle")}
           </p>
-          
-          {/* Search Bar */}
-          <SearchBar />
         </div>
       </div>
     </section>;
