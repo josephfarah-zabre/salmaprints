@@ -1077,7 +1077,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <div className="space-y-4">
-            {categories.map((category) => {
+            {categories.map((category, catIndex) => {
               const categoryProducts = getProductsByCategory(category.id);
               const categorySubcategories = getSubcategoriesByCategory(category.id);
               const isExpanded = expandedCategories.has(category.id);
@@ -1103,6 +1103,24 @@ const Dashboard = () => {
                             </span>
                           </div>
                           <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => { e.stopPropagation(); moveCategory(category.id, -1); }}
+                            disabled={catIndex === 0}
+                            aria-label="Move category up"
+                          >
+                            <ArrowUp className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => { e.stopPropagation(); moveCategory(category.id, 1); }}
+                            disabled={catIndex === categories.length - 1}
+                            aria-label="Move category down"
+                          >
+                            <ArrowDown className="w-4 h-4" />
+                          </Button>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -1225,7 +1243,7 @@ const Dashboard = () => {
                           </div>
                         ) : (
                           <div className="space-y-3">
-                            {categoryProducts.map((product) => {
+                            {categoryProducts.map((product, prodIndex) => {
                               const subName = product.subcategory_id
                                 ? subcategories.find(s => s.id === product.subcategory_id)?.name
                                 : null;
@@ -1260,6 +1278,24 @@ const Dashboard = () => {
                                     </div>
                                   </div>
                                   <div className="flex gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => moveProduct(product.id, category.id, -1)}
+                                      disabled={prodIndex === 0}
+                                      aria-label="Move product up"
+                                    >
+                                      <ArrowUp className="w-4 h-4" />
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => moveProduct(product.id, category.id, 1)}
+                                      disabled={prodIndex === categoryProducts.length - 1}
+                                      aria-label="Move product down"
+                                    >
+                                      <ArrowDown className="w-4 h-4" />
+                                    </Button>
                                     <Button
                                       variant="outline"
                                       size="sm"
