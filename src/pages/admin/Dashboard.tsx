@@ -459,12 +459,29 @@ const Dashboard = () => {
     }
   };
 
-  const moveCategory = (categoryId: string, dir: -1 | 1) => {
+  const moveCategory = async (categoryId: string, dir: -1 | 1) => {
     const sorted = [...categories].sort((a, b) => ((a as any).display_order ?? 0) - ((b as any).display_order ?? 0));
     const idx = sorted.findIndex(c => c.id === categoryId);
     const target = idx + dir;
     if (idx < 0 || target < 0 || target >= sorted.length) return;
-    swapCategoryOrder(sorted[idx], sorted[target]);
+
+    const orders = sorted.map(c => (c as any).display_order ?? 0);
+    const hasDupes = new Set(orders).size !== orders.length;
+    if (hasDupes) {
+      const normalized = sorted.map((c, i) => ({ ...c, display_order: (i + 1) * 10 }));
+      setCategories(normalized);
+      try {
+        await Promise.all(normalized.map(c =>
+          supabase.from("categories").update({ display_order: (c as any).display_order }).eq("id", c.id)
+        ));
+      } catch (e: any) {
+        toast.error(e.message || "Failed to set order");
+        return fetchData();
+      }
+      swapCategoryOrder(normalized[idx], normalized[target]);
+    } else {
+      swapCategoryOrder(sorted[idx], sorted[target]);
+    }
   };
 
   const swapProductOrder = async (a: Product, b: Product) => {
