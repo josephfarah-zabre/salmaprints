@@ -97,30 +97,6 @@ const CategoryProducts = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Back Button & Category Hero */}
-      <section className="bg-gradient-hero py-12 px-4">
-        <div className="container mx-auto">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/")}
-            className="mb-6 hover:bg-primary/10 hover:text-primary"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Categories
-          </Button>
-          {category && (
-            <div className="text-center animate-fade-in">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                <span className="relative inline-block">
-                  {category.name}
-                  <span className="absolute bottom-1 left-0 w-full h-1 bg-primary rounded-full transform -rotate-1"></span>
-                </span>
-              </h1>
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* Subcategory Filter */}
       {subcategories.length > 0 && (
         <section className="bg-background border-b py-6 px-4 sticky top-0 z-30">
