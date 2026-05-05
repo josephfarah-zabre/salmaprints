@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
-import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight, FileDown } from "lucide-react";
+import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight, FileDown, ArrowUp, ArrowDown } from "lucide-react";
 import { exportProductsToPdf } from "@/lib/exportProductsPdf";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -24,11 +24,13 @@ interface Product {
   category_id: string | null;
   subcategory_id: string | null;
   image_url: string | null;
+  display_order?: number;
 }
 
 interface Category {
   id: string;
   name: string;
+  display_order?: number;
 }
 
 interface Subcategory {
@@ -166,7 +168,7 @@ const Dashboard = () => {
   const fetchData = async () => {
     try {
       const [productsData, categoriesData, subcategoriesData, popupsData] = await Promise.all([
-        supabase.from("products").select("*").order("created_at", { ascending: false }),
+        supabase.from("products").select("*").order("display_order", { ascending: true }).order("created_at", { ascending: false }),
         supabase.from("categories").select("*").order("display_order"),
         supabase.from("subcategories").select("*").order("display_order"),
         supabase.from("promotional_popups").select("*").order("created_at", { ascending: false }),
@@ -437,6 +439,93 @@ const Dashboard = () => {
       toast.error(error.message || "Failed to update category");
     } finally {
       setSavingCategoryRename(false);
+    }
+  };
+
+  const swapCategoryOrder = async (a: Category, b: Category) => {
+    const aOrder = (a as any).display_order ?? 0;
+    const bOrder = (b as any).display_order ?? 0;
+    // optimistic
+    setCategories(prev => prev.map(c => c.id === a.id ? { ...c, display_order: bOrder } : c.id === b.id ? { ...c, display_order: aOrder } : c).sort((x, y) => ((x as any).display_order ?? 0) - ((y as any).display_order ?? 0)));
+    try {
+      const [r1, r2] = await Promise.all([
+        supabase.from("categories").update({ display_order: bOrder }).eq("id", a.id),
+        supabase.from("categories").update({ display_order: aOrder }).eq("id", b.id),
+      ]);
+      if (r1.error || r2.error) throw r1.error || r2.error;
+    } catch (e: any) {
+      toast.error(e.message || "Failed to reorder");
+      fetchData();
+    }
+  };
+
+  const moveCategory = async (categoryId: string, dir: -1 | 1) => {
+    const sorted = [...categories].sort((a, b) => ((a as any).display_order ?? 0) - ((b as any).display_order ?? 0));
+    const idx = sorted.findIndex(c => c.id === categoryId);
+    const target = idx + dir;
+    if (idx < 0 || target < 0 || target >= sorted.length) return;
+
+    const orders = sorted.map(c => (c as any).display_order ?? 0);
+    const hasDupes = new Set(orders).size !== orders.length;
+    if (hasDupes) {
+      const normalized = sorted.map((c, i) => ({ ...c, display_order: (i + 1) * 10 }));
+      setCategories(normalized);
+      try {
+        await Promise.all(normalized.map(c =>
+          supabase.from("categories").update({ display_order: (c as any).display_order }).eq("id", c.id)
+        ));
+      } catch (e: any) {
+        toast.error(e.message || "Failed to set order");
+        return fetchData();
+      }
+      swapCategoryOrder(normalized[idx], normalized[target]);
+    } else {
+      swapCategoryOrder(sorted[idx], sorted[target]);
+    }
+  };
+
+  const swapProductOrder = async (a: Product, b: Product) => {
+    const aOrder = a.display_order ?? 0;
+    const bOrder = b.display_order ?? 0;
+    setProducts(prev => prev.map(p => p.id === a.id ? { ...p, display_order: bOrder } : p.id === b.id ? { ...p, display_order: aOrder } : p));
+    try {
+      const [r1, r2] = await Promise.all([
+        supabase.from("products").update({ display_order: bOrder }).eq("id", a.id),
+        supabase.from("products").update({ display_order: aOrder }).eq("id", b.id),
+      ]);
+      if (r1.error || r2.error) throw r1.error || r2.error;
+    } catch (e: any) {
+      toast.error(e.message || "Failed to reorder");
+      fetchData();
+    }
+  };
+
+  const moveProduct = async (productId: string, categoryId: string, dir: -1 | 1) => {
+    const list = getProductsByCategory(categoryId);
+    const idx = list.findIndex(p => p.id === productId);
+    const target = idx + dir;
+    if (idx < 0 || target < 0 || target >= list.length) return;
+
+    // Normalize if there are duplicate display_order values (e.g. all 0)
+    const orders = list.map(p => p.display_order ?? 0);
+    const hasDupes = new Set(orders).size !== orders.length;
+    if (hasDupes) {
+      const normalized = list.map((p, i) => ({ ...p, display_order: (i + 1) * 10 }));
+      setProducts(prev => prev.map(p => {
+        const match = normalized.find(n => n.id === p.id);
+        return match ? match : p;
+      }));
+      try {
+        await Promise.all(normalized.map(p =>
+          supabase.from("products").update({ display_order: p.display_order }).eq("id", p.id)
+        ));
+      } catch (e: any) {
+        toast.error(e.message || "Failed to set order");
+        return fetchData();
+      }
+      swapProductOrder(normalized[idx], normalized[target]);
+    } else {
+      swapProductOrder(list[idx], list[target]);
     }
   };
 
@@ -988,7 +1077,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <div className="space-y-4">
-            {categories.map((category) => {
+            {categories.map((category, catIndex) => {
               const categoryProducts = getProductsByCategory(category.id);
               const categorySubcategories = getSubcategoriesByCategory(category.id);
               const isExpanded = expandedCategories.has(category.id);
@@ -1014,6 +1103,24 @@ const Dashboard = () => {
                             </span>
                           </div>
                           <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => { e.stopPropagation(); moveCategory(category.id, -1); }}
+                            disabled={catIndex === 0}
+                            aria-label="Move category up"
+                          >
+                            <ArrowUp className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => { e.stopPropagation(); moveCategory(category.id, 1); }}
+                            disabled={catIndex === categories.length - 1}
+                            aria-label="Move category down"
+                          >
+                            <ArrowDown className="w-4 h-4" />
+                          </Button>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -1136,7 +1243,7 @@ const Dashboard = () => {
                           </div>
                         ) : (
                           <div className="space-y-3">
-                            {categoryProducts.map((product) => {
+                            {categoryProducts.map((product, prodIndex) => {
                               const subName = product.subcategory_id
                                 ? subcategories.find(s => s.id === product.subcategory_id)?.name
                                 : null;
@@ -1171,6 +1278,24 @@ const Dashboard = () => {
                                     </div>
                                   </div>
                                   <div className="flex gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => moveProduct(product.id, category.id, -1)}
+                                      disabled={prodIndex === 0}
+                                      aria-label="Move product up"
+                                    >
+                                      <ArrowUp className="w-4 h-4" />
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => moveProduct(product.id, category.id, 1)}
+                                      disabled={prodIndex === categoryProducts.length - 1}
+                                      aria-label="Move product down"
+                                    >
+                                      <ArrowDown className="w-4 h-4" />
+                                    </Button>
                                     <Button
                                       variant="outline"
                                       size="sm"
