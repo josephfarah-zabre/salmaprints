@@ -67,7 +67,7 @@ export const ProductCard = ({
             )}
           </div>
         )}
-      </div>
+      </button>
       
       {/* Product Info */}
       <CardContent className="p-5">
@@ -98,5 +98,15 @@ export const ProductCard = ({
         </Button>
       </CardFooter>
     </Card>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="max-w-3xl p-2 sm:p-4 bg-background">
+        <DialogTitle className="sr-only">{name}</DialogTitle>
+        <DialogDescription className="sr-only">{description || name}</DialogDescription>
+        {imageUrl && (
+          <img src={imageUrl} alt={name} className="w-full h-auto max-h-[85vh] object-contain rounded" />
+        )}
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
