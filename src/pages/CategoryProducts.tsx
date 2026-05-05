@@ -82,9 +82,11 @@ const CategoryProducts = () => {
   };
 
   const handleWhatsAppInquiry = (product: Product) => {
-    const message = encodeURIComponent(
-      `Hi! I'm interested in: ${product.name}${product.price ? ` - $${product.price}` : ""}`
-    );
+    const parts = [
+      `Hi! I'm interested in: ${product.name}${product.price ? ` - $${product.price}` : ""}`,
+    ];
+    if (product.image_url) parts.push(product.image_url);
+    const message = encodeURIComponent(parts.join("\n"));
     window.open(`https://wa.me/?text=${message}`, "_blank");
   };
 
