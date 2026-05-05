@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProductCardProps {
@@ -24,10 +26,17 @@ export const ProductCard = ({
   isFeatured = false,
 }: ProductCardProps) => {
   const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
   return (
+    <>
     <Card className="group overflow-hidden border-2 border-border shadow-card hover:shadow-hover hover:border-primary transition-all duration-300 hover:-translate-y-1">
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden bg-secondary">
+      <button
+        type="button"
+        onClick={() => imageUrl && setOpen(true)}
+        className="relative aspect-square overflow-hidden bg-secondary block w-full focus:outline-none focus:ring-2 focus:ring-primary"
+        aria-label={`View ${name}`}
+      >
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -58,7 +67,7 @@ export const ProductCard = ({
             )}
           </div>
         )}
-      </div>
+      </button>
       
       {/* Product Info */}
       <CardContent className="p-5">
@@ -89,5 +98,15 @@ export const ProductCard = ({
         </Button>
       </CardFooter>
     </Card>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="max-w-3xl p-2 sm:p-4 bg-background">
+        <DialogTitle className="sr-only">{name}</DialogTitle>
+        <DialogDescription className="sr-only">{description || name}</DialogDescription>
+        {imageUrl && (
+          <img src={imageUrl} alt={name} className="w-full h-auto max-h-[85vh] object-contain rounded" />
+        )}
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
