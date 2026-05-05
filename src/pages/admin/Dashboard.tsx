@@ -24,11 +24,13 @@ interface Product {
   category_id: string | null;
   subcategory_id: string | null;
   image_url: string | null;
+  display_order?: number;
 }
 
 interface Category {
   id: string;
   name: string;
+  display_order?: number;
 }
 
 interface Subcategory {
@@ -438,6 +440,55 @@ const Dashboard = () => {
     } finally {
       setSavingCategoryRename(false);
     }
+  };
+
+  const swapCategoryOrder = async (a: Category, b: Category) => {
+    const aOrder = (a as any).display_order ?? 0;
+    const bOrder = (b as any).display_order ?? 0;
+    // optimistic
+    setCategories(prev => prev.map(c => c.id === a.id ? { ...c, display_order: bOrder } : c.id === b.id ? { ...c, display_order: aOrder } : c).sort((x, y) => ((x as any).display_order ?? 0) - ((y as any).display_order ?? 0)));
+    try {
+      const [r1, r2] = await Promise.all([
+        supabase.from("categories").update({ display_order: bOrder }).eq("id", a.id),
+        supabase.from("categories").update({ display_order: aOrder }).eq("id", b.id),
+      ]);
+      if (r1.error || r2.error) throw r1.error || r2.error;
+    } catch (e: any) {
+      toast.error(e.message || "Failed to reorder");
+      fetchData();
+    }
+  };
+
+  const moveCategory = (categoryId: string, dir: -1 | 1) => {
+    const sorted = [...categories].sort((a, b) => ((a as any).display_order ?? 0) - ((b as any).display_order ?? 0));
+    const idx = sorted.findIndex(c => c.id === categoryId);
+    const target = idx + dir;
+    if (idx < 0 || target < 0 || target >= sorted.length) return;
+    swapCategoryOrder(sorted[idx], sorted[target]);
+  };
+
+  const swapProductOrder = async (a: Product, b: Product) => {
+    const aOrder = a.display_order ?? 0;
+    const bOrder = b.display_order ?? 0;
+    setProducts(prev => prev.map(p => p.id === a.id ? { ...p, display_order: bOrder } : p.id === b.id ? { ...p, display_order: aOrder } : p));
+    try {
+      const [r1, r2] = await Promise.all([
+        supabase.from("products").update({ display_order: bOrder }).eq("id", a.id),
+        supabase.from("products").update({ display_order: aOrder }).eq("id", b.id),
+      ]);
+      if (r1.error || r2.error) throw r1.error || r2.error;
+    } catch (e: any) {
+      toast.error(e.message || "Failed to reorder");
+      fetchData();
+    }
+  };
+
+  const moveProduct = (productId: string, categoryId: string, dir: -1 | 1) => {
+    const list = getProductsByCategory(categoryId);
+    const idx = list.findIndex(p => p.id === productId);
+    const target = idx + dir;
+    if (idx < 0 || target < 0 || target >= list.length) return;
+    swapProductOrder(list[idx], list[target]);
   };
 
   const handleEditPopup = (popup: PromoPopup) => {
