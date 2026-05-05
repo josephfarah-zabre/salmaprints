@@ -44,7 +44,7 @@ export const CategoryCard = ({
       </div>
 
       <div className="p-2 md:p-4 text-center">
-        <h3 className="text-sm md:text-base font-semibold group-hover:text-primary transition-colors break-words">
+        <h3 className="text-xs sm:text-sm md:text-base font-semibold leading-snug group-hover:text-primary transition-colors break-words">
           {name}
         </h3>
       </div>
