@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProductCardProps {
@@ -24,10 +26,17 @@ export const ProductCard = ({
   isFeatured = false,
 }: ProductCardProps) => {
   const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
   return (
+    <>
     <Card className="group overflow-hidden border-2 border-border shadow-card hover:shadow-hover hover:border-primary transition-all duration-300 hover:-translate-y-1">
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden bg-secondary">
+      <button
+        type="button"
+        onClick={() => imageUrl && setOpen(true)}
+        className="relative aspect-square overflow-hidden bg-secondary block w-full focus:outline-none focus:ring-2 focus:ring-primary"
+        aria-label={`View ${name}`}
+      >
         {imageUrl ? (
           <img
             src={imageUrl}
