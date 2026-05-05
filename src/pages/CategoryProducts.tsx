@@ -87,7 +87,7 @@ const CategoryProducts = () => {
     ];
     if (product.image_url) parts.push(product.image_url);
     const message = encodeURIComponent(parts.join("\n"));
-    window.open(`https://wa.me/?text=${message}`, "_blank");
+    window.open(`https://wa.me/message/5JHP3PKIIBIRK1?text=${message}`, "_blank");
   };
 
   const filteredProducts = useMemo(() => {
