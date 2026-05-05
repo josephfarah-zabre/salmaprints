@@ -53,6 +53,7 @@ const CategoryProducts = () => {
           .from("products")
           .select("*")
           .eq("category_id", categoryId)
+          .order("display_order", { ascending: true })
           .order("created_at", { ascending: false }),
         supabase
           .from("categories")
