@@ -483,12 +483,33 @@ const Dashboard = () => {
     }
   };
 
-  const moveProduct = (productId: string, categoryId: string, dir: -1 | 1) => {
+  const moveProduct = async (productId: string, categoryId: string, dir: -1 | 1) => {
     const list = getProductsByCategory(categoryId);
     const idx = list.findIndex(p => p.id === productId);
     const target = idx + dir;
     if (idx < 0 || target < 0 || target >= list.length) return;
-    swapProductOrder(list[idx], list[target]);
+
+    // Normalize if there are duplicate display_order values (e.g. all 0)
+    const orders = list.map(p => p.display_order ?? 0);
+    const hasDupes = new Set(orders).size !== orders.length;
+    if (hasDupes) {
+      const normalized = list.map((p, i) => ({ ...p, display_order: (i + 1) * 10 }));
+      setProducts(prev => prev.map(p => {
+        const match = normalized.find(n => n.id === p.id);
+        return match ? match : p;
+      }));
+      try {
+        await Promise.all(normalized.map(p =>
+          supabase.from("products").update({ display_order: p.display_order }).eq("id", p.id)
+        ));
+      } catch (e: any) {
+        toast.error(e.message || "Failed to set order");
+        return fetchData();
+      }
+      swapProductOrder(normalized[idx], normalized[target]);
+    } else {
+      swapProductOrder(list[idx], list[target]);
+    }
   };
 
   const handleEditPopup = (popup: PromoPopup) => {
