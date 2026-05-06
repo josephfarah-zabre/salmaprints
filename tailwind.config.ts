@@ -94,6 +94,8 @@ export default {
         'poppins': ['Poppins', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
+        'tajawal': ['Tajawal', 'sans-serif'],
+        'sans': ['Tajawal', 'Inter', 'sans-serif'],
       },
       transitionTimingFunction: {
         'smooth': 'var(--transition-smooth)',

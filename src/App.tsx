@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import CategoryProducts from "./pages/CategoryProducts";
+import SubcategoryProducts from "./pages/SubcategoryProducts";
+import ProductDetail from "./pages/ProductDetail";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import VotingManagement from "./pages/admin/VotingManagement";
@@ -24,6 +26,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/category/:categoryId" element={<CategoryProducts />} />
+            <Route path="/subcategory/:subcategoryId" element={<SubcategoryProducts />} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/voting" element={<VotingManagement />} />
