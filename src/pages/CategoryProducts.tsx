@@ -1,13 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ProductCard } from "@/components/ProductCard";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { CategoryCard } from "@/components/CategoryCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Product {
   id: string;
@@ -34,19 +33,17 @@ const CategoryProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState<Category | null>(null);
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
-  const [activeSubcategory, setActiveSubcategory] = useState<string>("all");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { categoryId } = useParams();
+  const { language } = useLanguage();
 
   useEffect(() => {
-    if (categoryId) {
-      setActiveSubcategory("all");
-      fetchData();
-    }
+    if (categoryId) fetchData();
   }, [categoryId]);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const [productsData, categoryData, subcategoriesData] = await Promise.all([
         supabase
@@ -55,11 +52,7 @@ const CategoryProducts = () => {
           .eq("category_id", categoryId)
           .order("display_order", { ascending: true })
           .order("created_at", { ascending: false }),
-        supabase
-          .from("categories")
-          .select("id, name")
-          .eq("id", categoryId)
-          .single(),
+        supabase.from("categories").select("id, name").eq("id", categoryId).single(),
         supabase
           .from("subcategories")
           .select("id, name, category_id")
@@ -75,96 +68,79 @@ const CategoryProducts = () => {
       setCategory(categoryData.data);
       setSubcategories(subcategoriesData.data || []);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error("Failed to load products");
+      console.error(error);
+      toast.error("Failed to load");
     } finally {
       setLoading(false);
     }
   };
 
+  const hasSubcategories = subcategories.length > 0;
+  const productsWithoutSub = products.filter((p) => !p.subcategory_id);
+
   const handleWhatsAppInquiry = (product: Product) => {
     const parts = [
-      `Hi! I'm interested in: ${product.name}${product.price ? ` - $${product.price}` : ""}`,
+      `${language === "ar" ? "مرحباً، أنا مهتم بـ" : "Hi! I'm interested in"}: ${product.name}${product.price ? ` - $${product.price}` : ""}`,
     ];
     if (product.image_url) parts.push(product.image_url);
     const message = encodeURIComponent(parts.join("\n"));
     window.open(`https://wa.me/message/5JHP3PKIIBIRK1?text=${message}`, "_blank");
   };
 
-  const filteredProducts = useMemo(() => {
-    if (activeSubcategory === "all") return products;
-    return products.filter(p => p.subcategory_id === activeSubcategory);
-  }, [products, activeSubcategory]);
-
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
 
-      {/* Subcategory Filter */}
-      {subcategories.length > 0 && (
-        <section className="bg-background border-b py-6 px-4 sticky top-0 z-30">
-          <div className="container mx-auto">
-            <div className="flex flex-wrap gap-2 justify-center">
-              <button
-                onClick={() => setActiveSubcategory("all")}
-                className={cn(
-                  "px-5 py-2 rounded-full text-sm font-semibold transition-all border",
-                  activeSubcategory === "all"
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-foreground border-border hover:border-primary hover:text-primary"
-                )}
-              >
-                All
-              </button>
-              {subcategories.map((sub) => (
-                <button
-                  key={sub.id}
-                  onClick={() => setActiveSubcategory(sub.id)}
-                  className={cn(
-                    "px-5 py-2 rounded-full text-sm font-semibold transition-all border",
-                    activeSubcategory === sub.id
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-background text-foreground border-border hover:border-primary hover:text-primary"
-                  )}
-                >
-                  {sub.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Products Grid */}
-      <section className="flex-1 bg-background py-12 px-4">
+      <section className="flex-1 px-4 py-6 md:py-10">
         <div className="container mx-auto">
+          <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-6 md:mb-10">
+            {category?.name}
+          </h1>
+
           {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
-              <p className="mt-4 text-text-secondary">Loading products...</p>
-            </div>
-          ) : filteredProducts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-text-secondary">No products found in this category.</p>
+            <div className="text-center py-20">
+              <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-primary border-r-transparent" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product, index) => (
-                <div
-                  key={product.id}
-                  className="animate-slide-up"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <ProductCard
-                    name={product.name}
-                    description={product.description || undefined}
-                    price={product.price || undefined}
-                    imageUrl={product.image_url || undefined}
-                    onWhatsAppClick={() => handleWhatsAppInquiry(product)}
-                  />
+            <>
+              {hasSubcategories && (
+                <div className="grid grid-cols-3 gap-3 md:gap-5 mb-8">
+                  {subcategories.map((sub) => (
+                    <CategoryCard
+                      key={sub.id}
+                      name={sub.name}
+                      imageUrl={
+                        products.find((p) => p.subcategory_id === sub.id)?.image_url ||
+                        undefined
+                      }
+                      onClick={() => navigate(`/subcategory/${sub.id}`)}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+
+              {(!hasSubcategories ? products : productsWithoutSub).length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+                  {(!hasSubcategories ? products : productsWithoutSub).map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      name={product.name}
+                      description={product.description || undefined}
+                      price={product.price || undefined}
+                      imageUrl={product.image_url || undefined}
+                      onWhatsAppClick={() => handleWhatsAppInquiry(product)}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {!hasSubcategories && products.length === 0 && (
+                <p className="text-center text-text-secondary py-12">
+                  {language === "ar" ? "لا توجد منتجات." : "No products found."}
+                </p>
+              )}
+            </>
           )}
         </div>
       </section>
