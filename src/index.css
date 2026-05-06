@@ -2,230 +2,147 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/*
+  Salma Prints — design tokens cloned from soufi-print.com flow.
+  Light theme is the primary experience (matches soufi-print).
+  Cairo is the heading font; Inter falls back for Latin text.
 */
 
 @layer base {
   :root {
-    /* Base colors - Clean whites and grays */
-    --background: 0 0% 100%; /* #FFFFFF */
-    --background-secondary: 0 0% 97%; /* #F7F7F7 */
-    --background-cream: 45 40% 95%; /* Light cream */
-    --foreground: 0 0% 15%; /* Almost black */
-    
-    /* Deep Blue System - #2C3B7E */
-    --primary: 229 48% 33%; /* #2C3B7E */
-    --primary-foreground: 0 0% 100%;
-    --primary-dark: 229 48% 25%;
-    --primary-light: 229 48% 45%;
-    
-    /* Accent Colors */
-    --accent-yellow: 48 100% 50%;
-    --accent-orange: 25 100% 50%;
-    --accent-green: 142 71% 45%;
-    
-    /* Card colors */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 15%;
-    
-    /* Popover colors */
+    /* Surfaces */
+    --background: 220 14% 97%; /* page bg, soft blue-grey */
+    --foreground: 217 41% 16%; /* primary text, deep navy */
+
+    --card: 0 0% 100%; /* white cards */
+    --card-foreground: 217 41% 16%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 15%;
-    
-    /* Secondary colors */
-    --secondary: 0 0% 96%; /* Light gray background */
-    --secondary-foreground: 0 0% 15%;
-    
-    /* Muted colors */
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%; /* Medium gray */
-    
-    /* Accent */
-    --accent: 229 48% 33%;
-    --accent-foreground: 0 0% 100%;
-    
-    /* Status colors */
-    --success: 142 71% 45%;
-    --warning: 38 92% 50%;
-    --destructive: 0 84% 60%;
+    --popover-foreground: 217 41% 16%;
+
+    /* Brand */
+    --primary: 220 50% 17%; /* deep navy blue (CTA) */
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 220 55% 12%;
+    --primary-light: 220 35% 30%;
+
+    --secondary: 220 20% 94%; /* secondary surface */
+    --secondary-foreground: 220 30% 20%;
+
+    --muted: 220 16% 92%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 220 25% 90%;
+    --accent-foreground: 220 30% 20%;
+
+    --destructive: 0 73% 50%;
     --destructive-foreground: 0 0% 100%;
-    --info: 221 83% 53%;
-    
-    /* Text colors */
-    --text-primary: 0 0% 15%;
-    --text-secondary: 0 0% 45%;
-    --text-tertiary: 0 0% 62%;
-    
-    /* Border colors */
-    --border: 0 0% 91%;
-    --input: 0 0% 91%;
-    --ring: 229 48% 33%;
-    
-    --radius: 0.5rem;
-    
-    /* Custom design tokens - Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(229, 48%, 33%) 0%, hsl(229, 48%, 45%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(229, 48%, 33%) 0%, hsl(229, 48%, 25%) 100%);
-    
-    /* Custom design tokens - Shadows */
-    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.08);
-    --shadow-hover: 0 4px 12px hsl(0 0% 0% / 0.12);
-    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.15);
-    
-    /* Custom design tokens - Transitions */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: all 0.2s ease;
 
-    --sidebar-background: 0 0% 98%;
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 220 50% 17%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --radius: 0.875rem;
   }
 
   .dark {
-    --background: 0 0% 10%;
-    --background-secondary: 0 0% 12%;
-    --background-tertiary: 328 20% 15%;
+    --background: 220 50% 12%;
     --foreground: 0 0% 98%;
-    
-    --primary: 328 100% 54%;
-    --primary-foreground: 0 0% 100%;
-    --primary-secondary: 330 100% 71%;
-    --primary-light: 339 100% 85%;
-    --primary-subtle: 328 30% 25%;
-    
-    --card: 0 0% 12%;
+    --card: 220 45% 17%;
     --card-foreground: 0 0% 98%;
-    
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 98%;
-    
-    --secondary: 0 0% 18%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 220 50% 12%;
+    --secondary: 220 40% 22%;
     --secondary-foreground: 0 0% 98%;
-    
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 65%;
-    
-    --accent: 328 100% 54%;
-    --accent-foreground: 0 0% 100%;
-    
-    --success: 142 71% 45%;
-    --warning: 38 92% 50%;
-    --destructive: 0 75% 50%;
-    --destructive-foreground: 0 0% 100%;
-    --info: 221 83% 53%;
-    
-    --text-primary: 0 0% 98%;
-    --text-secondary: 0 0% 75%;
-    --text-tertiary: 0 0% 55%;
-    
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 328 100% 54%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --muted: 220 35% 22%;
+    --muted-foreground: 220 10% 70%;
+    --accent: 220 35% 25%;
+    --accent-foreground: 0 0% 98%;
+    --border: 220 35% 25%;
+    --input: 220 35% 25%;
+    --ring: 0 0% 100%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
 
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Tajawal', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "ss01", "cv11";
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Tajawal', 'Poppins', sans-serif;
-    font-weight: 700;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-cairo font-extrabold tracking-tight;
+    color: hsl(var(--foreground));
   }
 
-  [dir="rtl"] body,
-  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
-  [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
-    font-family: 'Tajawal', sans-serif;
+  /* Latin runs inside an Arabic page should render in Inter */
+  .font-latin {
+    font-family: "Inter", system-ui, sans-serif;
   }
-}
 
-@layer utilities {
-  /* Animation utilities */
-  .animate-fade-in {
-    animation: fade-in 0.3s ease-out;
-  }
-  
-  .animate-slide-up {
-    animation: slide-up 0.5s ease-out;
-  }
-  
-  .hover-lift {
-    @apply transition-transform duration-300 hover:-translate-y-1;
-  }
-  
-  .hover-scale {
-    @apply transition-transform duration-200 hover:scale-105;
-  }
-  
-  /* Link underline animation */
-  .link-underline {
-    @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  /* RTL helpers */
+  [dir="rtl"] .rtl\:flip {
+    transform: scaleX(-1);
   }
 }
 
 @layer components {
-  /* Hero section styles */
-  .hero-gradient {
-    background: linear-gradient(180deg, hsl(348, 100%, 98%) 0%, hsl(0, 0%, 100%) 100%);
+  /* Section title + Lebanese flag underline (matches soufi-print sections) */
+  .section-title {
+    @apply text-3xl md:text-5xl font-cairo font-black text-foreground;
   }
-  
-  /* Pink accent border */
-  .border-primary-accent {
-    @apply border-2 border-primary;
+  .section-subtitle {
+    @apply mt-1 text-sm md:text-base font-latin tracking-wide text-muted-foreground;
   }
-  
-  /* Card hover effect */
-  .card-hover {
-    @apply transition-all duration-300 hover:shadow-hover hover:border-primary;
+  .section-underline {
+    @apply mx-auto mt-4 h-[3px] w-24 rounded-full;
+    background: linear-gradient(90deg, hsl(0 73% 50%) 0%, hsl(0 0% 100%) 50%, hsl(140 56% 38%) 100%);
   }
-}
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  /* Soufi-style nav pill */
+  .nav-pill {
+    @apply rounded-full px-5 py-2 text-sm font-medium transition;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .nav-pill-active {
+    @apply bg-primary text-primary-foreground shadow-pill;
   }
-}
+  .nav-pill-idle {
+    @apply text-foreground/80 hover:text-foreground;
+  }
 
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+  /* Filter pill (Products page) */
+  .filter-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-transparent
+           bg-muted/60 px-5 py-2 text-sm font-medium text-foreground/70
+           transition hover:bg-muted;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .filter-pill[data-active="true"] {
+    @apply bg-primary text-primary-foreground shadow-pill;
+  }
+
+  /* Product / Category card */
+  .surface-card {
+    @apply rounded-2xl bg-card text-card-foreground shadow-card transition;
+  }
+  .surface-card:hover {
+    @apply shadow-card-hover -translate-y-0.5;
+  }
+
+  /* Hero spotlight reflection seen at the bottom of soufi-print hero */
+  .hero-spotlight {
+    background: radial-gradient(60% 60% at 50% 0%, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
   }
 }
