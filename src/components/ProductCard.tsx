@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProductCardProps {
+  id?: string;
   name: string;
   description?: string;
   price?: number;
@@ -16,24 +16,28 @@ interface ProductCardProps {
   isFeatured?: boolean;
 }
 
-export const ProductCard = ({ 
-  name, 
-  description, 
-  price, 
-  imageUrl, 
+export const ProductCard = ({
+  id,
+  name,
+  description,
+  price,
+  imageUrl,
   onWhatsAppClick,
   isNew = false,
   isFeatured = false,
 }: ProductCardProps) => {
   const { t } = useLanguage();
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const goToDetail = () => {
+    if (id) navigate(`/product/${id}`);
+  };
+
   return (
-    <>
-    <Card className="group overflow-hidden border-2 border-border shadow-card hover:shadow-hover hover:border-primary transition-all duration-300 hover:-translate-y-1">
-      {/* Product Image */}
+    <Card className="group overflow-hidden border border-border shadow-card hover:shadow-hover hover:border-primary transition-all duration-300 flex flex-col">
       <button
         type="button"
-        onClick={() => imageUrl && setOpen(true)}
+        onClick={goToDetail}
         className="relative aspect-square overflow-hidden bg-secondary block w-full focus:outline-none focus:ring-2 focus:ring-primary"
         aria-label={`View ${name}`}
       >
@@ -41,7 +45,7 @@ export const ProductCard = ({
           <img
             src={imageUrl}
             alt={name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
         ) : (
@@ -51,62 +55,49 @@ export const ProductCard = ({
             </span>
           </div>
         )}
-        
-        {/* Badges */}
         {(isNew || isFeatured) && (
           <div className="absolute top-2 right-2 flex flex-col gap-1">
             {isNew && (
-              <Badge className="bg-primary-light text-primary border-primary">
+              <Badge className="bg-primary text-primary-foreground text-[10px]">
                 {t("product.new")}
               </Badge>
             )}
             {isFeatured && (
-              <Badge className="bg-primary-light text-primary border-primary">
+              <Badge className="bg-primary text-primary-foreground text-[10px]">
                 {t("product.featured")}
               </Badge>
             )}
           </div>
         )}
       </button>
-      
-      {/* Product Info */}
-      <CardContent className="p-5">
-        <h3 className="font-semibold text-lg mb-2 line-clamp-1 group-hover:text-primary transition-colors">
-          {name}
-        </h3>
-        {description && (
-          <p className="text-sm text-text-secondary line-clamp-2 mb-3">
-            {description}
-          </p>
-        )}
+
+      <CardContent className="p-2 md:p-3 flex-1">
+        <button
+          type="button"
+          onClick={goToDetail}
+          className="text-left w-full"
+        >
+          <h3 className="font-semibold text-sm md:text-base line-clamp-2 group-hover:text-primary transition-colors leading-snug">
+            {name}
+          </h3>
+        </button>
         {price && (
-          <p className="text-2xl font-bold text-primary">
+          <p className="text-base md:text-lg font-bold text-primary mt-1">
             ${price.toFixed(2)}
           </p>
         )}
       </CardContent>
-      
-      {/* Action Button */}
-      <CardFooter className="p-5 pt-0">
+
+      <CardFooter className="p-2 md:p-3 pt-0">
         <Button
           onClick={onWhatsAppClick}
-          className="w-full bg-gradient-primary hover:opacity-90 transition-all duration-300 hover:shadow-glow"
+          className="w-full bg-gradient-primary hover:opacity-90 transition-all"
           size="sm"
         >
-          <MessageCircle className="w-4 h-4 mr-2" />
-          {t("product.inquire")}
+          <MessageCircle className="w-3.5 h-3.5 mr-1" />
+          <span className="text-xs md:text-sm">{t("product.inquire")}</span>
         </Button>
       </CardFooter>
     </Card>
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-3xl p-2 sm:p-4 bg-background">
-        <DialogTitle className="sr-only">{name}</DialogTitle>
-        <DialogDescription className="sr-only">{description || name}</DialogDescription>
-        {imageUrl && (
-          <img src={imageUrl} alt={name} className="w-full h-auto max-h-[85vh] object-contain rounded" />
-        )}
-      </DialogContent>
-    </Dialog>
-    </>
   );
 };
