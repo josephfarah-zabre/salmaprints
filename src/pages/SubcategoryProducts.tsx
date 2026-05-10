@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
+import { CategoryNavStrip } from "@/components/CategoryNavStrip";
 import Footer from "@/components/Footer";
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -16,13 +17,9 @@ interface Product {
   price: number | null;
   image_url: string | null;
   subcategory_id: string | null;
+  is_featured: boolean | null;
 }
-
-interface Subcategory {
-  id: string;
-  name: string;
-  category_id: string;
-}
+interface Subcategory { id: string; name: string; category_id: string; }
 
 const SubcategoryProducts = () => {
   const { subcategoryId } = useParams();
@@ -74,6 +71,7 @@ const SubcategoryProducts = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
+      <CategoryNavStrip />
       <section className="flex-1 px-4 py-6 md:py-10">
         <div className="container mx-auto">
           <div className="flex items-center justify-between mb-6">
@@ -81,12 +79,12 @@ const SubcategoryProducts = () => {
               variant="ghost"
               onClick={() => subcategory && navigate(`/category/${subcategory.category_id}`)}
             >
-              <BackIcon className="w-4 h-4 mr-2" />
+              <BackIcon className="w-4 h-4 mr-2 rtl:mr-0 rtl:ml-2" />
               {language === "ar" ? "رجوع" : "Back"}
             </Button>
           </div>
 
-          <h1 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-10">
+          <h1 className="text-2xl md:text-4xl font-extrabold text-center text-primary mb-6 md:mb-10">
             {subcategory?.name}
           </h1>
 
@@ -106,8 +104,9 @@ const SubcategoryProducts = () => {
                   id={product.id}
                   name={product.name}
                   description={product.description || undefined}
-                  price={product.price || undefined}
+                  price={product.price ?? undefined}
                   imageUrl={product.image_url || undefined}
+                  isFeatured={!!product.is_featured}
                   onWhatsAppClick={() => handleWhatsAppInquiry(product)}
                 />
               ))}
