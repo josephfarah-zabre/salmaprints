@@ -8,6 +8,7 @@ import { Navbar } from "@/components/Navbar";
 import { CategoryNavStrip } from "@/components/CategoryNavStrip";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 interface Product {
   id: string;
