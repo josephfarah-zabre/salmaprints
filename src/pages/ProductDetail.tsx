@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 interface Product {
   id: string;
@@ -50,12 +51,7 @@ const ProductDetail = () => {
 
   const handleWhatsAppInquiry = () => {
     if (!product) return;
-    const parts = [
-      `${language === "ar" ? "مرحباً، أنا مهتم بـ" : "Hi! I'm interested in"}: ${product.name}${product.price ? ` - $${product.price}` : ""}`,
-    ];
-    if (product.image_url) parts.push(product.image_url);
-    const message = encodeURIComponent(parts.join("\n"));
-    window.open(`https://wa.me/message/5JHP3PKIIBIRK1?text=${message}`, "_blank");
+    window.open(buildWhatsAppLink(product, language), "_blank", "noopener,noreferrer");
   };
 
   const BackIcon = language === "ar" ? ArrowRight : ArrowLeft;
