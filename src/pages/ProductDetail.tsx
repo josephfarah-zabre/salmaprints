@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
+import { CategoryNavStrip } from "@/components/CategoryNavStrip";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
@@ -62,10 +63,11 @@ const ProductDetail = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
+      <CategoryNavStrip />
       <section className="flex-1 px-4 py-6 md:py-10">
         <div className="container mx-auto max-w-5xl">
           <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4">
-            <BackIcon className="w-4 h-4 mr-2" />
+            <BackIcon className="w-4 h-4 mr-2 rtl:mr-0 rtl:ml-2" />
             {language === "ar" ? "رجوع" : "Back"}
           </Button>
 
@@ -78,8 +80,8 @@ const ProductDetail = () => {
               {language === "ar" ? "المنتج غير موجود." : "Product not found."}
             </p>
           ) : (
-            <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
-              <div className="aspect-square bg-secondary rounded-lg overflow-hidden border border-border">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-start">
+              <div className="aspect-square bg-surface-peach/50 rounded-2xl overflow-hidden border border-border">
                 {product.image_url ? (
                   <img
                     src={product.image_url}
@@ -87,8 +89,8 @@ const ProductDetail = () => {
                     className="w-full h-full object-contain"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-primary">
-                    <span className="text-primary-foreground text-7xl font-bold opacity-30">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-primary/30 text-7xl font-bold">
                       {product.name.charAt(0)}
                     </span>
                   </div>
@@ -96,13 +98,14 @@ const ProductDetail = () => {
               </div>
 
               <div className="flex flex-col gap-5">
-                <h1 className="text-2xl md:text-4xl font-bold text-foreground">
+                <h1 className="text-2xl md:text-4xl font-extrabold text-primary">
                   {product.name}
                 </h1>
-                {product.price && (
-                  <p className="text-3xl font-bold text-primary">
-                    ${product.price.toFixed(2)}
-                  </p>
+                {product.price != null && (
+                  <span className="price text-primary text-4xl md:text-5xl">
+                    <span className="currency">$</span>
+                    {Number.isInteger(product.price) ? product.price : product.price.toFixed(2)}
+                  </span>
                 )}
                 {product.description && (
                   <p className="text-base text-text-secondary leading-relaxed whitespace-pre-line">
@@ -112,9 +115,9 @@ const ProductDetail = () => {
                 <Button
                   size="lg"
                   onClick={handleWhatsAppInquiry}
-                  className="w-full md:w-auto bg-gradient-primary hover:opacity-90 transition-all hover:shadow-glow mt-2"
+                  className="w-full md:w-auto rounded-full bg-primary hover:bg-primary-dark text-primary-foreground mt-2"
                 >
-                  <MessageCircle className="w-5 h-5 mr-2" />
+                  <MessageCircle className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
                   {t("product.inquire")}
                 </Button>
               </div>

@@ -19,22 +19,18 @@ interface ProductCardProps {
 export const ProductCard = ({
   id,
   name,
-  description,
   price,
   imageUrl,
   onWhatsAppClick,
-  isNew = false,
-  isFeatured = false,
+  isNew,
+  isFeatured,
 }: ProductCardProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
-
-  const goToDetail = () => {
-    if (id) navigate(`/product/${id}`);
-  };
+  const goToDetail = () => id && navigate(`/product/${id}`);
 
   return (
-    <Card className="group overflow-hidden border border-border shadow-card hover:shadow-hover hover:border-primary transition-all duration-300 flex flex-col">
+    <Card className="group overflow-hidden border border-border rounded-xl bg-card shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
       <button
         type="button"
         onClick={goToDetail}
@@ -45,57 +41,53 @@ export const ProductCard = ({
           <img
             src={imageUrl}
             alt={name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-primary">
-            <span className="text-primary-foreground text-4xl font-bold opacity-30">
-              {name.charAt(0)}
-            </span>
+          <div className="w-full h-full flex items-center justify-center bg-primary/5">
+            <span className="text-primary/40 text-4xl font-bold">{name.charAt(0)}</span>
           </div>
         )}
-        {(isNew || isFeatured) && (
-          <div className="absolute top-2 right-2 flex flex-col gap-1">
-            {isNew && (
-              <Badge className="bg-primary text-primary-foreground text-[10px]">
-                {t("product.new")}
-              </Badge>
-            )}
-            {isFeatured && (
-              <Badge className="bg-primary text-primary-foreground text-[10px]">
-                {t("product.featured")}
-              </Badge>
-            )}
-          </div>
+
+        {isNew && (
+          <Badge className="absolute top-2 left-2 rtl:left-auto rtl:right-2 bg-badge-green-bg text-badge-green-fg border-0 text-[10px] font-bold rounded-md">
+            {t("product.new")}
+          </Badge>
+        )}
+        {isFeatured && !isNew && (
+          <Badge className="absolute top-2 left-2 rtl:left-auto rtl:right-2 bg-accent text-accent-foreground border-0 text-[10px] font-bold rounded-md">
+            {t("product.featured")}
+          </Badge>
         )}
       </button>
 
-      <CardContent className="p-2 md:p-3 flex-1">
-        <button
-          type="button"
-          onClick={goToDetail}
-          className="text-left w-full"
-        >
-          <h3 className="font-semibold text-sm md:text-base line-clamp-2 group-hover:text-primary transition-colors leading-snug">
+      <CardContent className="p-3 flex-1">
+        <button type="button" onClick={goToDetail} className="text-left rtl:text-right w-full">
+          <h3 className="font-semibold text-sm md:text-base line-clamp-2 leading-snug group-hover:text-primary transition-colors">
             {name}
           </h3>
         </button>
-        {price && (
-          <p className="text-base md:text-lg font-bold text-primary mt-1">
-            ${price.toFixed(2)}
-          </p>
+        {price != null && (
+          <div className="mt-2 flex items-center justify-between">
+            <span className="price text-primary text-xl md:text-2xl">
+              <span className="currency">$</span>
+              {Number.isInteger(price) ? price : price.toFixed(2)}
+            </span>
+          </div>
         )}
       </CardContent>
 
-      <CardFooter className="p-2 md:p-3 pt-0">
+      <CardFooter className="p-3 pt-0">
         <Button
           onClick={onWhatsAppClick}
-          className="w-full bg-gradient-primary hover:opacity-90 transition-all"
+          className="w-full rounded-full bg-primary hover:bg-primary-dark text-primary-foreground"
           size="sm"
+          aria-label={language === "ar" ? "استفسر عبر واتساب" : "Inquire on WhatsApp"}
         >
-          <MessageCircle className="w-3.5 h-3.5 mr-1" />
-          <span className="text-xs md:text-sm">{t("product.inquire")}</span>
+          <MessageCircle className="w-4 h-4 mr-1.5 rtl:mr-0 rtl:ml-1.5" />
+          <span className="text-xs md:text-sm font-semibold">{t("product.inquire")}</span>
         </Button>
       </CardFooter>
     </Card>

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ProductCard } from "@/components/ProductCard";
-import { CategoryCard } from "@/components/CategoryCard";
+import { CategoryCircle } from "@/components/CategoryCircle";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
+import { CategoryNavStrip } from "@/components/CategoryNavStrip";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -16,18 +17,11 @@ interface Product {
   image_url: string | null;
   category_id: string | null;
   subcategory_id: string | null;
+  is_featured: boolean | null;
 }
 
-interface Category {
-  id: string;
-  name: string;
-}
-
-interface Subcategory {
-  id: string;
-  name: string;
-  category_id: string;
-}
+interface Category { id: string; name: string; }
+interface Subcategory { id: string; name: string; category_id: string; }
 
 const CategoryProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -59,16 +53,14 @@ const CategoryProducts = () => {
           .eq("category_id", categoryId)
           .order("display_order"),
       ]);
-
       if (productsData.error) throw productsData.error;
       if (categoryData.error) throw categoryData.error;
       if (subcategoriesData.error) throw subcategoriesData.error;
-
       setProducts(productsData.data || []);
       setCategory(categoryData.data);
       setSubcategories(subcategoriesData.data || []);
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
       toast.error("Failed to load");
     } finally {
       setLoading(false);
@@ -90,10 +82,11 @@ const CategoryProducts = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
+      <CategoryNavStrip />
 
       <section className="flex-1 px-4 py-6 md:py-10">
         <div className="container mx-auto">
-          <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-6 md:mb-10">
+          <h1 className="text-2xl md:text-4xl font-extrabold text-center text-primary mb-6 md:mb-10">
             {category?.name}
           </h1>
 
@@ -104,18 +97,20 @@ const CategoryProducts = () => {
           ) : (
             <>
               {hasSubcategories && (
-                <div className="grid grid-cols-3 gap-3 md:gap-5 mb-8">
-                  {subcategories.map((sub) => (
-                    <CategoryCard
-                      key={sub.id}
-                      name={sub.name}
-                      imageUrl={
-                        products.find((p) => p.subcategory_id === sub.id)?.image_url ||
-                        undefined
-                      }
-                      onClick={() => navigate(`/subcategory/${sub.id}`)}
-                    />
-                  ))}
+                <div className="flex md:grid md:grid-cols-6 gap-3 md:gap-6 overflow-x-auto md:overflow-visible no-scrollbar pb-2 mb-8">
+                  {subcategories.map((sub) => {
+                    const img = products.find((p) => p.subcategory_id === sub.id)?.image_url || undefined;
+                    return (
+                      <CategoryCircle
+                        key={sub.id}
+                        name={sub.name}
+                        imageUrl={img}
+                        size="sm"
+                        onClick={() => navigate(`/subcategory/${sub.id}`)}
+                        className="shrink-0"
+                      />
+                    );
+                  })}
                 </div>
               )}
 
@@ -127,8 +122,9 @@ const CategoryProducts = () => {
                       id={product.id}
                       name={product.name}
                       description={product.description || undefined}
-                      price={product.price || undefined}
+                      price={product.price ?? undefined}
                       imageUrl={product.image_url || undefined}
+                      isFeatured={!!product.is_featured}
                       onWhatsAppClick={() => handleWhatsAppInquiry(product)}
                     />
                   ))}

@@ -9,41 +9,35 @@ interface CategoryCardProps {
   className?: string;
 }
 
-export const CategoryCard = ({
-  name,
-  imageUrl,
-  onClick,
-  className,
-}: CategoryCardProps) => {
+/**
+ * Legacy CategoryCard kept as a tile (rectangular). New round version lives in CategoryCircle.
+ */
+export const CategoryCard = ({ name, imageUrl, onClick, className }: CategoryCardProps) => {
   return (
     <button
       onClick={onClick}
       className={cn(
-        "group bg-card rounded-lg overflow-hidden border-2 border-border flex flex-col",
-        "transition-all duration-300",
-        "hover:border-primary hover:bg-primary-subtle hover:shadow-hover hover:-translate-y-1",
+        "group bg-card rounded-2xl overflow-hidden border border-border flex flex-col",
+        "transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-0.5",
         "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-        className
+        className,
       )}
     >
-      <div className="aspect-square w-full overflow-hidden bg-secondary">
+      <div className="aspect-square w-full overflow-hidden bg-surface-peach">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-primary">
-            <span className="text-primary-foreground text-5xl font-bold opacity-40">
-              {name.charAt(0)}
-            </span>
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-primary/40 text-5xl font-bold">{name.charAt(0)}</span>
           </div>
         )}
       </div>
-
-      <div className="p-2 md:p-4 text-center">
+      <div className="p-2 md:p-3 text-center">
         <h3 className="text-xs sm:text-sm md:text-base font-semibold leading-snug group-hover:text-primary transition-colors break-words">
           {name}
         </h3>
