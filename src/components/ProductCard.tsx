@@ -82,12 +82,11 @@ export const ProductCard = ({
       <CardFooter className="p-3 pt-0">
         <Button
           onClick={onWhatsAppClick}
-          className="w-full rounded-full bg-primary hover:bg-primary-dark text-primary-foreground"
-          size="sm"
+          className="w-full min-w-0 px-3 sm:px-4 py-2 h-9 text-[13px] sm:text-sm rounded-full overflow-hidden inline-flex items-center justify-center gap-1.5 bg-primary hover:bg-primary-dark text-primary-foreground"
           aria-label={language === "ar" ? "استفسر عبر واتساب" : "Inquire on WhatsApp"}
         >
-          <MessageCircle className="w-4 h-4 mr-1.5 rtl:mr-0 rtl:ml-1.5" />
-          <span className="text-xs md:text-sm font-semibold">{t("product.inquire")}</span>
+          <MessageCircle className="w-4 h-4 shrink-0" />
+          <span className="truncate font-semibold">{t("product.inquire")}</span>
         </Button>
       </CardFooter>
     </Card>
