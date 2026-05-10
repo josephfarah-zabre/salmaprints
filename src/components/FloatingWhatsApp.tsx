@@ -4,15 +4,29 @@ import whatsappIcon from "@/assets/whatsapp-icon.png";
 
 const FloatingWhatsApp = () => {
   const [showTop, setShowTop] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const onOverlay = (e: Event) => {
+      const ce = e as CustomEvent<{ open: boolean }>;
+      setHidden(!!ce.detail?.open);
+    };
+    window.addEventListener("mobile-overlay", onOverlay as EventListener);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("mobile-overlay", onOverlay as EventListener);
+    };
   }, []);
 
+  if (hidden) return null;
+
   return (
-    <div className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50 flex flex-col items-end gap-3">
+    <div
+      className="fixed bottom-4 end-4 z-50 flex flex-col items-end gap-3"
+      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+    >
       {showTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

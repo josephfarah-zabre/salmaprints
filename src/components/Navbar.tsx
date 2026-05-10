@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { LanguageToggle } from "./LanguageToggle";
 import { SearchBar } from "./SearchBar";
+import { MobileHeader } from "./MobileHeader";
 
 export const Navbar = () => {
   return (
     <header className="sticky top-0 z-50">
-      {/* Top brand bar — navy */}
-      <div className="bg-primary text-primary-foreground">
+      <MobileHeader />
+      {/* Top brand bar — navy (desktop) */}
+      <div className="bg-primary text-primary-foreground hidden md:block">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-3 md:gap-6 h-16 md:h-20">
             <Link to="/" className="flex flex-col leading-tight font-extrabold shrink-0">

@@ -80,7 +80,7 @@ export const HeroCarousel = () => {
             {display.map((slide, i) => (
               <div
                 key={slide.id}
-                className={`relative flex-[0_0_100%] min-w-0 h-[240px] md:h-[420px] bg-gradient-to-br ${PASTELS[i % PASTELS.length]}`}
+                className={`relative flex-[0_0_100%] min-w-0 min-h-[280px] max-h-[360px] md:h-[420px] md:max-h-none aspect-[4/3] md:aspect-auto bg-gradient-to-br ${PASTELS[i % PASTELS.length]}`}
               >
                 {slide.image_url && (
                   <img
@@ -95,7 +95,10 @@ export const HeroCarousel = () => {
                       {slide.subtitle}
                     </p>
                   )}
-                  <h2 className="text-3xl md:text-6xl font-extrabold text-primary leading-tight">
+                  <h2
+                    className="font-extrabold text-primary leading-tight"
+                    style={{ fontSize: "clamp(1.5rem, 6vw, 3.75rem)" }}
+                  >
                     {slide.title}
                   </h2>
                   {slide.description && (
@@ -124,7 +127,7 @@ export const HeroCarousel = () => {
           <ChevronRight className="w-5 h-5 text-primary" />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur-sm">
           {display.map((_, i) => (
             <button
               key={i}

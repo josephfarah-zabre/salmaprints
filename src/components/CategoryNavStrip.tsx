@@ -20,7 +20,7 @@ export const CategoryNavStrip = () => {
   }, []);
 
   return (
-    <nav className="bg-white border-b border-border sticky top-16 md:top-20 z-40">
+    <nav className="bg-white border-b border-border sticky top-20 z-40 hidden md:block">
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar h-12">
           <button className="flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-full text-sm font-semibold text-foreground hover:bg-muted">
