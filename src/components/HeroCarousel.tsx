@@ -127,7 +127,7 @@ export const HeroCarousel = () => {
           <ChevronRight className="w-5 h-5 text-primary" />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur-sm">
           {display.map((_, i) => (
             <button
               key={i}
