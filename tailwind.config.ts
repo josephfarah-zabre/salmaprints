@@ -68,6 +68,16 @@ export default {
           tertiary: "hsl(var(--text-tertiary))",
         },
       },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-hero": "var(--gradient-hero)",
+      },
+      backgroundColor: {
+        "primary-subtle": "hsl(var(--primary-subtle))",
+      },
+      boxShadow: {
+        elegant: "var(--shadow-elegant)",
+      },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
         tajawal: ["Tajawal", "sans-serif"],
