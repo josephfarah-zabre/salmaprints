@@ -75,7 +75,7 @@ const Index = () => {
       <CategoryNavStrip />
       <HeroCarousel />
       <RoundCategoryStrip />
-      <PromoTileRow tiles={tiles} />
+      
       <FeaturedProductsRail />
 
       {topSubs.length > 0 && (
