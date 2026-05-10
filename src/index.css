@@ -3,63 +3,78 @@
 @tailwind utilities;
 
 /*
-  Salma Prints — design tokens cloned from soufi-print.com flow.
-  Light theme is the primary experience (matches soufi-print).
-  Cairo is the heading font; Inter falls back for Latin text.
+  Masco Salma Print — ishtari-style layout, navy + pink brand palette.
+  Default language Arabic (RTL). Tajawal heading + body, Inter for Latin runs.
 */
 
 @layer base {
   :root {
     /* Surfaces */
-    --background: 220 14% 97%; /* page bg, soft blue-grey */
-    --foreground: 217 41% 16%; /* primary text, deep navy */
+    --background: 0 0% 100%;
+    --foreground: 220 25% 15%;
 
-    --card: 0 0% 100%; /* white cards */
-    --card-foreground: 217 41% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 217 41% 16%;
+    --popover-foreground: 220 25% 15%;
 
-    /* Brand */
-    --primary: 220 50% 17%; /* deep navy blue (CTA) */
+    /* Brand — navy primary, pink accent */
+    --primary: 228 49% 33%;        /* #2C3B7E */
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 220 55% 12%;
-    --primary-light: 220 35% 30%;
+    --primary-dark: 228 55% 24%;
+    --primary-light: 228 40% 50%;
 
-    --secondary: 220 20% 94%; /* secondary surface */
-    --secondary-foreground: 220 30% 20%;
+    --secondary: 220 16% 96%;
+    --secondary-foreground: 220 25% 18%;
 
-    --muted: 220 16% 92%;
+    --muted: 220 14% 95%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 220 25% 90%;
-    --accent-foreground: 220 30% 20%;
+    --accent: 338 47% 66%;         /* #D47B9B pink */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 73% 50%;
+    --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 220 50% 17%;
+    --border: 220 14% 90%;
+    --input: 220 14% 90%;
+    --ring: 228 49% 33%;
 
-    --radius: 0.875rem;
+    --radius: 1rem;
+
+    /* Ishtari-style soft surfaces */
+    --surface-peach: 28 79% 91%;        /* #FBE9D7 category circles */
+    --surface-mint: 83 41% 85%;
+    --surface-lavender: 269 38% 88%;
+    --surface-blush: 0 60% 89%;
+    --surface-sky: 206 51% 89%;
+    --surface-butter: 46 71% 84%;
+
+    --badge-yellow: 46 100% 58%;        /* #FFC72C */
+    --badge-green-bg: 120 65% 90%;
+    --badge-green-fg: 140 50% 25%;
+
+    --text-primary: 220 25% 15%;
+    --text-secondary: 220 9% 42%;
+    --text-tertiary: 220 9% 60%;
   }
 
   .dark {
-    --background: 220 50% 12%;
+    --background: 228 35% 10%;
     --foreground: 0 0% 98%;
-    --card: 220 45% 17%;
+    --card: 228 30% 14%;
     --card-foreground: 0 0% 98%;
     --primary: 0 0% 100%;
-    --primary-foreground: 220 50% 12%;
-    --secondary: 220 40% 22%;
+    --primary-foreground: 228 49% 33%;
+    --secondary: 228 25% 18%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 220 35% 22%;
+    --muted: 228 25% 18%;
     --muted-foreground: 220 10% 70%;
-    --accent: 220 35% 25%;
-    --accent-foreground: 0 0% 98%;
-    --border: 220 35% 25%;
-    --input: 220 35% 25%;
+    --accent: 338 47% 66%;
+    --accent-foreground: 0 0% 100%;
+    --border: 228 25% 22%;
+    --input: 228 25% 22%;
     --ring: 0 0% 100%;
   }
 
@@ -75,74 +90,60 @@
 
   body {
     @apply bg-background text-foreground font-sans;
-    font-feature-settings: "ss01", "cv11";
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-cairo font-extrabold tracking-tight;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-tajawal font-bold tracking-tight;
     color: hsl(var(--foreground));
   }
 
-  /* Latin runs inside an Arabic page should render in Inter */
   .font-latin {
     font-family: "Inter", system-ui, sans-serif;
   }
 
-  /* RTL helpers */
   [dir="rtl"] .rtl\:flip {
     transform: scaleX(-1);
   }
 }
 
 @layer components {
-  /* Section title + Lebanese flag underline (matches soufi-print sections) */
-  .section-title {
-    @apply text-3xl md:text-5xl font-cairo font-black text-foreground;
+  /* Hide scrollbar but keep scroll */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Ishtari-style price: small $ sign, big number */
+  .price {
+    @apply font-extrabold leading-none;
   }
-  .section-subtitle {
-    @apply mt-1 text-sm md:text-base font-latin tracking-wide text-muted-foreground;
-  }
-  .section-underline {
-    @apply mx-auto mt-4 h-[3px] w-24 rounded-full;
-    background: linear-gradient(90deg, hsl(0 73% 50%) 0%, hsl(0 0% 100%) 50%, hsl(140 56% 38%) 100%);
+  .price .currency {
+    font-size: 0.55em;
+    vertical-align: 0.55em;
+    margin-inline-end: 0.05em;
+    font-weight: 700;
   }
 
-  /* Soufi-style nav pill */
-  .nav-pill {
-    @apply rounded-full px-5 py-2 text-sm font-medium transition;
-  }
-  .nav-pill-active {
-    @apply bg-primary text-primary-foreground shadow-pill;
-  }
-  .nav-pill-idle {
-    @apply text-foreground/80 hover:text-foreground;
+  /* Round category circle (peach background by default) */
+  .category-circle {
+    @apply relative rounded-full overflow-hidden flex items-center justify-center;
+    background: hsl(var(--surface-peach));
   }
 
-  /* Filter pill (Products page) */
-  .filter-pill {
-    @apply inline-flex items-center gap-2 rounded-full border border-transparent
-           bg-muted/60 px-5 py-2 text-sm font-medium text-foreground/70
-           transition hover:bg-muted;
+  /* Promo card pill (asymmetric badge) */
+  .promo-pill {
+    @apply absolute top-0 left-0 px-3 py-1.5 text-xs font-bold uppercase text-white;
+    border-bottom-right-radius: 0.875rem;
   }
-  .filter-pill[data-active="true"] {
-    @apply bg-primary text-primary-foreground shadow-pill;
+  [dir="rtl"] .promo-pill {
+    left: auto; right: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0.875rem;
   }
 
-  /* Product / Category card */
+  /* Surface card */
   .surface-card {
-    @apply rounded-2xl bg-card text-card-foreground shadow-card transition;
+    @apply rounded-2xl bg-card text-card-foreground shadow-sm transition-all;
   }
   .surface-card:hover {
-    @apply shadow-card-hover -translate-y-0.5;
-  }
-
-  /* Hero spotlight reflection seen at the bottom of soufi-print hero */
-  .hero-spotlight {
-    background: radial-gradient(60% 60% at 50% 0%, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
+    @apply shadow-md -translate-y-0.5;
   }
 }
