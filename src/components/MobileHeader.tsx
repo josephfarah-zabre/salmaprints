@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LanguageToggle } from "./LanguageToggle";
+import logo from "@/assets/masco-salma-logo.png";
 
 interface Cat {
   id: string;
@@ -90,9 +91,10 @@ export const MobileHeader = () => {
               <Menu className="w-6 h-6" />
             </button>
 
-            <Link to="/" className="flex flex-col items-center leading-tight font-extrabold">
-              <span dir="rtl" lang="ar" className="text-base">مطبعة سلمى</span>
-              <span className="text-[10px] opacity-90 font-latin tracking-wide">Salma Print</span>
+            <Link to="/" className="flex items-center" aria-label="Masco Salma Print">
+              <div className="bg-white rounded-lg p-1 flex items-center">
+                <img src={logo} alt="Masco Salma Print" className="h-9 w-auto object-contain" />
+              </div>
             </Link>
 
             <button
