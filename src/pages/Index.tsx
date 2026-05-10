@@ -18,10 +18,16 @@ interface Subcat {
   category_id: string;
 }
 
+interface Cat {
+  id: string;
+  name: string;
+}
+
 const Index = () => {
   const navigate = useNavigate();
   const { language, t } = useLanguage();
   const [topSubs, setTopSubs] = useState<Subcat[]>([]);
+  const [topCats, setTopCats] = useState<Cat[]>([]);
 
   useEffect(() => {
     supabase
@@ -33,23 +39,30 @@ const Index = () => {
         if (error) toast.error("Failed to load subcategories");
         else setTopSubs(data || []);
       });
+    supabase
+      .from("categories")
+      .select("id, name")
+      .order("display_order")
+      .limit(3)
+      .then(({ data }) => setTopCats(data || []));
   }, []);
 
+  // TODO: backend field needed — promo tiles currently link to first 3 categories.
   const tiles = [
     {
-      to: "/",
+      to: topCats[0] ? `/category/${topCats[0].id}` : "/",
       title: language === "ar" ? "عروض مايو" : "May Deals",
       subtitle: language === "ar" ? "صفقات مختارة لك" : "Deals lined up for you",
       tone: "blush" as const,
     },
     {
-      to: "/",
+      to: topCats[1] ? `/category/${topCats[1].id}` : "/",
       title: language === "ar" ? "الأكثر رواجاً" : "Trendy!",
       subtitle: language === "ar" ? "الأكثر طلباً" : "What everyone is choosing",
       tone: "lavender" as const,
     },
     {
-      to: "/",
+      to: topCats[2] ? `/category/${topCats[2].id}` : "/",
       title: language === "ar" ? "تسليم سريع" : "2-Day Delivery",
       subtitle: language === "ar" ? "في كل لبنان" : "All over Lebanon",
       tone: "mint" as const,
