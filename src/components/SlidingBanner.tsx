@@ -31,7 +31,7 @@ export const SlidingBanner = ({ className }: SlidingBannerProps) => {
   return (
     <div
       className={cn(
-        "bg-secondary text-secondary-foreground border-b border-border py-1.5 overflow-hidden",
+        "bg-secondary text-secondary-foreground border-b border-border py-1.5 overflow-hidden bg-red-700",
         className
       )}
     >
@@ -40,7 +40,7 @@ export const SlidingBanner = ({ className }: SlidingBannerProps) => {
           {[...Array(4)].map((_, i) => (
             <span
               key={i}
-              className="text-xs font-medium tracking-wide text-muted-foreground"
+              className="text-xs font-medium tracking-wide text-muted-foreground text-white"
             >
               {text}
             </span>
