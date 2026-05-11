@@ -63,15 +63,15 @@ export const ProductCard = ({
         )}
       </button>
 
-      <CardContent className="p-3 flex-1">
+      <CardContent className="p-2 md:p-3 flex-1">
         <button type="button" onClick={goToDetail} className="text-left rtl:text-right w-full">
-          <h3 className="font-semibold text-sm md:text-base line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+          <h3 className="font-semibold text-[11px] md:text-sm line-clamp-2 leading-snug group-hover:text-primary transition-colors">
             {name}
           </h3>
         </button>
         {price != null && (
-          <div className="mt-2 flex items-center justify-between">
-            <span className="price text-primary text-xl md:text-2xl">
+          <div className="mt-1 md:mt-2 flex items-center justify-between">
+            <span className="price text-primary text-base md:text-2xl">
               <span className="currency">$</span>
               {Number.isInteger(price) ? price : price.toFixed(2)}
             </span>
@@ -79,14 +79,14 @@ export const ProductCard = ({
         )}
       </CardContent>
 
-      <CardFooter className="p-3 pt-0">
+      <CardFooter className="p-2 md:p-3 pt-0">
         <Button
           onClick={onWhatsAppClick}
-          className="w-full min-w-0 px-3 sm:px-4 py-2 h-9 text-[13px] sm:text-sm rounded-full overflow-hidden inline-flex items-center justify-center gap-1.5 bg-primary hover:bg-primary-dark text-primary-foreground"
+          className="w-full min-w-0 px-2 py-1 h-8 md:h-9 text-xs md:text-sm rounded-full inline-flex items-center justify-center gap-1 bg-primary hover:bg-primary-dark text-primary-foreground"
           aria-label={language === "ar" ? "استفسر عبر واتساب" : "Inquire on WhatsApp"}
         >
           <MessageCircle className="w-4 h-4 shrink-0" />
-          <span className="truncate font-semibold">{t("product.inquire")}</span>
+          <span className="hidden md:inline truncate font-semibold">{t("product.inquire")}</span>
         </Button>
       </CardFooter>
     </Card>
