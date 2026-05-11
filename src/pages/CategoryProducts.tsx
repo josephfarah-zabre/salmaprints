@@ -111,7 +111,7 @@ const CategoryProducts = () => {
               )}
 
               {(!hasSubcategories ? products : productsWithoutSub).length > 0 && (
-                <div className="grid grid-cols-4 gap-2 md:gap-4">
+                <div className="grid grid-cols-3 gap-2 md:gap-4">
                   {(!hasSubcategories ? products : productsWithoutSub).map((product) => (
                     <ProductCard
                       key={product.id}
