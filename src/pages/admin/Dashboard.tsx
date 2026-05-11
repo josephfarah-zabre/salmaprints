@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { PromoPopup } from "@/components/PromoPopup";
 import { Switch } from "@/components/ui/switch";
+import { HeroSlidesManager } from "@/components/admin/HeroSlidesManager";
 
 interface Product {
   id: string;
@@ -731,6 +732,9 @@ const Dashboard = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
+        {/* Hero Carousel Slides */}
+        <HeroSlidesManager />
+
         {/* Banner Ticker Text */}
         <Card className="mb-8">
           <CardHeader>

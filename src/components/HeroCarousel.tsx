@@ -6,9 +6,12 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Slide {
   id: string;
-  title: string;
-  subtitle: string | null;
-  description: string | null;
+  title_en: string;
+  title_ar: string;
+  subtitle_en: string | null;
+  subtitle_ar: string | null;
+  description_en: string | null;
+  description_ar: string | null;
   image_url: string | null;
 }
 
@@ -26,10 +29,11 @@ export const HeroCarousel = () => {
 
   useEffect(() => {
     supabase
-      .from("promotional_popups")
-      .select("id, title, subtitle, description, image_url")
+      .from("hero_slides")
+      .select("id, title_en, title_ar, subtitle_en, subtitle_ar, description_en, description_ar, image_url")
       .eq("is_active", true)
-      .then(({ data }) => setSlides(data || []));
+      .order("display_order", { ascending: true })
+      .then(({ data }) => setSlides((data as Slide[]) || []));
   }, []);
 
   useEffect(() => {
@@ -42,35 +46,15 @@ export const HeroCarousel = () => {
       clearInterval(interval);
       emblaApi.off("select", onSelect);
     };
-  }, [emblaApi]);
+  }, [emblaApi, slides.length]);
 
-  // Fallback placeholders if no popups
-  const display: Slide[] =
-    slides.length > 0
-      ? slides
-      : [
-          {
-            id: "p1",
-            title: language === "ar" ? "اطبع أحلامك" : "Print Your Dreams",
-            subtitle: language === "ar" ? "تسليم خلال يومين" : "Delivered in 2 days",
-            description: null,
-            image_url: null,
-          },
-          {
-            id: "p2",
-            title: language === "ar" ? "هدايا مخصصة" : "Custom Gifts",
-            subtitle: language === "ar" ? "لكل المناسبات" : "For every occasion",
-            description: null,
-            image_url: null,
-          },
-          {
-            id: "p3",
-            title: language === "ar" ? "تصاميم احترافية" : "Pro Design",
-            subtitle: language === "ar" ? "فريق إبداعي" : "Creative team",
-            description: null,
-            image_url: null,
-          },
-        ];
+  const display = slides.length > 0 ? slides : [];
+
+  if (display.length === 0) return null;
+
+  const pickTitle = (s: Slide) => (language === "ar" ? s.title_ar : s.title_en);
+  const pickSubtitle = (s: Slide) => (language === "ar" ? s.subtitle_ar : s.subtitle_en);
+  const pickDescription = (s: Slide) => (language === "ar" ? s.description_ar : s.description_en);
 
   return (
     <section className="container mx-auto px-4 mt-4 md:mt-6">
@@ -85,25 +69,25 @@ export const HeroCarousel = () => {
                 {slide.image_url && (
                   <img
                     src={slide.image_url}
-                    alt={slide.title}
+                    alt={pickTitle(slide)}
                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                   />
                 )}
                 <div className="relative z-10 h-full flex flex-col justify-center px-6 md:px-16 max-w-2xl">
-                  {slide.subtitle && (
+                  {pickSubtitle(slide) && (
                     <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-primary/80 mb-2">
-                      {slide.subtitle}
+                      {pickSubtitle(slide)}
                     </p>
                   )}
                   <h2
                     className="font-extrabold text-primary leading-tight"
                     style={{ fontSize: "clamp(1.5rem, 6vw, 3.75rem)" }}
                   >
-                    {slide.title}
+                    {pickTitle(slide)}
                   </h2>
-                  {slide.description && (
+                  {pickDescription(slide) && (
                     <p className="mt-3 text-sm md:text-base text-foreground/80 max-w-md">
-                      {slide.description}
+                      {pickDescription(slide)}
                     </p>
                   )}
                 </div>
