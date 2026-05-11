@@ -63,7 +63,7 @@ export const ProductCard = ({
         )}
       </button>
 
-      <CardContent className="p-2 md:p-3 flex-1">
+      <CardContent className="p-2 md:p-3 basis-[30%] flex-1 flex flex-col justify-between min-h-0">
         <button type="button" onClick={goToDetail} className="text-left rtl:text-right w-full">
           <h3 className="font-semibold text-[11px] md:text-sm line-clamp-2 leading-snug group-hover:text-primary transition-colors">
             {name}
