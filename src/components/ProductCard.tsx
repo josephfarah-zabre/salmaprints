@@ -34,7 +34,7 @@ export const ProductCard = ({
       <button
         type="button"
         onClick={goToDetail}
-        className="relative aspect-square overflow-hidden bg-secondary block w-full focus:outline-none focus:ring-2 focus:ring-primary"
+        className="relative aspect-[4/3] overflow-hidden bg-secondary block w-full focus:outline-none focus:ring-2 focus:ring-primary"
         aria-label={`View ${name}`}
       >
         {imageUrl ? (
