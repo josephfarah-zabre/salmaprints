@@ -12,6 +12,7 @@ import { CategoryCircle } from "@/components/CategoryCircle";
 import Footer from "@/components/Footer";
 import { SlidingBanner } from "@/components/SlidingBanner";
 import { VotingPopup } from "@/components/VotingPopup";
+import { VoteCTABanner } from "@/components/VoteCTABanner";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Subcat {
