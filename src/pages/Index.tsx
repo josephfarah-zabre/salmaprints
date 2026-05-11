@@ -99,6 +99,7 @@ const Index = () => {
       )}
 
       <Footer />
+      <VotingPopup />
     </div>
   );
 };
