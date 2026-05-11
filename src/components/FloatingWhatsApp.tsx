@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
-import whatsappIcon from "@/assets/whatsapp-icon.png";
+import whatsappIcon from "@/assets/whatsapp-logo.png";
 
 const FloatingWhatsApp = () => {
   const [showTop, setShowTop] = useState(false);

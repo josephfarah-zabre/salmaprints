@@ -1,7 +1,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import tiktokIcon from "@/assets/tiktok-icon.png";
 import facebookIcon from "@/assets/facebook-icon.png";
-import whatsappIcon from "@/assets/whatsapp-icon.png";
+import whatsappIcon from "@/assets/whatsapp-logo.png";
 import instagramIcon from "@/assets/instagram-icon.png";
 
 const socials = [
