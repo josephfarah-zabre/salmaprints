@@ -63,15 +63,15 @@ export const ProductCard = ({
         )}
       </button>
 
-      <CardContent className="p-2 md:p-3 flex-1">
+      <CardContent className="px-2 pt-1.5 pb-1 md:px-2.5 md:pt-2 md:pb-1 flex-1">
         <button type="button" onClick={goToDetail} className="text-left rtl:text-right w-full">
           <h3 className="font-semibold text-[11px] md:text-sm line-clamp-2 leading-snug group-hover:text-primary transition-colors">
             {name}
           </h3>
         </button>
         {price != null && (
-          <div className="mt-1 md:mt-2 flex items-center justify-between">
-            <span className="price text-primary text-base md:text-2xl">
+          <div className="mt-0.5 md:mt-1 flex items-center justify-between">
+            <span className="price text-primary text-base md:text-2xl leading-none">
               <span className="currency">$</span>
               {Number.isInteger(price) ? price : price.toFixed(2)}
             </span>
@@ -79,7 +79,7 @@ export const ProductCard = ({
         )}
       </CardContent>
 
-      <CardFooter className="p-2 md:p-3 pt-0">
+      <CardFooter className="px-2 pb-2 pt-0 md:px-2.5 md:pb-2.5">
         <Button
           onClick={onWhatsAppClick}
           className="w-full min-w-0 px-2 py-1 h-8 md:h-9 text-xs md:text-sm rounded-full inline-flex items-center justify-center gap-1 bg-primary hover:bg-primary-dark text-primary-foreground"
