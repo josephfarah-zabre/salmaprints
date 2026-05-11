@@ -63,6 +63,52 @@ const Dashboard = () => {
   const [promoPopups, setPromoPopups] = useState<PromoPopup[]>([]);
   const [editingPopup, setEditingPopup] = useState<PromoPopup | null>(null);
 
+  // Banner ticker text
+  const [bannerSettingsId, setBannerSettingsId] = useState<string | null>(null);
+  const [bannerTextEn, setBannerTextEn] = useState("");
+  const [bannerTextAr, setBannerTextAr] = useState("");
+  const [savingBanner, setSavingBanner] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("site_settings")
+      .select("id, banner_text_en, banner_text_ar")
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!data) return;
+        setBannerSettingsId(data.id);
+        setBannerTextEn(data.banner_text_en || "");
+        setBannerTextAr(data.banner_text_ar || "");
+      });
+  }, []);
+
+  const handleSaveBanner = async () => {
+    setSavingBanner(true);
+    try {
+      if (bannerSettingsId) {
+        const { error } = await supabase
+          .from("site_settings")
+          .update({ banner_text_en: bannerTextEn, banner_text_ar: bannerTextAr })
+          .eq("id", bannerSettingsId);
+        if (error) throw error;
+      } else {
+        const { data, error } = await supabase
+          .from("site_settings")
+          .insert({ banner_text_en: bannerTextEn, banner_text_ar: bannerTextAr })
+          .select("id")
+          .single();
+        if (error) throw error;
+        setBannerSettingsId(data.id);
+      }
+      toast.success("Banner text updated!");
+    } catch (e: any) {
+      toast.error(e.message || "Failed to save banner");
+    } finally {
+      setSavingBanner(false);
+    }
+  };
+
   // Product form state
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -685,6 +731,42 @@ const Dashboard = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
+        {/* Banner Ticker Text */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Promotional Banner Ticker</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              Edit the scrolling promotional text shown under the navigation bar.
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="banner-en">English text</Label>
+              <Textarea
+                id="banner-en"
+                value={bannerTextEn}
+                onChange={(e) => setBannerTextEn(e.target.value)}
+                rows={2}
+                placeholder="Use • to separate items"
+              />
+            </div>
+            <div>
+              <Label htmlFor="banner-ar">Arabic text</Label>
+              <Textarea
+                id="banner-ar"
+                value={bannerTextAr}
+                onChange={(e) => setBannerTextAr(e.target.value)}
+                rows={2}
+                dir="rtl"
+                placeholder="استخدم • للفصل بين العناصر"
+              />
+            </div>
+            <Button onClick={handleSaveBanner} disabled={savingBanner}>
+              {savingBanner ? "Saving..." : "Save Banner Text"}
+            </Button>
+          </CardContent>
+        </Card>
+
         {/* Promotional Popups Management */}
         <Card className="mb-8">
           <CardHeader>
