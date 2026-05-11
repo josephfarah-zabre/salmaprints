@@ -18,11 +18,9 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-center items-center gap-6">
           {socials.map((s) => (
-        <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
-          <div>
-            <img src={s.icon} alt={s.name} className={`object-contain ${s.name === "WhatsApp" ? "w-[33px] h-[33px]" : "w-9 h-9"}`} />
-          </div>
-        </a>
+            <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
+              <img src={s.icon} alt={s.name} className="w-14 h-14 object-contain" />
+            </a>
           ))}
         </div>
       </div>

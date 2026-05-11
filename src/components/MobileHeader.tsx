@@ -88,11 +88,11 @@ export const MobileHeader = () => {
               aria-expanded={navOpen}
               className="w-11 h-11 -ms-2 flex items-center justify-center rounded-md hover:bg-white/10"
             >
-              <Menu className="w-6 h-6 text-fuchsia-600" />
+              <Menu className="w-6 h-6" />
             </button>
 
             <Link to="/" className="flex items-center" aria-label="Masco Salma Print">
-              <div className="rounded-lg p-1 flex items-center bg-white">
+              <div className="bg-white rounded-lg p-1 flex items-center">
                 <img src={logo} alt="Masco Salma Print" className="h-9 w-auto object-contain" />
               </div>
             </Link>
@@ -103,7 +103,7 @@ export const MobileHeader = () => {
               aria-label="Open search"
               className="w-11 h-11 -me-2 flex items-center justify-center rounded-md hover:bg-white/10"
             >
-              <Search className="w-5 h-5 text-fuchsia-600" />
+              <Search className="w-5 h-5" />
             </button>
           </div>
         </div>
