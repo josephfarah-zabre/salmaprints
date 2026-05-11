@@ -120,6 +120,14 @@ const ProductDetail = () => {
               </div>
             </div>
           )}
+
+          {product && (
+            <RelatedProducts
+              productId={product.id}
+              subcategoryId={product.subcategory_id}
+              categoryId={product.category_id}
+            />
+          )}
         </div>
       </section>
       <Footer />
