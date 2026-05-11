@@ -732,6 +732,9 @@ const Dashboard = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
+        {/* Hero Carousel Slides */}
+        <HeroSlidesManager />
+
         {/* Banner Ticker Text */}
         <Card className="mb-8">
           <CardHeader>
