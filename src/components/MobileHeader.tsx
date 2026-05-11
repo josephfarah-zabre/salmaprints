@@ -91,10 +91,12 @@ export const MobileHeader = () => {
               <Menu className="w-6 h-6 text-fuchsia-600" />
             </button>
 
-            <Link to="/" className="flex items-center" aria-label="Masco Salma Print">
+            <Link to="/" className="flex items-center gap-2" aria-label="Masco Salma Print">
+              <span className="text-sm font-bold text-primary-foreground whitespace-nowrap">Salma Print</span>
               <div className="rounded-lg p-1 flex items-center bg-white">
                 <img src={logo} alt="Masco Salma Print" className="h-9 w-auto object-contain" />
               </div>
+              <span className="text-sm font-bold text-primary-foreground whitespace-nowrap" dir="rtl">مطبعة سلمى</span>
             </Link>
 
             <button
