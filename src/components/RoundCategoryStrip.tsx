@@ -27,6 +27,9 @@ export const RoundCategoryStrip = () => {
 
   return (
     <section className="container mx-auto px-4 py-8 md:py-12">
+      <h2 className="text-2xl md:text-3xl font-extrabold text-primary text-center mb-6 md:mb-8">
+        {language === "ar" ? "منتجاتنا" : "Our Products"}
+      </h2>
       <div className="grid grid-cols-3 gap-4 md:gap-6">
         {cats.map((c) => (
           <CategoryCircle
