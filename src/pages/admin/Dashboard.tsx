@@ -731,6 +731,42 @@ const Dashboard = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
+        {/* Banner Ticker Text */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Promotional Banner Ticker</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              Edit the scrolling promotional text shown under the navigation bar.
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="banner-en">English text</Label>
+              <Textarea
+                id="banner-en"
+                value={bannerTextEn}
+                onChange={(e) => setBannerTextEn(e.target.value)}
+                rows={2}
+                placeholder="Use • to separate items"
+              />
+            </div>
+            <div>
+              <Label htmlFor="banner-ar">Arabic text</Label>
+              <Textarea
+                id="banner-ar"
+                value={bannerTextAr}
+                onChange={(e) => setBannerTextAr(e.target.value)}
+                rows={2}
+                dir="rtl"
+                placeholder="استخدم • للفصل بين العناصر"
+              />
+            </div>
+            <Button onClick={handleSaveBanner} disabled={savingBanner}>
+              {savingBanner ? "Saving..." : "Save Banner Text"}
+            </Button>
+          </CardContent>
+        </Card>
+
         {/* Promotional Popups Management */}
         <Card className="mb-8">
           <CardHeader>
