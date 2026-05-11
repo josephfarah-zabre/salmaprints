@@ -20,7 +20,7 @@ const Footer = () => {
           {socials.map((s) => (
         <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
           <div>
-            <img src={s.icon} alt={s.name} className="w-14 h-14 object-contain" />
+            <img src={s.icon} alt={s.name} className={`object-contain ${s.name === "WhatsApp" ? "w-10 h-10" : "w-14 h-14"}`} />
           </div>
         </a>
           ))}
