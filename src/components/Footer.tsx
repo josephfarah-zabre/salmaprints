@@ -1,4 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import { MapPin } from "lucide-react";
 import tiktokIcon from "@/assets/tiktok-icon.png";
 import facebookIcon from "@/assets/facebook-icon.png";
 import whatsappIcon from "@/assets/whatsapp-logo.png";
@@ -11,19 +12,26 @@ const socials = [
   { name: "Instagram", icon: instagramIcon, url: "https://www.instagram.com/masco.salma.print?igsh=MXJpZnA1cHZxdGlv" },
 ];
 
+const LOCATION_URL = "https://maps.app.goo.gl/Um5VpxUFVubLwizq5?g_st=ac";
+
 const Footer = () => {
   const { t } = useLanguage();
   return (
     <footer className="bg-primary text-white py-8">
       <div className="container mx-auto px-4">
-        <div className="flex justify-center items-center gap-6">
+        <div className="flex justify-center items-center gap-8">
           {socials.map((s) => (
-        <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
-          <div>
-            <img src={s.icon} alt={s.name} className={`object-contain ${s.name === "WhatsApp" ? "w-[21px] h-[21px]" : "w-9 h-9"}`} />
-          </div>
-        </a>
+            <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
+              <img
+                src={s.icon}
+                alt={s.name}
+                className={`object-contain ${s.name === "WhatsApp" ? "w-[42px] h-[42px]" : "w-[72px] h-[72px]"}`}
+              />
+            </a>
           ))}
+          <a href={LOCATION_URL} target="_blank" rel="noopener noreferrer" aria-label="Location">
+            <MapPin className="w-[72px] h-[72px]" strokeWidth={1.75} />
+          </a>
         </div>
       </div>
     </footer>
