@@ -40,7 +40,7 @@ export const SlidingBanner = ({ className }: SlidingBannerProps) => {
           {[...Array(4)].map((_, i) => (
             <span
               key={i}
-              className="text-xs font-medium tracking-wide text-muted-foreground"
+              className="text-xs font-medium tracking-wide text-muted-foreground text-white"
             >
               {text}
             </span>
