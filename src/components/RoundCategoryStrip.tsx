@@ -13,6 +13,7 @@ interface Cat {
 export const RoundCategoryStrip = () => {
   const [cats, setCats] = useState<Cat[]>([]);
   const navigate = useNavigate();
+  const { language } = useLanguage();
 
   useEffect(() => {
     supabase
