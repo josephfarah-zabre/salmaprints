@@ -63,6 +63,52 @@ const Dashboard = () => {
   const [promoPopups, setPromoPopups] = useState<PromoPopup[]>([]);
   const [editingPopup, setEditingPopup] = useState<PromoPopup | null>(null);
 
+  // Banner ticker text
+  const [bannerSettingsId, setBannerSettingsId] = useState<string | null>(null);
+  const [bannerTextEn, setBannerTextEn] = useState("");
+  const [bannerTextAr, setBannerTextAr] = useState("");
+  const [savingBanner, setSavingBanner] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("site_settings")
+      .select("id, banner_text_en, banner_text_ar")
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!data) return;
+        setBannerSettingsId(data.id);
+        setBannerTextEn(data.banner_text_en || "");
+        setBannerTextAr(data.banner_text_ar || "");
+      });
+  }, []);
+
+  const handleSaveBanner = async () => {
+    setSavingBanner(true);
+    try {
+      if (bannerSettingsId) {
+        const { error } = await supabase
+          .from("site_settings")
+          .update({ banner_text_en: bannerTextEn, banner_text_ar: bannerTextAr })
+          .eq("id", bannerSettingsId);
+        if (error) throw error;
+      } else {
+        const { data, error } = await supabase
+          .from("site_settings")
+          .insert({ banner_text_en: bannerTextEn, banner_text_ar: bannerTextAr })
+          .select("id")
+          .single();
+        if (error) throw error;
+        setBannerSettingsId(data.id);
+      }
+      toast.success("Banner text updated!");
+    } catch (e: any) {
+      toast.error(e.message || "Failed to save banner");
+    } finally {
+      setSavingBanner(false);
+    }
+  };
+
   // Product form state
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
