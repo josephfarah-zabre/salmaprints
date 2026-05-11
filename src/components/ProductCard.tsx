@@ -30,11 +30,11 @@ export const ProductCard = ({
   const goToDetail = () => id && navigate(`/product/${id}`);
 
   return (
-    <Card className="group overflow-hidden border border-border rounded-xl bg-card shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col h-[240px] md:h-[320px]">
+    <Card className="group overflow-hidden border border-border rounded-xl bg-card shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
       <button
         type="button"
         onClick={goToDetail}
-        className="relative basis-[70%] shrink-0 overflow-hidden bg-secondary block w-full focus:outline-none focus:ring-2 focus:ring-primary"
+        className="relative aspect-square overflow-hidden bg-secondary block w-full focus:outline-none focus:ring-2 focus:ring-primary"
         aria-label={`View ${name}`}
       >
         {imageUrl ? (
@@ -63,7 +63,7 @@ export const ProductCard = ({
         )}
       </button>
 
-      <CardContent className="p-2 md:p-3 flex-1 min-h-0 overflow-hidden">
+      <CardContent className="p-2 md:p-3 flex-1">
         <button type="button" onClick={goToDetail} className="text-left rtl:text-right w-full">
           <h3 className="font-semibold text-[11px] md:text-sm line-clamp-2 leading-snug group-hover:text-primary transition-colors">
             {name}
