@@ -134,6 +134,30 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          banner_text_ar: string
+          banner_text_en: string
+          created_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          banner_text_ar?: string
+          banner_text_en?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          banner_text_ar?: string
+          banner_text_en?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       subcategories: {
         Row: {
           category_id: string
