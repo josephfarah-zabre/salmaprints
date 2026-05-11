@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { RelatedProducts } from "@/components/RelatedProducts";
 
 interface Product {
   id: string;
