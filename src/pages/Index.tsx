@@ -78,6 +78,7 @@ const Index = () => {
       <SlidingBanner />
       <CategoryNavStrip />
       <HeroCarousel />
+      <VoteCTABanner />
       <RoundCategoryStrip />
       
       <FeaturedProductsRail />
