@@ -80,6 +80,10 @@ export const VotingPopup = () => {
       setCandidates(cands || []);
       setTimeout(() => setOpen(true), 800);
     })();
+
+    const handler = () => setOpen(true);
+    window.addEventListener("open-voting-popup", handler);
+    return () => window.removeEventListener("open-voting-popup", handler);
   }, []);
 
   const cd = useCountdown(campaign?.end_date || new Date().toISOString());
