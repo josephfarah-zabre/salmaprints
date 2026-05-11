@@ -31,7 +31,7 @@ export const SlidingBanner = ({ className }: SlidingBannerProps) => {
   return (
     <div
       className={cn(
-        "bg-secondary text-secondary-foreground border-b border-border py-1.5 overflow-hidden",
+        "bg-secondary text-secondary-foreground border-b border-border py-1.5 overflow-hidden bg-red-700",
         className
       )}
     >
