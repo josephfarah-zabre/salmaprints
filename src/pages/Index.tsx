@@ -10,6 +10,7 @@ import { PromoTileRow } from "@/components/PromoTileRow";
 import { FeaturedProductsRail } from "@/components/FeaturedProductsRail";
 import { CategoryCircle } from "@/components/CategoryCircle";
 import Footer from "@/components/Footer";
+import { SlidingBanner } from "@/components/SlidingBanner";
 import { VotingPopup } from "@/components/VotingPopup";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -73,6 +74,7 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
+      <SlidingBanner />
       <CategoryNavStrip />
       <HeroCarousel />
       <RoundCategoryStrip />
