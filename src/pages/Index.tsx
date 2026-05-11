@@ -105,6 +105,7 @@ const Index = () => {
 
       <Footer />
       <VotingPopup />
+      <ActivePromoPopup />
     </div>
   );
 };
