@@ -65,7 +65,7 @@ export const ProductCard = ({
 
       <CardContent className="p-2 md:p-3 flex-1">
         <button type="button" onClick={goToDetail} className="text-left rtl:text-right w-full">
-          <h3 className="font-semibold text-xs md:text-base line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+          <h3 className="font-semibold text-[11px] md:text-sm line-clamp-2 leading-snug group-hover:text-primary transition-colors">
             {name}
           </h3>
         </button>
