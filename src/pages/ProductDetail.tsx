@@ -172,7 +172,7 @@ const ProductDetail = () => {
                 <Button
                   size="lg"
                   onClick={handleWhatsAppInquiry}
-                  className="w-full md:w-auto rounded-full bg-primary hover:bg-primary-dark text-primary-foreground mt-2"
+                  className="w-full md:w-auto rounded-full bg-[#00ff4d] hover:bg-[#00e645] text-white mt-2"
                 >
                   <MessageCircle className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
                   {t("product.inquire")}
