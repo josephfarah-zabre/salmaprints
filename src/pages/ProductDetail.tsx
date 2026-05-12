@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { CategoryNavStrip } from "@/components/CategoryNavStrip";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, MessageCircle, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { RelatedProducts } from "@/components/RelatedProducts";
@@ -25,12 +25,27 @@ const ProductDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [nextProductId, setNextProductId] = useState<string | null>(null);
   const navigate = useNavigate();
   const { language, t } = useLanguage();
 
   useEffect(() => {
     if (productId) fetchProduct();
   }, [productId]);
+
+  const fetchNextProduct = async (currentProduct: Product) => {
+    if (!currentProduct.category_id) return;
+    const { data, error } = await supabase
+      .from("products")
+      .select("id, display_order")
+      .eq("category_id", currentProduct.category_id)
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length <= 1) return;
+    const idx = data.findIndex((p) => p.id === currentProduct.id);
+    if (idx === -1) return;
+    const nextIdx = (idx + 1) % data.length;
+    setNextProductId(data[nextIdx].id);
+  };
 
   const fetchProduct = async () => {
     setLoading(true);
@@ -42,6 +57,7 @@ const ProductDetail = () => {
         .single();
       if (error) throw error;
       setProduct(data);
+      if (data) fetchNextProduct(data);
     } catch (e) {
       console.error(e);
       toast.error("Product not found");
@@ -117,6 +133,20 @@ const ProductDetail = () => {
                   <MessageCircle className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
                   {t("product.inquire")}
                 </Button>
+                {nextProductId && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => {
+                      setNextProductId(null);
+                      navigate(`/product/${nextProductId}`);
+                    }}
+                    className="w-full md:w-auto rounded-full border-primary text-primary hover:bg-primary/10"
+                  >
+                    {language === "ar" ? "التالي" : "Next"}
+                    <ChevronRight className="w-5 h-5 ml-1 rtl:ml-0 rtl:mr-1" />
+                  </Button>
+                )}
               </div>
             </div>
           )}
