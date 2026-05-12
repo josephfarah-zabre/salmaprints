@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { CategoryNavStrip } from "@/components/CategoryNavStrip";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, MessageCircle, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { RelatedProducts } from "@/components/RelatedProducts";
