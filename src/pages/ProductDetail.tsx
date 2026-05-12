@@ -6,7 +6,8 @@ import { Navbar } from "@/components/Navbar";
 import { CategoryNavStrip } from "@/components/CategoryNavStrip";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, MessageCircle, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, MessageCircle, ChevronRight, ZoomIn } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { RelatedProducts } from "@/components/RelatedProducts";
@@ -26,6 +27,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [nextProductId, setNextProductId] = useState<string | null>(null);
+  const [zoomOpen, setZoomOpen] = useState(false);
   const navigate = useNavigate();
   const { language, t } = useLanguage();
 
@@ -94,13 +96,24 @@ const ProductDetail = () => {
             </p>
           ) : (
             <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-start">
-              <div className="aspect-square bg-surface-peach/50 rounded-2xl overflow-hidden border border-border">
+              <div className="relative aspect-square bg-surface-peach/50 rounded-2xl overflow-hidden border border-border group">
                 {product.image_url ? (
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="w-full h-full object-contain"
-                  />
+                  <>
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      onClick={() => setZoomOpen(true)}
+                      className="w-full h-full object-contain cursor-zoom-in"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setZoomOpen(true)}
+                      aria-label={language === "ar" ? "تكبير الصورة" : "Zoom image"}
+                      className="absolute bottom-3 end-3 w-11 h-11 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark hover:scale-105 transition-all"
+                    >
+                      <ZoomIn className="w-5 h-5" />
+                    </button>
+                  </>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <span className="text-primary/30 text-7xl font-bold">
@@ -109,6 +122,20 @@ const ProductDetail = () => {
                   </div>
                 )}
               </div>
+
+              <Dialog open={zoomOpen} onOpenChange={setZoomOpen}>
+                <DialogContent className="max-w-5xl w-[95vw] p-2 sm:p-4 bg-background">
+                  {product.image_url && (
+                    <div className="w-full max-h-[85vh] overflow-auto flex items-center justify-center">
+                      <img
+                        src={product.image_url}
+                        alt={product.name}
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
+                  )}
+                </DialogContent>
+              </Dialog>
 
               <div className="flex flex-col gap-5">
                 <h1 className="text-2xl md:text-4xl font-extrabold text-primary">
