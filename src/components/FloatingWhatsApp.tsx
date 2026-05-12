@@ -27,7 +27,7 @@ const FloatingWhatsApp = () => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Message Masco Salma Print on WhatsApp"
-        className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 px-[11px] bg-pink-500"
+        className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 px-[11px] bg-fuchsia-600"
       >
         <img src={whatsappIcon} alt="WhatsApp" className="w-12 h-12 object-contain rounded-full" />
       </a>
