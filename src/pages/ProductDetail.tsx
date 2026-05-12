@@ -27,6 +27,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [nextProductId, setNextProductId] = useState<string | null>(null);
+  const [zoomOpen, setZoomOpen] = useState(false);
   const navigate = useNavigate();
   const { language, t } = useLanguage();
 
