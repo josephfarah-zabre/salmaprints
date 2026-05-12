@@ -1,6 +1,4 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { MessageCircle } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -69,7 +67,7 @@ export const ProductCard = ({
             {name}
           </h3>
         </button>
-        {price != null && (
+      {price != null && (
           <div className="mt-0.5 md:mt-1 flex items-center justify-between">
             <span className="price text-primary text-base md:text-2xl leading-none">
               <span className="currency">$</span>
@@ -78,17 +76,6 @@ export const ProductCard = ({
           </div>
         )}
       </CardContent>
-
-      <CardFooter className="px-2 pb-2 pt-0 md:px-2.5 md:pb-2.5">
-        <Button
-          onClick={onWhatsAppClick}
-          className="w-full min-w-0 px-2 py-1 h-8 md:h-9 text-xs md:text-sm rounded-full inline-flex items-center justify-center gap-1 bg-primary hover:bg-primary-dark text-primary-foreground"
-          aria-label={language === "ar" ? "استفسر عبر واتساب" : "Inquire on WhatsApp"}
-        >
-          <MessageCircle className="w-4 h-4 shrink-0" />
-          <span className="hidden md:inline truncate font-semibold">{t("product.inquire")}</span>
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
