@@ -81,10 +81,6 @@ const ProductDetail = () => {
       <CategoryNavStrip />
       <section className="flex-1 px-4 py-6 md:py-10">
         <div className="container mx-auto max-w-5xl">
-          <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4">
-            <BackIcon className="w-4 h-4 mr-2 rtl:mr-0 rtl:ml-2" />
-            {language === "ar" ? "رجوع" : "Back"}
-          </Button>
 
           {loading ? (
             <div className="text-center py-20">
