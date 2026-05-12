@@ -96,32 +96,49 @@ const ProductDetail = () => {
             </p>
           ) : (
             <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-start">
-              <div className="relative aspect-square bg-surface-peach/50 rounded-2xl overflow-hidden border border-border group">
-                {product.image_url ? (
-                  <>
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      onClick={() => setZoomOpen(true)}
-                      className="w-full h-full object-contain cursor-zoom-in"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setZoomOpen(true)}
-                      aria-label={language === "ar" ? "تكبير الصورة" : "Zoom image"}
-                      className="absolute bottom-3 end-3 w-11 h-11 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark hover:scale-105 transition-all"
-                    >
-                      <ZoomIn className="w-5 h-5" />
-                    </button>
-                  </>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-primary/30 text-7xl font-bold">
-                      {product.name.charAt(0)}
-                    </span>
-                  </div>
+              <div className="flex flex-col gap-3">
+                <div className="relative aspect-square bg-surface-peach/50 rounded-2xl overflow-hidden border border-border group">
+                  {product.image_url ? (
+                    <>
+                      <img
+                        src={product.image_url}
+                        alt={product.name}
+                        onClick={() => setZoomOpen(true)}
+                        className="w-full h-full object-contain cursor-zoom-in"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setZoomOpen(true)}
+                        aria-label={language === "ar" ? "تكبير الصورة" : "Zoom image"}
+                        className="absolute bottom-3 end-3 w-11 h-11 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark hover:scale-105 transition-all"
+                      >
+                        <ZoomIn className="w-5 h-5" />
+                      </button>
+                    </>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="text-primary/30 text-7xl font-bold">
+                        {product.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                {nextProductId && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => {
+                      setNextProductId(null);
+                      navigate(`/product/${nextProductId}`);
+                    }}
+                    className="w-full rounded-full border-primary text-primary hover:bg-primary/10"
+                  >
+                    {language === "ar" ? "التالي" : "Next"}
+                    <ChevronRight className="w-5 h-5 ml-1 rtl:ml-0 rtl:mr-1" />
+                  </Button>
                 )}
               </div>
+
 
               <Dialog open={zoomOpen} onOpenChange={setZoomOpen}>
                 <DialogContent className="max-w-5xl w-[95vw] p-2 sm:p-4 bg-background">
