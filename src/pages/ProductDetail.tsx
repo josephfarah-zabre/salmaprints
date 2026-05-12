@@ -119,20 +119,31 @@ const ProductDetail = () => {
                     </div>
                   )}
                 </div>
-                {nextProductId && (
+                <div className="flex gap-2">
                   <Button
                     variant="outline"
                     size="lg"
-                    onClick={() => {
-                      setNextProductId(null);
-                      navigate(`/product/${nextProductId}`);
-                    }}
-                    className="w-full rounded-full border-primary text-primary hover:bg-primary/10"
+                    onClick={() => navigate(-1)}
+                    className="flex-1 rounded-full border-primary text-primary hover:bg-primary/10"
                   >
-                    {language === "ar" ? "التالي" : "Next"}
-                    <ChevronRight className="w-5 h-5 ml-1 rtl:ml-0 rtl:mr-1" />
+                    <BackIcon className="w-5 h-5 mr-1 rtl:mr-0 rtl:ml-1" />
+                    {language === "ar" ? "رجوع" : "Back"}
                   </Button>
-                )}
+                  {nextProductId && (
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      onClick={() => {
+                        setNextProductId(null);
+                        navigate(`/product/${nextProductId}`);
+                      }}
+                      className="flex-1 rounded-full border-primary text-primary hover:bg-primary/10"
+                    >
+                      {language === "ar" ? "التالي" : "Next"}
+                      <ChevronRight className="w-5 h-5 ml-1 rtl:ml-0 rtl:mr-1" />
+                    </Button>
+                  )}
+                </div>
               </div>
 
 
