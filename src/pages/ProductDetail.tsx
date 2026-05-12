@@ -33,6 +33,20 @@ const ProductDetail = () => {
     if (productId) fetchProduct();
   }, [productId]);
 
+  const fetchNextProduct = async (currentProduct: Product) => {
+    if (!currentProduct.category_id) return;
+    const { data, error } = await supabase
+      .from("products")
+      .select("id, display_order")
+      .eq("category_id", currentProduct.category_id)
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length <= 1) return;
+    const idx = data.findIndex((p) => p.id === currentProduct.id);
+    if (idx === -1) return;
+    const nextIdx = (idx + 1) % data.length;
+    setNextProductId(data[nextIdx].id);
+  };
+
   const fetchProduct = async () => {
     setLoading(true);
     try {
@@ -43,6 +57,7 @@ const ProductDetail = () => {
         .single();
       if (error) throw error;
       setProduct(data);
+      if (data) fetchNextProduct(data);
     } catch (e) {
       console.error(e);
       toast.error("Product not found");
