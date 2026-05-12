@@ -177,20 +177,6 @@ const ProductDetail = () => {
                   <MessageCircle className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
                   {t("product.inquire")}
                 </Button>
-                {nextProductId && (
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => {
-                      setNextProductId(null);
-                      navigate(`/product/${nextProductId}`);
-                    }}
-                    className="w-full md:w-auto rounded-full border-primary text-primary hover:bg-primary/10"
-                  >
-                    {language === "ar" ? "التالي" : "Next"}
-                    <ChevronRight className="w-5 h-5 ml-1 rtl:ml-0 rtl:mr-1" />
-                  </Button>
-                )}
               </div>
             </div>
           )}
