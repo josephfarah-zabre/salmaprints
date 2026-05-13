@@ -1055,17 +1055,17 @@ const Dashboard = () => {
                   </div>
                 )}
                 <div>
-                  <Label htmlFor="imageFile">Product Image</Label>
+                  <Label htmlFor="imageFile">Product Image or Video</Label>
                   <Input
                     id="imageFile"
                     type="file"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     onChange={(e) => setProductImageFile(e.target.files?.[0] || null)}
                     className="cursor-pointer"
                   />
                   {editingProduct?.image_url && !productImageFile && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Current image will be kept if no new file is selected
+                      Current media will be kept if no new file is selected
                     </p>
                   )}
                 </div>
@@ -1340,11 +1340,20 @@ const Dashboard = () => {
                                 >
                                   <div className="flex items-center gap-4 flex-1">
                                     {product.image_url && (
-                                      <img
-                                        src={product.image_url}
-                                        alt={product.name}
-                                        className="w-16 h-16 object-cover rounded"
-                                      />
+                                      /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(product.image_url) ? (
+                                        <video
+                                          src={product.image_url}
+                                          className="w-16 h-16 object-cover rounded"
+                                          muted
+                                          playsInline
+                                        />
+                                      ) : (
+                                        <img
+                                          src={product.image_url}
+                                          alt={product.name}
+                                          className="w-16 h-16 object-cover rounded"
+                                        />
+                                      )
                                     )}
                                     <div className="flex-1">
                                       <h3 className="font-semibold">{product.name}</h3>

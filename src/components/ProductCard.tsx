@@ -36,13 +36,24 @@ export const ProductCard = ({
         aria-label={`View ${name}`}
       >
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={name}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
+          /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(imageUrl) ? (
+            <video
+              src={imageUrl}
+              muted
+              loop
+              playsInline
+              autoPlay
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <img
+              src={imageUrl}
+              alt={name}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          )
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-primary/5">
             <span className="text-primary/40 text-4xl font-bold">{name.charAt(0)}</span>

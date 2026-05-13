@@ -67,12 +67,23 @@ export const RelatedProducts = ({ productId, subcategoryId, categoryId }: Props)
           >
             <div className="aspect-square bg-secondary overflow-hidden">
               {p.image_url ? (
-                <img
-                  src={p.image_url}
-                  alt={p.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(p.image_url) ? (
+                  <video
+                    src={p.image_url}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <img
+                    src={p.image_url}
+                    alt={p.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                )
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <span className="text-2xl font-bold text-primary/30">
