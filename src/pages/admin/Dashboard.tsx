@@ -1055,17 +1055,17 @@ const Dashboard = () => {
                   </div>
                 )}
                 <div>
-                  <Label htmlFor="imageFile">Product Image</Label>
+                  <Label htmlFor="imageFile">Product Image or Video</Label>
                   <Input
                     id="imageFile"
                     type="file"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     onChange={(e) => setProductImageFile(e.target.files?.[0] || null)}
                     className="cursor-pointer"
                   />
                   {editingProduct?.image_url && !productImageFile && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Current image will be kept if no new file is selected
+                      Current media will be kept if no new file is selected
                     </p>
                   )}
                 </div>
