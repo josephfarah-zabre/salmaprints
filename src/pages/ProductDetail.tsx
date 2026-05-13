@@ -95,22 +95,31 @@ const ProductDetail = () => {
               <div className="flex flex-col gap-3">
                 <div className="relative aspect-square bg-surface-peach/50 rounded-2xl overflow-hidden border border-border group">
                   {product.image_url ? (
-                    <>
-                      <img
+                    /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(product.image_url) ? (
+                      <video
                         src={product.image_url}
-                        alt={product.name}
-                        onClick={() => setZoomOpen(true)}
-                        className="w-full h-full object-contain cursor-zoom-in"
+                        controls
+                        playsInline
+                        className="w-full h-full object-contain bg-black"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setZoomOpen(true)}
-                        aria-label={language === "ar" ? "تكبير الصورة" : "Zoom image"}
-                        className="absolute bottom-3 end-3 w-11 h-11 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark hover:scale-105 transition-all"
-                      >
-                        <ZoomIn className="w-5 h-5" />
-                      </button>
-                    </>
+                    ) : (
+                      <>
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          onClick={() => setZoomOpen(true)}
+                          className="w-full h-full object-contain cursor-zoom-in"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setZoomOpen(true)}
+                          aria-label={language === "ar" ? "تكبير الصورة" : "Zoom image"}
+                          className="absolute bottom-3 end-3 w-11 h-11 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark hover:scale-105 transition-all"
+                        >
+                          <ZoomIn className="w-5 h-5" />
+                        </button>
+                      </>
+                    )
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <span className="text-primary/30 text-7xl font-bold">
