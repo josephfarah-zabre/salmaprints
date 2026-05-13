@@ -1340,11 +1340,20 @@ const Dashboard = () => {
                                 >
                                   <div className="flex items-center gap-4 flex-1">
                                     {product.image_url && (
-                                      <img
-                                        src={product.image_url}
-                                        alt={product.name}
-                                        className="w-16 h-16 object-cover rounded"
-                                      />
+                                      /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(product.image_url) ? (
+                                        <video
+                                          src={product.image_url}
+                                          className="w-16 h-16 object-cover rounded"
+                                          muted
+                                          playsInline
+                                        />
+                                      ) : (
+                                        <img
+                                          src={product.image_url}
+                                          alt={product.name}
+                                          className="w-16 h-16 object-cover rounded"
+                                        />
+                                      )
                                     )}
                                     <div className="flex-1">
                                       <h3 className="font-semibold">{product.name}</h3>
