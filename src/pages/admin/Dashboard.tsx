@@ -708,22 +708,22 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
       <header className="bg-card shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Admin Dashboard
           </h1>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => setExportDialogOpen(true)}>
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={() => setExportDialogOpen(true)}>
               <FileDown className="w-4 h-4 mr-2" />
               Export PDF
             </Button>
-            <Button variant="outline" onClick={() => navigate("/admin/voting")}>
-              Voting Management
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={() => navigate("/admin/voting")}>
+              Voting
             </Button>
-            <Button variant="outline" onClick={() => navigate("/")}>
-              View Catalogue
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={() => navigate("/")}>
+              Catalogue
             </Button>
-            <Button variant="outline" onClick={handleLogout}>
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
               Logout
             </Button>
@@ -731,7 +731,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Hero Carousel Slides */}
         <HeroSlidesManager />
 
