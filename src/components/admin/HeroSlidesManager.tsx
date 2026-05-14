@@ -209,7 +209,7 @@ export const HeroSlidesManager = () => {
   return (
     <Card className="mb-8">
       <CardHeader>
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
           <div>
             <CardTitle>Hero Carousel Slides</CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
@@ -224,7 +224,7 @@ export const HeroSlidesManager = () => {
             }}
           >
             <DialogTrigger asChild>
-              <Button>
+              <Button className="w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Slide
               </Button>
