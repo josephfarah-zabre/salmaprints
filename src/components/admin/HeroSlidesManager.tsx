@@ -313,13 +313,13 @@ export const HeroSlidesManager = () => {
             {sortedSlides.map((slide, i) => (
               <div
                 key={slide.id}
-                className="flex items-start gap-4 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4 p-3 sm:p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
               >
                 {slide.image_url && (
                   <img
                     src={slide.image_url}
                     alt={slide.title_en}
-                    className="w-24 h-16 object-cover rounded"
+                    className="w-full h-28 sm:w-24 sm:h-16 object-cover rounded"
                   />
                 )}
                 <div className="flex-1 min-w-0">
@@ -350,11 +350,11 @@ export const HeroSlidesManager = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex sm:flex-col gap-1 justify-end">
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-7 w-7"
+                    className="h-8 w-8 sm:h-7 sm:w-7"
                     disabled={i === 0}
                     onClick={() => move(slide, -1)}
                   >
@@ -363,14 +363,14 @@ export const HeroSlidesManager = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-7 w-7"
+                    className="h-8 w-8 sm:h-7 sm:w-7"
                     disabled={i === sortedSlides.length - 1}
                     onClick={() => move(slide, 1)}
                   >
                     <ArrowDown className="w-3 h-3" />
                   </Button>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 justify-end">
                   <Button variant="outline" size="sm" onClick={() => openEdit(slide)}>
                     <Edit className="w-4 h-4" />
                   </Button>
