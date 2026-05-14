@@ -1258,7 +1258,7 @@ const Dashboard = () => {
                       </CardHeader>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                      <CardContent className="pt-0 space-y-6">
+                      <CardContent className="pt-0 space-y-6 px-3 sm:px-6 pb-3 sm:pb-6">
                         {/* Subcategories section */}
                         <div className="border rounded-lg p-4 bg-secondary/30">
                           <div className="flex items-center justify-between mb-3">
