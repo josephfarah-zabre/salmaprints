@@ -867,29 +867,29 @@ const Dashboard = () => {
                 {promoPopups.map((popup) => (
                   <div
                     key={popup.id}
-                    className="flex items-start gap-4 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                    className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4 p-3 sm:p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
                   >
                     {popup.image_url && (
                       <img
                         src={popup.image_url}
                         alt={popup.title}
-                        className="w-24 h-24 object-cover rounded"
+                        className="w-full h-32 sm:w-24 sm:h-24 object-cover rounded"
                       />
                     )}
-                    <div className="flex-1 space-y-2">
+                    <div className="flex-1 space-y-2 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <h3 className="font-semibold">{popup.title}</h3>
+                        <div className="min-w-0">
+                          <h3 className="font-semibold truncate">{popup.title}</h3>
                           {popup.subtitle && (
-                            <p className="text-sm text-muted-foreground">{popup.subtitle}</p>
+                            <p className="text-sm text-muted-foreground truncate">{popup.subtitle}</p>
                           )}
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 shrink-0">
                           <Switch
                             checked={popup.is_active}
                             onCheckedChange={() => togglePopupStatus(popup)}
                           />
-                          <span className={`text-sm font-semibold ${popup.is_active ? "text-green-600" : "text-muted-foreground"}`}>
+                          <span className={`text-xs sm:text-sm font-semibold ${popup.is_active ? "text-green-600" : "text-muted-foreground"}`}>
                             {popup.is_active ? "Active" : "Inactive"}
                           </span>
                         </div>
@@ -900,7 +900,7 @@ const Dashboard = () => {
                         </p>
                       )}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                       <Button
                         variant="outline"
                         size="sm"
