@@ -974,7 +974,7 @@ const Dashboard = () => {
             if (!open) resetProductForm();
           }}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-primary">
+              <Button className="bg-gradient-primary w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Product
               </Button>
