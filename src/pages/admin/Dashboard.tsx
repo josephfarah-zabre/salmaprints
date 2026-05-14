@@ -708,22 +708,22 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
       <header className="bg-card shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Admin Dashboard
           </h1>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => setExportDialogOpen(true)}>
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={() => setExportDialogOpen(true)}>
               <FileDown className="w-4 h-4 mr-2" />
               Export PDF
             </Button>
-            <Button variant="outline" onClick={() => navigate("/admin/voting")}>
-              Voting Management
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={() => navigate("/admin/voting")}>
+              Voting
             </Button>
-            <Button variant="outline" onClick={() => navigate("/")}>
-              View Catalogue
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={() => navigate("/")}>
+              Catalogue
             </Button>
-            <Button variant="outline" onClick={handleLogout}>
+            <Button variant="outline" size="sm" className="sm:size-default" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
               Logout
             </Button>
@@ -731,7 +731,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Hero Carousel Slides */}
         <HeroSlidesManager />
 
@@ -774,7 +774,7 @@ const Dashboard = () => {
         {/* Promotional Popups Management */}
         <Card className="mb-8">
           <CardHeader>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
               <div>
                 <CardTitle>Promotional Popups</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -786,7 +786,7 @@ const Dashboard = () => {
                 if (!open) resetPopupForm();
               }}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
                     Create Popup
                   </Button>
@@ -867,29 +867,29 @@ const Dashboard = () => {
                 {promoPopups.map((popup) => (
                   <div
                     key={popup.id}
-                    className="flex items-start gap-4 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                    className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4 p-3 sm:p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
                   >
                     {popup.image_url && (
                       <img
                         src={popup.image_url}
                         alt={popup.title}
-                        className="w-24 h-24 object-cover rounded"
+                        className="w-full h-32 sm:w-24 sm:h-24 object-cover rounded"
                       />
                     )}
-                    <div className="flex-1 space-y-2">
+                    <div className="flex-1 space-y-2 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <h3 className="font-semibold">{popup.title}</h3>
+                        <div className="min-w-0">
+                          <h3 className="font-semibold truncate">{popup.title}</h3>
                           {popup.subtitle && (
-                            <p className="text-sm text-muted-foreground">{popup.subtitle}</p>
+                            <p className="text-sm text-muted-foreground truncate">{popup.subtitle}</p>
                           )}
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 shrink-0">
                           <Switch
                             checked={popup.is_active}
                             onCheckedChange={() => togglePopupStatus(popup)}
                           />
-                          <span className={`text-sm font-semibold ${popup.is_active ? "text-green-600" : "text-muted-foreground"}`}>
+                          <span className={`text-xs sm:text-sm font-semibold ${popup.is_active ? "text-green-600" : "text-muted-foreground"}`}>
                             {popup.is_active ? "Active" : "Inactive"}
                           </span>
                         </div>
@@ -900,7 +900,7 @@ const Dashboard = () => {
                         </p>
                       )}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                       <Button
                         variant="outline"
                         size="sm"
@@ -968,13 +968,13 @@ const Dashboard = () => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
           <Dialog open={dialogOpen} onOpenChange={(open) => {
             setDialogOpen(open);
             if (!open) resetProductForm();
           }}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-primary">
+              <Button className="bg-gradient-primary w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Product
               </Button>
@@ -1078,7 +1078,7 @@ const Dashboard = () => {
 
           <Dialog open={categoryDialogOpen} onOpenChange={setCategoryDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Category
               </Button>
@@ -1175,23 +1175,27 @@ const Dashboard = () => {
                     onOpenChange={() => toggleCategory(category.id)}
                   >
                   <CollapsibleTrigger asChild>
-                      <CardHeader className="cursor-pointer hover:bg-secondary/50 transition-colors">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                      <CardHeader className="cursor-pointer hover:bg-secondary/50 transition-colors p-3 sm:p-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
                             {isExpanded ? (
-                              <ChevronDown className="w-5 h-5 text-primary" />
+                              <ChevronDown className="w-5 h-5 text-primary shrink-0" />
                             ) : (
-                              <ChevronRight className="w-5 h-5 text-primary" />
+                              <ChevronRight className="w-5 h-5 text-primary shrink-0" />
                             )}
-                            <CardTitle className="text-xl">{category.name}</CardTitle>
-                            <span className="text-sm text-muted-foreground">
+                            <CardTitle className="text-base sm:text-xl truncate">{category.name}</CardTitle>
+                            <span className="text-xs sm:text-sm text-muted-foreground hidden sm:inline">
                               ({categoryProducts.length} products · {categorySubcategories.length} subcategories)
                             </span>
+                            <span className="text-xs text-muted-foreground sm:hidden shrink-0">
+                              ({categoryProducts.length}/{categorySubcategories.length})
+                            </span>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-1 self-end sm:self-auto">
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8 sm:h-10 sm:w-10"
                             onClick={(e) => { e.stopPropagation(); moveCategory(category.id, -1); }}
                             disabled={catIndex === 0}
                             aria-label="Move category up"
@@ -1201,6 +1205,7 @@ const Dashboard = () => {
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8 sm:h-10 sm:w-10"
                             onClick={(e) => { e.stopPropagation(); moveCategory(category.id, 1); }}
                             disabled={catIndex === categories.length - 1}
                             aria-label="Move category down"
@@ -1210,6 +1215,7 @@ const Dashboard = () => {
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8 sm:h-10 sm:w-10"
                             onClick={(e) => {
                               e.stopPropagation();
                               openRenameCategory(category);
@@ -1223,7 +1229,7 @@ const Dashboard = () => {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-destructive hover:text-destructive hover:bg-destructive/10"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <Trash2 className="w-4 h-4" />
@@ -1252,7 +1258,7 @@ const Dashboard = () => {
                       </CardHeader>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                      <CardContent className="pt-0 space-y-6">
+                      <CardContent className="pt-0 space-y-6 px-3 sm:px-6 pb-3 sm:pb-6">
                         {/* Subcategories section */}
                         <div className="border rounded-lg p-4 bg-secondary/30">
                           <div className="flex items-center justify-between mb-3">
@@ -1336,14 +1342,14 @@ const Dashboard = () => {
                               return (
                                 <div
                                   key={product.id}
-                                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
                                 >
-                                  <div className="flex items-center gap-4 flex-1">
+                                  <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 min-w-0">
                                     {product.image_url && (
                                       /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(product.image_url) ? (
                                         <video
                                           src={product.image_url}
-                                          className="w-16 h-16 object-cover rounded"
+                                          className="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded shrink-0"
                                           muted
                                           playsInline
                                         />
@@ -1351,12 +1357,12 @@ const Dashboard = () => {
                                         <img
                                           src={product.image_url}
                                           alt={product.name}
-                                          className="w-16 h-16 object-cover rounded"
+                                          className="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded shrink-0"
                                         />
                                       )
                                     )}
-                                    <div className="flex-1">
-                                      <h3 className="font-semibold">{product.name}</h3>
+                                    <div className="flex-1 min-w-0">
+                                      <h3 className="font-semibold truncate">{product.name}</h3>
                                       {subName && (
                                         <span className="inline-block text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full mt-1">
                                           {subName}
@@ -1372,7 +1378,7 @@ const Dashboard = () => {
                                       )}
                                     </div>
                                   </div>
-                                  <div className="flex gap-2">
+                                  <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:shrink-0">
                                     <Button
                                       variant="outline"
                                       size="sm"
