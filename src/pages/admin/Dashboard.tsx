@@ -1342,14 +1342,14 @@ const Dashboard = () => {
                               return (
                                 <div
                                   key={product.id}
-                                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
                                 >
-                                  <div className="flex items-center gap-4 flex-1">
+                                  <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 min-w-0">
                                     {product.image_url && (
                                       /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(product.image_url) ? (
                                         <video
                                           src={product.image_url}
-                                          className="w-16 h-16 object-cover rounded"
+                                          className="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded shrink-0"
                                           muted
                                           playsInline
                                         />
@@ -1357,12 +1357,12 @@ const Dashboard = () => {
                                         <img
                                           src={product.image_url}
                                           alt={product.name}
-                                          className="w-16 h-16 object-cover rounded"
+                                          className="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded shrink-0"
                                         />
                                       )
                                     )}
-                                    <div className="flex-1">
-                                      <h3 className="font-semibold">{product.name}</h3>
+                                    <div className="flex-1 min-w-0">
+                                      <h3 className="font-semibold truncate">{product.name}</h3>
                                       {subName && (
                                         <span className="inline-block text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full mt-1">
                                           {subName}
@@ -1378,7 +1378,7 @@ const Dashboard = () => {
                                       )}
                                     </div>
                                   </div>
-                                  <div className="flex gap-2">
+                                  <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:shrink-0">
                                     <Button
                                       variant="outline"
                                       size="sm"
