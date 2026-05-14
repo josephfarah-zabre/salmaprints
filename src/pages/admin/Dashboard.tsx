@@ -1175,23 +1175,27 @@ const Dashboard = () => {
                     onOpenChange={() => toggleCategory(category.id)}
                   >
                   <CollapsibleTrigger asChild>
-                      <CardHeader className="cursor-pointer hover:bg-secondary/50 transition-colors">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                      <CardHeader className="cursor-pointer hover:bg-secondary/50 transition-colors p-3 sm:p-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
                             {isExpanded ? (
-                              <ChevronDown className="w-5 h-5 text-primary" />
+                              <ChevronDown className="w-5 h-5 text-primary shrink-0" />
                             ) : (
-                              <ChevronRight className="w-5 h-5 text-primary" />
+                              <ChevronRight className="w-5 h-5 text-primary shrink-0" />
                             )}
-                            <CardTitle className="text-xl">{category.name}</CardTitle>
-                            <span className="text-sm text-muted-foreground">
+                            <CardTitle className="text-base sm:text-xl truncate">{category.name}</CardTitle>
+                            <span className="text-xs sm:text-sm text-muted-foreground hidden sm:inline">
                               ({categoryProducts.length} products · {categorySubcategories.length} subcategories)
                             </span>
+                            <span className="text-xs text-muted-foreground sm:hidden shrink-0">
+                              ({categoryProducts.length}/{categorySubcategories.length})
+                            </span>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-1 self-end sm:self-auto">
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8 sm:h-10 sm:w-10"
                             onClick={(e) => { e.stopPropagation(); moveCategory(category.id, -1); }}
                             disabled={catIndex === 0}
                             aria-label="Move category up"
@@ -1201,6 +1205,7 @@ const Dashboard = () => {
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8 sm:h-10 sm:w-10"
                             onClick={(e) => { e.stopPropagation(); moveCategory(category.id, 1); }}
                             disabled={catIndex === categories.length - 1}
                             aria-label="Move category down"
@@ -1210,6 +1215,7 @@ const Dashboard = () => {
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8 sm:h-10 sm:w-10"
                             onClick={(e) => {
                               e.stopPropagation();
                               openRenameCategory(category);
@@ -1223,7 +1229,7 @@ const Dashboard = () => {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-destructive hover:text-destructive hover:bg-destructive/10"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <Trash2 className="w-4 h-4" />
