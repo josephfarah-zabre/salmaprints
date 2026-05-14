@@ -774,7 +774,7 @@ const Dashboard = () => {
         {/* Promotional Popups Management */}
         <Card className="mb-8">
           <CardHeader>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
               <div>
                 <CardTitle>Promotional Popups</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -786,7 +786,7 @@ const Dashboard = () => {
                 if (!open) resetPopupForm();
               }}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
                     Create Popup
                   </Button>
