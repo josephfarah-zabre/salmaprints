@@ -381,6 +381,34 @@ const Dashboard = () => {
     }
   };
 
+  const [uploadingCategoryId, setUploadingCategoryId] = useState<string | null>(null);
+
+  const handleCategoryImageUpload = async (category: Category, file: File) => {
+    setUploadingCategoryId(category.id);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${Math.random()}.${fileExt}`;
+      const { error: uploadError } = await supabase.storage
+        .from('category-images')
+        .upload(filePath, file);
+      if (uploadError) throw uploadError;
+      const { data: { publicUrl } } = supabase.storage
+        .from('category-images')
+        .getPublicUrl(filePath);
+      const { error } = await supabase
+        .from('categories')
+        .update({ image_url: publicUrl })
+        .eq('id', category.id);
+      if (error) throw error;
+      toast.success('Category image updated!');
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to upload image');
+    } finally {
+      setUploadingCategoryId(null);
+    }
+  };
+
   const openSubcategoryDialog = (category: Category) => {
     setSubcategoryParent(category);
     setSubcategoryName("");
