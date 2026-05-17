@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
-import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight, FileDown, ArrowUp, ArrowDown } from "lucide-react";
+import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight, FileDown, ArrowUp, ArrowDown, ImageIcon, Upload } from "lucide-react";
 import { exportProductsToPdf } from "@/lib/exportProductsPdf";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
