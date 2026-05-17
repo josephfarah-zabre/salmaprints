@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
-import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight, FileDown, ArrowUp, ArrowDown } from "lucide-react";
+import { LogOut, Plus, Trash2, Edit, ChevronDown, ChevronRight, FileDown, ArrowUp, ArrowDown, ImageIcon, Upload } from "lucide-react";
 import { exportProductsToPdf } from "@/lib/exportProductsPdf";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -32,6 +32,7 @@ interface Category {
   id: string;
   name: string;
   display_order?: number;
+  image_url?: string | null;
 }
 
 interface Subcategory {
@@ -378,6 +379,34 @@ const Dashboard = () => {
       toast.error(error.message || "Failed to add category");
     } finally {
       setUploadingCategory(false);
+    }
+  };
+
+  const [uploadingCategoryId, setUploadingCategoryId] = useState<string | null>(null);
+
+  const handleCategoryImageUpload = async (category: Category, file: File) => {
+    setUploadingCategoryId(category.id);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${Math.random()}.${fileExt}`;
+      const { error: uploadError } = await supabase.storage
+        .from('category-images')
+        .upload(filePath, file);
+      if (uploadError) throw uploadError;
+      const { data: { publicUrl } } = supabase.storage
+        .from('category-images')
+        .getPublicUrl(filePath);
+      const { error } = await supabase
+        .from('categories')
+        .update({ image_url: publicUrl })
+        .eq('id', category.id);
+      if (error) throw error;
+      toast.success('Category image updated!');
+      fetchData();
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to upload image');
+    } finally {
+      setUploadingCategoryId(null);
     }
   };
 
@@ -1192,6 +1221,32 @@ const Dashboard = () => {
                             </span>
                           </div>
                           <div className="flex items-center gap-1 self-end sm:self-auto">
+                          <label
+                            className="relative inline-flex items-center gap-1 h-8 sm:h-10 px-2 rounded-md border bg-background hover:bg-secondary cursor-pointer text-xs"
+                            onClick={(e) => e.stopPropagation()}
+                            title="Upload category image"
+                          >
+                            {category.image_url ? (
+                              <img src={category.image_url} alt="" className="w-6 h-6 sm:w-7 sm:h-7 object-cover rounded" />
+                            ) : (
+                              <ImageIcon className="w-4 h-4 text-muted-foreground" />
+                            )}
+                            <Upload className="w-3 h-3" />
+                            <span className="hidden sm:inline">
+                              {uploadingCategoryId === category.id ? "Uploading..." : (category.image_url ? "Change" : "Upload")}
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              disabled={uploadingCategoryId === category.id}
+                              onChange={(e) => {
+                                const f = e.target.files?.[0];
+                                if (f) handleCategoryImageUpload(category, f);
+                                e.target.value = "";
+                              }}
+                            />
+                          </label>
                           <Button
                             variant="ghost"
                             size="icon"
