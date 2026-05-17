@@ -32,6 +32,7 @@ interface Category {
   id: string;
   name: string;
   display_order?: number;
+  image_url?: string | null;
 }
 
 interface Subcategory {
