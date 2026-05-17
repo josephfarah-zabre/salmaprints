@@ -1220,6 +1220,32 @@ const Dashboard = () => {
                             </span>
                           </div>
                           <div className="flex items-center gap-1 self-end sm:self-auto">
+                          <label
+                            className="relative inline-flex items-center gap-1 h-8 sm:h-10 px-2 rounded-md border bg-background hover:bg-secondary cursor-pointer text-xs"
+                            onClick={(e) => e.stopPropagation()}
+                            title="Upload category image"
+                          >
+                            {category.image_url ? (
+                              <img src={category.image_url} alt="" className="w-6 h-6 sm:w-7 sm:h-7 object-cover rounded" />
+                            ) : (
+                              <ImageIcon className="w-4 h-4 text-muted-foreground" />
+                            )}
+                            <Upload className="w-3 h-3" />
+                            <span className="hidden sm:inline">
+                              {uploadingCategoryId === category.id ? "Uploading..." : (category.image_url ? "Change" : "Upload")}
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              disabled={uploadingCategoryId === category.id}
+                              onChange={(e) => {
+                                const f = e.target.files?.[0];
+                                if (f) handleCategoryImageUpload(category, f);
+                                e.target.value = "";
+                              }}
+                            />
+                          </label>
                           <Button
                             variant="ghost"
                             size="icon"
