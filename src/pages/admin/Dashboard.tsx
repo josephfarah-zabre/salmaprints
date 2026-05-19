@@ -1684,6 +1684,99 @@ const Dashboard = () => {
           </div>
         </DialogContent>
       </Dialog>
+      </Dialog>
+
+      {/* Bulk Add Products Dialog */}
+      <Dialog open={bulkAddOpen} onOpenChange={(o) => { setBulkAddOpen(o); if (!o) setBulkAddCategory(null); }}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              Quick Add Products{bulkAddCategory ? ` — ${bulkAddCategory.name}` : ""}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Fill any number of rows. Empty rows are ignored. Only the name is required.
+            </p>
+            {bulkRows.map((row, idx) => {
+              const subs = bulkAddCategory ? getSubcategoriesByCategory(bulkAddCategory.id) : [];
+              return (
+                <div key={idx} className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-start border rounded-lg p-3">
+                  <div className="sm:col-span-4">
+                    <Label className="text-xs">Name *</Label>
+                    <Input
+                      value={row.name}
+                      onChange={(e) => updateBulkRow(idx, { name: e.target.value })}
+                      placeholder="Product name"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label className="text-xs">Price</Label>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      value={row.price}
+                      onChange={(e) => updateBulkRow(idx, { price: e.target.value })}
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <div className="sm:col-span-3">
+                    <Label className="text-xs">Subcategory</Label>
+                    <Select
+                      value={row.subcategory_id}
+                      onValueChange={(v) => updateBulkRow(idx, { subcategory_id: v })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">None</SelectItem>
+                        {subs.map(s => (
+                          <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label className="text-xs">Image/Video</Label>
+                    <Input
+                      type="file"
+                      accept="image/*,video/*"
+                      onChange={(e) => updateBulkRow(idx, { imageFile: e.target.files?.[0] || null })}
+                    />
+                  </div>
+                  <div className="sm:col-span-1 flex sm:justify-end">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-destructive mt-5"
+                      onClick={() => setBulkRows(prev => prev.length === 1 ? [emptyBulkRow()] : prev.filter((_, i) => i !== idx))}
+                      aria-label="Remove row"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setBulkRows(prev => [...prev, emptyBulkRow()])}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add another row
+              </Button>
+              <div className="flex gap-2 sm:justify-end">
+                <Button variant="outline" onClick={() => setBulkAddOpen(false)}>Cancel</Button>
+                <Button onClick={handleBulkAdd} disabled={bulkSaving} className="bg-gradient-primary">
+                  {bulkSaving ? "Saving..." : "Save All"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
