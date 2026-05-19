@@ -1442,6 +1442,18 @@ const Dashboard = () => {
                           )}
                         </div>
 
+                        {/* Quick add bar */}
+                        <div className="flex items-center justify-between gap-2 border rounded-lg p-3 bg-primary/5">
+                          <div className="min-w-0">
+                            <h4 className="font-semibold text-sm">Quick add products</h4>
+                            <p className="text-xs text-muted-foreground">Add one or several products directly to this category.</p>
+                          </div>
+                          <Button size="sm" onClick={() => openBulkAdd(category)} className="bg-gradient-primary shrink-0">
+                            <Plus className="w-4 h-4 mr-1" />
+                            Quick Add
+                          </Button>
+                        </div>
+
                         {/* Products list */}
                         {categoryProducts.length === 0 ? (
                           <div className="text-center py-8 text-muted-foreground">
