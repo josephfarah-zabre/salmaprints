@@ -1684,7 +1684,8 @@ const Dashboard = () => {
           </div>
         </DialogContent>
       </Dialog>
-      </Dialog>
+
+
 
       {/* Bulk Add Products Dialog */}
       <Dialog open={bulkAddOpen} onOpenChange={(o) => { setBulkAddOpen(o); if (!o) setBulkAddCategory(null); }}>
