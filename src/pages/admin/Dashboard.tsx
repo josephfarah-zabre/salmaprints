@@ -145,6 +145,65 @@ const Dashboard = () => {
   const [exportSubcategoryId, setExportSubcategoryId] = useState<string>("");
   const [exporting, setExporting] = useState(false);
 
+  // Bulk add products to a category
+  type BulkRow = { name: string; price: string; subcategory_id: string; imageFile: File | null };
+  const emptyBulkRow = (): BulkRow => ({ name: "", price: "", subcategory_id: "none", imageFile: null });
+  const [bulkAddOpen, setBulkAddOpen] = useState(false);
+  const [bulkAddCategory, setBulkAddCategory] = useState<Category | null>(null);
+  const [bulkRows, setBulkRows] = useState<BulkRow[]>([emptyBulkRow()]);
+  const [bulkSaving, setBulkSaving] = useState(false);
+
+  const openBulkAdd = (category: Category) => {
+    setBulkAddCategory(category);
+    setBulkRows([emptyBulkRow(), emptyBulkRow(), emptyBulkRow()]);
+    setBulkAddOpen(true);
+  };
+
+  const updateBulkRow = (idx: number, patch: Partial<BulkRow>) => {
+    setBulkRows(prev => prev.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
+  };
+
+  const handleBulkAdd = async () => {
+    if (!bulkAddCategory) return;
+    const rows = bulkRows.filter(r => r.name.trim());
+    if (rows.length === 0) {
+      toast.error("Add at least one product name");
+      return;
+    }
+    setBulkSaving(true);
+    try {
+      const inserts = await Promise.all(rows.map(async (r) => {
+        let image_url: string | null = null;
+        if (r.imageFile) {
+          const ext = r.imageFile.name.split('.').pop();
+          const path = `${Math.random()}.${ext}`;
+          const { error: upErr } = await supabase.storage.from('product-images').upload(path, r.imageFile);
+          if (upErr) throw upErr;
+          const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(path);
+          image_url = publicUrl;
+        }
+        return {
+          name: r.name.trim(),
+          price: r.price ? parseFloat(r.price) : null,
+          category_id: bulkAddCategory.id,
+          subcategory_id: r.subcategory_id && r.subcategory_id !== "none" ? r.subcategory_id : null,
+          image_url,
+        };
+      }));
+      const { error } = await supabase.from("products").insert(inserts);
+      if (error) throw error;
+      toast.success(`${inserts.length} product${inserts.length > 1 ? "s" : ""} added!`);
+      setBulkAddOpen(false);
+      setBulkAddCategory(null);
+      setBulkRows([emptyBulkRow()]);
+      fetchData();
+    } catch (e: any) {
+      toast.error(e.message || "Failed to add products");
+    } finally {
+      setBulkSaving(false);
+    }
+  };
+
   const handleExportPdf = async () => {
     try {
       setExporting(true);
